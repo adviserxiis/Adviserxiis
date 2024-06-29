@@ -177,6 +177,8 @@ function ProfessionalDetails() {
                   </p>
                 )}
             </div>
+
+            
             <div className="mb-4">
               <label className="block text-gray-700 font-workSans">Industry:</label>
               <select className="w-full mt-1 p-2 border border-gray-300 rounded-md font-workSans" name="industry"

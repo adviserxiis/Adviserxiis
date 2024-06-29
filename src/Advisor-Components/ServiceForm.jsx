@@ -14,6 +14,13 @@ const ServiceForm = () => {
   const [loading, setLoading] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false);
 
+  const durations = [
+    { title: "30 minutes", value: 30 },
+    { title: "60 minutes", value: 60 },
+    { title: "90 minutes", value: 90 },
+    { title: "120 minutes", value: 120 },
+  ]
+
   const initialValues = {
     service_name: '',
     about_service: '',
@@ -44,9 +51,9 @@ const ServiceForm = () => {
     //   .required('Booking days is required'),
     // booking_time: Yup.string()
     //   .required('Booking time is required'),
-    availability: Yup.mixed()
-      .nullable()
-      .required('You have to set your availability')
+    // availability: Yup.mixed()
+    //   .nullable()
+    //   .required('You have to set your availability')
   });
 
   const handleDialogOpen = () => {
@@ -76,8 +83,6 @@ const ServiceForm = () => {
 
   const handleSubmit = async () => {
           
-    console.log("values", formik.values)
-    console.log("ava", formik.values.availability)
     setLoading(true)
     const serviceid = uuidv1();
     const userid = JSON.parse(localStorage.getItem('adviserid'))
@@ -91,7 +96,7 @@ const ServiceForm = () => {
       price:formik.values.price,
       // booking_days:formik.values.booking_days,
       // booking_time:formik.values.booking_time
-      availability:formik.values.availability
+      // availability:formik.values.availability
 
     });
 
@@ -180,7 +185,7 @@ const ServiceForm = () => {
                   </p>
                 )}
         </div>
-        <div>
+        {/* <div>
           <label className="block text-sm font-bold text-gray-700 font-Poppins">Duration</label>
           <input
             name="duration"
@@ -203,7 +208,42 @@ const ServiceForm = () => {
                     {formik.errors.duration}
                   </p>
                 )}
-        </div>
+        </div> */}
+
+<div >
+              <label className="block text-sm font-bold text-gray-700 font-Poppins ">Duration:</label>
+              <select className="mt-1 block w-full h-12 p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 font-Poppins" name="duration"
+                // value={formik.values.duration}
+                onChange={(e) => {
+                  formik.handleChange(e);
+                  const selectedValue = durations.find(item => item.title === e.target.value)?.value;
+                  formik.setFieldValue('duration', selectedValue);
+                }}
+                onBlur={formik.handleBlur}
+              >
+                <option>Select Duration</option>
+                {
+                  durations.map((item,idx) => (
+                    <option>{item.title}</option>
+                  ))
+                }
+             
+
+                {/* Add other options here */}
+              </select>
+              {formik.touched.duration &&
+                formik.errors.duration && (
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      padding: "",
+                      color: "red",
+                    }}
+                  >
+                    {formik.errors.duration}
+                  </p>
+                )}
+            </div>
         <div>
           <label className="block text-sm font-bold text-gray-700 font-Poppins">Price</label>
           <input
@@ -277,7 +317,7 @@ const ServiceForm = () => {
                 )}
         </div> */}
 
-        <div>
+        {/* <div>
         <Button onClick={handleDialogOpen} variant="contained" color="primary">Set Availability</Button>
         <AvailabilitySchedule open={dialogOpen} handleClose={handleDialogClose} formik={formik}/>
         {formik.touched.availability &&
@@ -292,7 +332,7 @@ const ServiceForm = () => {
                     {formik.errors.availability}
                   </p>
                 )}
-        </div>
+        </div> */}
         <div className="flex space-x-4">
           <button className="bg-[#489CFF] text-white rounded-md py-2 px-4 font-Poppins" onClick={formik.handleSubmit} type="submit">
           { !loading ? 'Publish' : <CircularProgress  color="inherit"  />}

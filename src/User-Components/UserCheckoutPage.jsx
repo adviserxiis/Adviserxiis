@@ -13,6 +13,7 @@ import { useFormik } from 'formik';
 import { isBefore, startOfDay } from 'date-fns';
 import Swal from 'sweetalert2'
 import User from '../assets/User.png'
+import ScheduleModal from './ScheduleModal'
 
 function UserCheckoutPage() {
   const database = getDatabase(app);
@@ -30,26 +31,28 @@ function UserCheckoutPage() {
   const [paymentId, setPaymentId] = useState(null)
 
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
 
-  useEffect(()=>{
-  if( JSON.parse(localStorage.getItem('userid')) == null)
-    {
-       Swal.fire({
+
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem('userid')) == null) {
+      Swal.fire({
         title: "Oops!!",
         text: "You need to be loggedin.",
         icon: "error"
       });
-          navigate('/createaccount')
+      navigate('/createaccount')
 
-    } 
-  },[])
+    }
+  }, [])
   const getCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0'); // Add 1 because months are zero-indexed
     const day = String(today.getDate()).padStart(2, '0');
-  
+
     return `${year}-${month}-${day}`;
   };
 
@@ -61,10 +64,10 @@ function UserCheckoutPage() {
     const username = 'rzp_live_fHsSBLQQOxeKlA';
     const password = 'jbycwjZLOrVfRDs77i2kHM6x';
     const credentials = btoa(`${username}:${password}`); // Base64 encode the username and password
-    
+
     let data = null;
     const orderData = {
-      amount:service.price*100,
+      amount: service.price * 100,
       currency: "INR",
       receipt: "qwsaq1"
     };
@@ -83,7 +86,7 @@ function UserCheckoutPage() {
         throw new Error('Network response was not ok');
       }
 
-       data = await res.json();
+      data = await res.json();
       console.log('Order created:', data);
     } catch (error) {
       console.error('Error creating order:', error);
@@ -91,138 +94,137 @@ function UserCheckoutPage() {
 
 
     var options = {
-        "key": "rzp_live_fHsSBLQQOxeKlA", // Enter the Key ID generated from the Dashboard
-        "amount": orderData.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-        "currency": "INR",
-        "name": "Acme Corp", //your business name
-        "description": "Test Transaction",
-        "image": "https://example.com/your_logo",
-        "order_id": data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-        "handler": async function (response){
+      "key": "rzp_live_fHsSBLQQOxeKlA", // Enter the Key ID generated from the Dashboard
+      "amount": orderData.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      "currency": "INR",
+      "name": "Acme Corp", //your business name
+      "description": "Test Transaction",
+      "image": "https://example.com/your_logo",
+      "order_id": data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      "handler": async function (response) {
 
-            const body = { ...response};
+        const body = { ...response };
 
-          const validateResponse =  await fetch('https://adviserxiis-backend.vercel.app/order/validate',{
-               method:"POST",
-               body:JSON.stringify(body),
-               headers:{
-                "Content-Type":"application/json",
-               },
-            })
+        const validateResponse = await fetch('https://adviserxiis-backend.vercel.app/order/validate', {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
 
-            const jsonRes = await validateResponse.json();
-            if(validateResponse.status == 200)
-                {
-                  await Swal.fire({
-                    title: "Success",
-                    text: "Payment Successfull!!",
-                    icon: "success"
-                  });
-                  
-                  await set(ref(database, 'payments/' + jsonRes.paymentId), {
-                    serviceid:serviceid,
-                    userid:userid,
-                    adviserid: adviserid,
-                    scheduled_date:formik.values.date,
-                    scheduled_time:formik.values.time,
-                    purchased_date:getCurrentDate()
-                  });
+        const jsonRes = await validateResponse.json();
+        if (validateResponse.status == 200) {
+          await Swal.fire({
+            title: "Success",
+            text: "Payment Successfull!!",
+            icon: "success"
+          });
 
-                  await update(ref(database, 'users/' + userid), {
-                      name:`${user.name? user.name: formik.values.name}`,
-                      email:formik.values.email
-                  });
+          await set(ref(database, 'payments/' + jsonRes.paymentId), {
+            serviceid: serviceid,
+            userid: userid,
+            adviserid: adviserid,
+            scheduled_date: formik.values.date,
+            scheduled_time: formik.values.time,
+            purchased_date: getCurrentDate()
+          });
 
-                  try {
-                    const userRef = ref(database, `advisers/${adviserid}`);
-              
-                    // Fetch current data
-                    const snapshot = await get(userRef);
-              
-                    if (snapshot.exists()) {
-                      const userData = snapshot.val();
-              
-                      // Calculate new earnings
-                      const currentEarnings = userData.earnings || 0;
-                      const updatedEarnings = currentEarnings + service.price;
-              
-                      // Update earnings
-                      await update(userRef, {
-                        earnings: updatedEarnings
-                      });
-              
-                      console.log('Earnings updated successfully');
-                    } else {
-                      console.error('No data available for the specified user');
-                    }
-                  } catch (error) {
-                    console.error('Error updating earnings:', error);
-                  } 
+          await update(ref(database, 'users/' + userid), {
+            name: `${user.name ? user.name : formik.values.name}`,
+            email: formik.values.email
+          });
 
-                  await Swal.fire({
-                    title: "Success",
-                    text: "Service Booked Successfully!!",
-                    icon: "success"
-                  });
-                  formik.resetForm()
-                  setLoading1(false)
+          try {
+            const userRef = ref(database, `advisers/${adviserid}`);
 
-                }
+            // Fetch current data
+            const snapshot = await get(userRef);
 
-              else{ 
-                await Swal.fire({
-                  title: "Error",
-                  text: "Something went wrong!!",
-                  icon: "error"
-                });
-                formik.resetForm()
-                setLoading1(false)
-        
-              }
-              const payload = {
-                userid:userid,
-                adviserid:adviserid,
-                serviceid:serviceid,
-                paymentid:jsonRes.paymentId,
-              };
+            if (snapshot.exists()) {
+              const userData = snapshot.val();
 
+              // Calculate new earnings
+              const currentEarnings = userData.earnings || 0;
+              const updatedEarnings = currentEarnings + service.price;
 
-    try {
-      const response = await fetch('https://adviserxiis-backend.vercel.app/sendconfirmationemail', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
-    } catch (error) {
-      console.error('Error in sending emails', error);
-    }
+              // Update earnings
+              await update(userRef, {
+                earnings: updatedEarnings
+              });
 
-        },
+              console.log('Earnings updated successfully');
+            } else {
+              console.error('No data available for the specified user');
+            }
+          } catch (error) {
+            console.error('Error updating earnings:', error);
+          }
 
+          await Swal.fire({
+            title: "Success",
+            text: "Service Booked Successfully!!",
+            icon: "success"
+          });
+          formik.resetForm()
+          setLoading1(false)
 
-        "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
-            "name":`${user.name}`, //your customer's name
-            "email": `${user.email}`, 
-            "contact": `${user.mobile_number}`  //Provide the customer's phone number for better conversion rates 
-        },
-        "notes": {
-            "address": "Razorpay Corporate Office"
-        },
-        "theme": {
-            "color": "#3399cc"
         }
+
+        else {
+          await Swal.fire({
+            title: "Error",
+            text: "Something went wrong!!",
+            icon: "error"
+          });
+          formik.resetForm()
+          setLoading1(false)
+
+        }
+        const payload = {
+          userid: userid,
+          adviserid: adviserid,
+          serviceid: serviceid,
+          paymentid: jsonRes.paymentId,
+        };
+
+
+        try {
+          const response = await fetch('https://adviserxiis-backend.vercel.app/sendconfirmationemail', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+          });
+        } catch (error) {
+          console.error('Error in sending emails', error);
+        }
+
+      },
+
+
+      "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
+        "name": `${user.name}`, //your customer's name
+        "email": `${user.email}`,
+        "contact": `${user.mobile_number}`  //Provide the customer's phone number for better conversion rates 
+      },
+      "notes": {
+        "address": "Razorpay Corporate Office"
+      },
+      "theme": {
+        "color": "#3399cc"
+      }
     };
     var rzp1 = new window.Razorpay(options);
-    rzp1.on('payment.failed', function (response){
-            alert(response.error.code);
-            alert(response.error.description);
-            alert(response.error.source);
-            alert(response.error.step);
-            alert(response.error.reason);
-            alert(response.error.metadata.order_id);
-            alert(response.error.metadata.payment_id);
+    rzp1.on('payment.failed', function (response) {
+      alert(response.error.code);
+      alert(response.error.description);
+      alert(response.error.source);
+      alert(response.error.step);
+      alert(response.error.reason);
+      alert(response.error.metadata.order_id);
+      alert(response.error.metadata.payment_id);
     });
     rzp1.open();
     e.prventDefault()
@@ -231,25 +233,25 @@ function UserCheckoutPage() {
   const initialValues = {
     date: '',
     time: '',
-    name:'',
-    email:''
+    name: '',
+    email: ''
   }
 
   const validationSchema = Yup.object().shape({
     date: Yup.date()
-      .required('Date is required')
-      .test('is-today-or-later', 'Date must be today or later', (value) => {
-        return !isBefore(value, startOfDay(new Date()));
-      }),
+      .required('This is required'),
+      // .test('is-today-or-later', 'Date must be today or later', (value) => {
+      //   return !isBefore(value, startOfDay(new Date()));
+      // }),
     time: Yup.string()
-      .required('Time is required')
-      .matches(
-        /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])$/,
-        'Time must be in HH:mm format'
-      ),
-      name: Yup.string()
+      .required('This  is required'),
+      // .matches(
+      //   /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])$/,
+      //   'Time must be in HH:mm format'
+      // ),
+    name: Yup.string()
       .min(2, 'Name must be at least 2 characters'),
-      email: Yup.string()
+    email: Yup.string()
       .email('Invalid email address')
       .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|in)$/, 'Email must be a valid .com or .in domain')
       .required('Email is required'),
@@ -257,17 +259,16 @@ function UserCheckoutPage() {
 
 
   const handleSubmit = async () => {
-   
-    if( !user.name && formik.values.name == '')
-      {
-         Swal.fire({
-          title: "Error",
-          text: "Please fill the name",
-          icon: "error"
-        }); 
 
-        return
-      }
+    if (!user.name && formik.values.name == '') {
+      Swal.fire({
+        title: "Error",
+        text: "Please fill the name",
+        icon: "error"
+      });
+
+      return
+    }
 
     setLoading1(true)
     createOrder()
@@ -330,6 +331,8 @@ function UserCheckoutPage() {
     }
   }
 
+
+
   useEffect(() => {
     getUser(userid).then((userData) => {
       setUser(userData)
@@ -354,7 +357,7 @@ function UserCheckoutPage() {
         <div className="flex  items-center my-8 ">
 
           <div className='md:mx-[100px] hidden md:block'>
-            <button className="bg-[#489CFF] text-white py-2 px-4 rounded-full cursor-pointer " onClick={()=> navigate(`/category/${adviserid}`)}>
+            <button className="bg-[#489CFF] text-white py-2 px-4 rounded-full cursor-pointer " onClick={() => navigate(`/category/${adviserid}`)}>
               <img
                 src={backicon}
                 alt=""
@@ -392,54 +395,54 @@ function UserCheckoutPage() {
               </div>
               <div>
                 <label className="block text-gray-700">Whatsapp number</label>
-                <input type="text" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm h-12 p-2" placeholder={user && user.mobile_number ? user.mobile_number : ''}  readOnly/>
+                <input type="text" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm h-12 p-2" placeholder={user && user.mobile_number ? user.mobile_number : ''} readOnly />
                 <small className="text-gray-500">Will update you the booking details on this number</small>
               </div>
 
-               <div>
-                                <label className="block text-gray-700">Email</label>
-                                <input name="email" type="text" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm h-12 p-2" placeholder='Enter Your Email'
-                                  value={formik.values.email}
-                                  onChange={formik.handleChange}
-                                  onBlur={formik.handleBlur}
-                                />
-                                {formik.touched.email &&
-                                  formik.errors.email && (
-                                    <p
-                                      style={{
-                                        fontSize: "13px",
-                                        padding: "",
-                                        color: "red",
-                                      }}
-                                    >
-                                      {formik.errors.email}
-                                    </p>
-                                  )}
-                              </div>
-              
-
-              { user && !user.name &&   <div>
-                                <label className="block text-gray-700">Name</label>
-                                <input name="name" type="text" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm h-12 p-2" placeholder='Enter Name'
-                                  value={formik.values.name}
-                                  onChange={formik.handleChange}
-                                  onBlur={formik.handleBlur}
-                                />
-                                {formik.touched.name &&
-                                  formik.errors.name && (
-                                    <p
-                                      style={{
-                                        fontSize: "13px",
-                                        padding: "",
-                                        color: "red",
-                                      }}
-                                    >
-                                      {formik.errors.name}
-                                    </p>
-                                  )}
-                              </div>
-              }
               <div>
+                <label className="block text-gray-700">Email</label>
+                <input name="email" type="text" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm h-12 p-2" placeholder='Enter Your Email'
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                {formik.touched.email &&
+                  formik.errors.email && (
+                    <p
+                      style={{
+                        fontSize: "13px",
+                        padding: "",
+                        color: "red",
+                      }}
+                    >
+                      {formik.errors.email}
+                    </p>
+                  )}
+              </div>
+
+
+              {user && !user.name && <div>
+                <label className="block text-gray-700">Name</label>
+                <input name="name" type="text" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm h-12 p-2" placeholder='Enter Name'
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                {formik.touched.name &&
+                  formik.errors.name && (
+                    <p
+                      style={{
+                        fontSize: "13px",
+                        padding: "",
+                        color: "red",
+                      }}
+                    >
+                      {formik.errors.name}
+                    </p>
+                  )}
+              </div>
+              }
+              {/* <div>
                 <label className="block text-gray-700">Schedule date</label>
                 <input name="date" type="date" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm h-12 p-2" placeholder='Enter Data'
                   value={formik.values.date}
@@ -480,12 +483,40 @@ function UserCheckoutPage() {
                       {formik.errors.time}
                     </p>
                   )}
-              </div>
+              </div> */}
+
+
               <div>
                 <label className="block text-gray-700">Price</label>
-                <input type="number" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm h-12 p-2" value={service && service.price ? service.price : ''} readOnly  />
+                <input type="number" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm h-12 p-2" value={service && service.price ? service.price : ''} readOnly />
               </div>
-              <button type="submit" className="bg-[#489CFF] text-white py-2 px-4 rounded  h-12 p-2" onClick={formik.handleSubmit}>{ !loading1 ? 'Book' : <CircularProgress  color="inherit"  />}</button>
+              <div className="py-6">
+                <div>
+                <button
+                  name="date"
+                  className="bg-blue-500 text-white py-2 px-4 rounded-md"
+                  type="button"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  Select Time Slot
+                </button>
+                { formik.touched.date && (formik.errors.date ||
+                  formik.errors.time) && (
+                    <p
+                      style={{
+                        fontSize: "13px",
+                        padding: "",
+                        color: "red",
+                      }}
+                    >
+                      {formik.errors.date ? formik.errors.date : formik.errors.time}
+                    </p>
+                  )}
+                
+                </div>
+                <ScheduleModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} adviserData={adviser} serviceData={service} formik={formik}/>
+              </div>
+              <button type="submit" className="bg-[#489CFF] text-white py-2 px-4 rounded  h-12 p-2" onClick={formik.handleSubmit}>{!loading1 ? 'Book' : <CircularProgress color="inherit" />}</button>
             </form>
           </div>
         </div>

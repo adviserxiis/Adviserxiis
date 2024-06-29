@@ -5,6 +5,8 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 // import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import { getDatabase, ref, update } from "firebase/database";
+import { app } from "../firebase";
 import Swal from 'sweetalert2';
 
 const daysOfWeek = [
@@ -17,13 +19,38 @@ const daysOfWeek = [
   { label: 'Sunday', value: 'sunday' }
 ];
 
-const AvailabilitySchedule = ({ open, handleClose,formik }) => {
+function formatTime(dateString) {
+  const date = new Date(dateString);
+  let hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  const period = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12; // Convert 0 to 12 for 12-hour format
+
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+  return `${hours}:${formattedMinutes} ${period}`;
+}
+
+const AvailabilitySchedule = ({ open, handleClose}) => {
+
+  const database = getDatabase(app);
   const [availability, setAvailability] = useState(
     daysOfWeek.reduce((acc, day) => {
       acc[day.value] = { available: false, startTime: null, endTime: null };
       return acc;
     }, {})
   );
+
+  function convertToArray(schedule) {
+    return Object.entries(schedule)
+      .filter(([day, details]) => details.available)
+      .map(([day, details]) => ({
+        id: `${day}-${Math.random().toString(36).substr(2, 9)}`, // Generate a unique ID
+        day: day.charAt(0).toUpperCase() + day.slice(1), // Capitalize the day
+        timing: `${details.startTime} - ${details.endTime}`
+      }));
+  }
 
   const handleCheckboxChange = (day) => {
     setAvailability((prev) => ({
@@ -40,21 +67,26 @@ const AvailabilitySchedule = ({ open, handleClose,formik }) => {
       ...prev,
       [day]: {
         ...prev[day],
-        [type]: time,
+        [type]:formatTime(time),
       },
     }));
   };
 
-  const handleSave = async () => {
+  const handleSave =  () => {
         
     if( !availability.monday.available && !availability.tuesday.available && !availability.wednesday.available && !availability.thursday.available && !availability.friday.available && !availability.saturday.available && !availability.sunday.available )
         {
-            handleClose()
             return
         }
-        console.log("ans", availability)
 
-        formik.setFieldValue("availability", availability)
+
+        const userid = JSON.parse(localStorage.getItem('adviserid'))
+
+        update(ref(database, 'advisers/' + userid),{
+           availability:convertToArray(availability)
+     
+         });
+        // formik.setFieldValue("availability", availability)
         handleClose()
   
   };
@@ -78,7 +110,7 @@ const AvailabilitySchedule = ({ open, handleClose,formik }) => {
                 className='w-2/6'
               />
 
-               {availability[day.value].available &&                 <div className="w-4/6 flex items-center space-x-2">
+                              <div className="w-4/6 flex items-center space-x-2">
                   <TimePicker
                     label="Start Time"
                     value={availability[day.value].startTime}
@@ -91,7 +123,7 @@ const AvailabilitySchedule = ({ open, handleClose,formik }) => {
                     onChange={(time) => handleTimeChange(day.value, 'endTime', time)}
                     renderInput={(params) => <TextField {...params} />}
                   />
-                </div>}
+                </div>
             </div>
           ))}
         </LocalizationProvider>

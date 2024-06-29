@@ -1,12 +1,14 @@
-import React, { Fragment, forwardRef } from "react";
+import React, { Fragment, forwardRef, useState } from "react";
 import { HomeIcon, CreditCardIcon, UserIcon, ChevronDownIcon, PencilIcon, Cog8ToothIcon } from "@heroicons/react/24/solid";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from '../assets/logo.png'
 import { Menu, Transition } from "@headlessui/react";
 import Swal from "sweetalert2";
+import AvailabilitySchedule from "./AvailabilitySchedule";
 
-const SideBar = forwardRef(({ showSideBar }, ref) => {
+const SideBar = forwardRef(({ showSideBar,handleOpen }, ref) => {
   const navigate = useNavigate()
+  // const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleLogOut = async () => {
   
@@ -27,6 +29,17 @@ const SideBar = forwardRef(({ showSideBar }, ref) => {
   
 
   };
+
+  // const handleDialogOpen = () => {
+  //   setDialogOpen(true);
+  // };
+
+  // const handleDialogClose = () => {
+  //   console.log("hi")
+  //   setDialogOpen(false);
+  //   console.log(dialogOpen)
+    
+  // };
 
 
 
@@ -103,6 +116,23 @@ const SideBar = forwardRef(({ showSideBar }, ref) => {
             </div>
           </div>
         </NavLink>
+
+        <div
+           onClick={handleOpen}
+           className="text-gray-300 hover:text-white font-Poppins"
+        >
+          <div
+            className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors`}
+          >
+
+            <div>
+              <p className="font-Poppins font-2xl" style={{fontSize:"20px"}}>Calender</p>
+            </div>
+            {/* <AvailabilitySchedule open={dialogOpen} handleClose={handleDialogClose} /> */}
+          </div>
+        </div>
+
+
 
         <div
            onClick={handleLogOut}

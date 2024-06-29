@@ -3,10 +3,12 @@ import { Outlet } from "react-router-dom";
 import Header from "./Advisor-Components/Header";
 import { Transition } from "@headlessui/react";
 import SideBar from "./Advisor-Components/SideBar";
+import AvailabilitySchedule from "./Advisor-Components/AvailabilitySchedule";
 
 function Layout() {
   const [showSideBar, setShowSideBar] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   function handleResize() {
     if (innerWidth <= 640) {
@@ -17,6 +19,16 @@ function Layout() {
       setIsMobile(false);
     }
   }
+
+  const handleDialogOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+    
+  };
+
 
   useEffect(() => {
     if (typeof window != undefined) {
@@ -40,7 +52,7 @@ function Layout() {
         leaveFrom="translate-x-0"
         leaveTo="-translate-x-full"
       >
-        <SideBar showSideBar={showSideBar} />
+        <SideBar showSideBar={showSideBar} handleOpen={handleDialogOpen}/>
       </Transition>
 
       <div className="flex-1">
@@ -53,6 +65,7 @@ function Layout() {
           }`}
         >
           <Outlet className="px-4 md:px-16" />
+          <AvailabilitySchedule open={dialogOpen} handleClose={handleDialogClose}/>
         </div>
       </div>
     </div>

@@ -137,11 +137,11 @@ export default function UserLogin() {
       const result = await window.confirmationResult.confirm(code);
       // User signed in successfully.
       const user = result.user;
-      await Swal.fire({
-        title: "Success",
-        text: "Verification done!",
-        icon: "success"
-      });
+      // await Swal.fire({
+      //   title: "Success",
+      //   text: "Verification done!",
+      //   icon: "success"
+      // });
       setVerified(true);
       handleSubmit()
     } catch (error) {
