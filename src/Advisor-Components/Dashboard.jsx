@@ -6,6 +6,15 @@ import { CircularProgress } from '@mui/material';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import User from '../assets/User.png'
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { Button } from '@mui/base';
+import { Typography } from '@mui/material';
 
 function Dashboard() {
   const database = getDatabase(app);
@@ -198,8 +207,9 @@ today.setHours(0, 0, 0, 0);
   }
   return (
     <div className='max-w-[1440px]'>
+      <div className='overflow-hidden'>
           <div>
-    <p className='font-Poppins text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold s my-2'>Dashboard</p>
+    <p className='font-Poppins text-3xl md:text-4xl lg:text-5xl font-bold s my-2'>Dashboard</p>
     </div>
     <div className="flex flex-col md:flex-row justify-center md:justify-between sm:p-6 space-y-6 max-w-[1440px]">
 
@@ -268,17 +278,18 @@ today.setHours(0, 0, 0, 0);
 
 
   </div>
-  <div className="flex flex-col  mt-[50px] sm:mt-[0px] md:ml-4">
+  </div>
+  {/* <div className="flex flex-col  mt-[50px] sm:mt-[0px] md:ml-4">
   <h2 className="text-xl md:text-2xl lg:text-3xl md:p-6 font-bold font-Poppins">Last Appointments</h2>
-      <div className="flex-1 bg-white rounded-md shadow-lg p-6 ">
+      <div className="flex-1 bg-white rounded-md shadow-lg md:p-6 ">
 
-        <table className="min-w-full mt-4 text-left font-Poppins overflow-x-auto">
-          <thead style={{fontSize:"20px"}}> 
+        <table className="min-w-full mt-4 text-center md:text-left font-Poppins overflow-x-auto">
+          <thead className='text-[20px]'> 
             <tr>
               <th className="py-2 ">Purchase Date</th>
               <th className="py-2 ">Name</th>
               <th className="py-2">Service</th>
-              <th className="py-2">Booking date</th>
+              <th className="py-2">Service date</th>
               <th className="py-2">Time</th>
               <th className="py-2">Price</th>
             </tr>
@@ -308,7 +319,49 @@ today.setHours(0, 0, 0, 0);
       </div>
 
 
-    </div>
+    </div> */}
+<div className='font-Poppins overflow-x-auto my-[20px] py-6 md:p-6'>
+<h2 className="text-xl md:text-2xl lg:text-3xl md:p-6 font-bold font-Poppins">Last Appointments</h2>
+<TableContainer component={Paper} className='mt-5 overflow-x-auto'>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead style={{fontSize:"20px"}}>
+          <TableRow >
+            <TableCell align="center" style={{fontSize:"20px", fontWeight:"bold" }}>Purchase Date</TableCell>
+            <TableCell align="center" style={{fontSize:"20px", fontWeight:"bold"}}>Name</TableCell>
+            <TableCell align="center" style={{fontSize:"20px", fontWeight:"bold"}}>Service</TableCell>
+            <TableCell align="center" style={{fontSize:"20px", fontWeight:"bold"}}>Service date</TableCell>
+            <TableCell align="center" style={{fontSize:"20px", fontWeight:"bold"}}>Time</TableCell>
+            <TableCell align="center" style={{fontSize:"20px", fontWeight:"bold"}}>Price</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          { lastAppointments.length > 0 ?      lastAppointments.map((data, idx) => (
+            <TableRow
+              key={idx}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row" align="center" style={{fontSize:"20px"}}>
+              {convertDateFormat(data.purchased_date)}
+              </TableCell>
+              <TableCell align="center" style={{fontSize:"20px"}}>{data.user.name}</TableCell>
+              <TableCell align="center" style={{fontSize:"20px", fontFamily:""}} >{data.service.service_name}</TableCell>
+              <TableCell align="center" style={{fontSize:"20px"}} >{convertDateFormat(data.scheduled_date)}</TableCell>
+              <TableCell align="center" style={{fontSize:"20px"}}>{data.scheduled_time}</TableCell>
+              <TableCell align="center" style={{fontSize:"20px"}}>{data.service.price}</TableCell>
+
+
+            </TableRow>
+          )) :             <TableRow
+          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+        >
+          <TableCell align="center"  >No Data Available</TableCell>
+
+
+        </TableRow> }
+        </TableBody>
+      </Table>
+    </TableContainer>
+  </div>
   </div>
   )
 }

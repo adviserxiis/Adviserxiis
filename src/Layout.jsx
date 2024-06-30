@@ -11,7 +11,7 @@ function Layout() {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   function handleResize() {
-    if (innerWidth <= 640) {
+    if (innerWidth <= 700) {
       setShowSideBar(false);
       setIsMobile(true);
     } else {
@@ -41,7 +41,7 @@ function Layout() {
   }, []);
 
   return (
-    <div className="flex flex-row   overflow-hidden">
+    <div className="flex flex-row overflow-hidden overflow-x-auto">
       <Transition
         as={Fragment}
         show={showSideBar}
@@ -62,7 +62,7 @@ function Layout() {
         <div
           className={`pt-20 lg:pt-[50px]  p-4 transition-all duration-[400ms] ${
             showSideBar && !isMobile ? "pl-[350px] p-4" : ""
-          }`}
+          } overflow-x-auto`}
         >
           <Outlet className="px-4 md:px-16" />
           <AvailabilitySchedule open={dialogOpen} handleClose={handleDialogClose}/>

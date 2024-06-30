@@ -44,7 +44,7 @@ const SideBar = forwardRef(({ showSideBar,handleOpen }, ref) => {
 
 
   return (
-    <div ref={ref} className="fixed w-[300px] h-full ">
+    <div ref={ref} className="fixed w-[300px] h-full">
             <div className="flex  ">
             <div className='flex items-center justify-center pl-[50px] mt-[70px] lg:mt-[30px] lg:mb-[20px] '>
               <Link to='/adviser' className="cursor-pointer">

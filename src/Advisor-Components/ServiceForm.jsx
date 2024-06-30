@@ -135,7 +135,7 @@ const ServiceForm = () => {
 
   return (
     <div className="flex flex-col p-6 space-y-6">
-      <p className='font-Poppins text-xl sm:text-3xl font-bold s my-2'>Services</p>
+      <p className='font-Poppins text-3xl font-bold s my-2'>Services</p>
       <form className="bg-[#D9D9D942] p-6 rounded-xl shadow-md space-y-6 md:w-3/6 ">
         <div>
           <label className="block text-sm font-bold text-gray-700 font-Poppins">Service Name</label>
