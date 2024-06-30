@@ -51,7 +51,7 @@ function ConfirmEmail() {
   const sendOTP = async () => {
     try {
       // setLoading(true);
-      const res = await fetch(`https://adviserxiis-backend.vercel.app/sendemail/${userId}`);
+      const res = await fetch(`https://adviserxiis-backend-three.vercel.app/sendemail/${userId}`);
       if (res.status === 200) {
         // await Swal.fire({
         //   title: "Success",

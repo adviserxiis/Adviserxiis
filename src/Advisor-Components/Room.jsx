@@ -18,7 +18,7 @@ function Room() {
         sharedLinks:[
           {
             name:'Copy Link',
-            url:`https://adviserxiis.vercel.app/room/${meetingid}`
+            url:`https://www.adviserxiis.com/room/${meetingid}`
           }
         ],
         scenario:{

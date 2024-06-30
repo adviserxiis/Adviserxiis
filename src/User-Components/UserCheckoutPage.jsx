@@ -14,6 +14,7 @@ import { isBefore, startOfDay } from 'date-fns';
 import Swal from 'sweetalert2'
 import User from '../assets/User.png'
 import ScheduleModal from './ScheduleModal'
+import logo from '../assets/logo.png'
 
 function UserCheckoutPage() {
   const database = getDatabase(app);
@@ -73,7 +74,7 @@ function UserCheckoutPage() {
     };
 
     try {
-      const res = await fetch('https://adviserxiis-backend.vercel.app/order', {
+      const res = await fetch('https://adviserxiis-backend-three.vercel.app/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,15 +98,15 @@ function UserCheckoutPage() {
       "key": "rzp_live_fHsSBLQQOxeKlA", // Enter the Key ID generated from the Dashboard
       "amount": orderData.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
       "currency": "INR",
-      "name": "Acme Corp", //your business name
-      "description": "Test Transaction",
-      "image": "https://example.com/your_logo",
+      "name": "Adviserxiis", //your business name
+      "description": "Service Transaction",
+      "image": {logo},
       "order_id": data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
       "handler": async function (response) {
 
         const body = { ...response };
 
-        const validateResponse = await fetch('https://adviserxiis-backend.vercel.app/order/validate', {
+        const validateResponse = await fetch('https://adviserxiis-backend-three.vercel.app/order/validate', {
           method: "POST",
           body: JSON.stringify(body),
           headers: {
@@ -190,7 +191,7 @@ function UserCheckoutPage() {
 
 
         try {
-          const response = await fetch('https://adviserxiis-backend.vercel.app/sendconfirmationemail', {
+          const response = await fetch('https://adviserxiis-backend-three.vercel.app/sendconfirmationemail', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
