@@ -244,7 +244,7 @@ const ServiceForm = () => {
                 <option>Select Duration</option>
                 {
                   durations.map((item,idx) => (
-                    <option>{item.title}</option>
+                    <option key={idx}>{item.title}</option>
                   ))
                 }
              

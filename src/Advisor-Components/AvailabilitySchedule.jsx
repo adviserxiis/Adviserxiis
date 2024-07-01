@@ -52,6 +52,33 @@ const AvailabilitySchedule = ({ open, handleClose}) => {
       }));
   }
 
+  function convertToTimeString(timeString) {
+    // Create a new Date object with the current date
+    const currentDate = new Date();
+    const [time, period] = timeString.split(' ');
+  
+    // Parse the time part (e.g., "12:00")
+    let [hours, minutes] = time.split(':').map(Number);
+  
+    // Adjust hours based on the period (AM/PM)
+    if (period === 'PM' && hours !== 12) {
+      hours += 12;
+    } else if (period === 'AM' && hours === 12) {
+      hours = 0;
+    }
+  
+    // Set hours and minutes to the currentDate object
+    currentDate.setHours(hours);
+    currentDate.setMinutes(minutes);
+    currentDate.setSeconds(0);
+    currentDate.setMilliseconds(0);
+  
+    // Format the date to the required string format
+    const formattedDate = currentDate.toString();
+  
+    return formattedDate;
+  }
+
   const handleCheckboxChange = (day) => {
     setAvailability((prev) => ({
       ...prev,
@@ -67,7 +94,7 @@ const AvailabilitySchedule = ({ open, handleClose}) => {
       ...prev,
       [day]: {
         ...prev[day],
-        [type]:formatTime(time),
+        [type]:time,
       },
     }));
   };
@@ -80,12 +107,12 @@ const AvailabilitySchedule = ({ open, handleClose}) => {
         }
  
           console.log("ans", availability)
-        const userid = JSON.parse(localStorage.getItem('adviserid'))
+        // const userid = JSON.parse(localStorage.getItem('adviserid'))
 
-        update(ref(database, 'advisers/' + userid),{
-           availability:convertToArray(availability)
+        // update(ref(database, 'advisers/' + userid),{
+        //    availability:convertToArray(availability)
      
-         });
+        //  });
         // formik.setFieldValue("availability", availability)
         handleClose()
   
@@ -102,9 +129,11 @@ const AvailabilitySchedule = ({ open, handleClose}) => {
     // Update the schedule based on the input array
     arr.forEach(({ day, timing }) => {
       const [startTime, endTime] = timing.split(' - ');
+      const startTimeString = convertToTimeString(startTime)
+      const endTimeString = convertToTimeString(endTime)
       const dayKey = day.toLowerCase();
       if (schedule[dayKey]) {
-        schedule[dayKey] = { available: true, startTime, endTime };
+        schedule[dayKey] = { available: true, startTimeString, endTimeString };
       }
     });
   
@@ -131,7 +160,8 @@ const AvailabilitySchedule = ({ open, handleClose}) => {
     const userid = JSON.parse(localStorage.getItem('adviserid'))
     const adviser = getAdviser(userid).then((result)=>{
       console.log("adviser", convertToSchedule(result.availability))
-      // setAvailability( convertToSchedule(result.availability))
+      // console.log("avalibilty")
+      setAvailability( convertToSchedule(result.availability))
     })
   },[])
 
