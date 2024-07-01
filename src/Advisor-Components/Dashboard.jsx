@@ -209,12 +209,12 @@ today.setHours(0, 0, 0, 0);
     <div className='max-w-[1440px]'>
       <div className='overflow-hidden'>
           <div>
-    <p className='font-Poppins text-3xl md:text-4xl lg:text-5xl font-bold s my-2'>Dashboard</p>
+    <p className='font-Poppins text-3xl md:text-4xl lg:text-5xl ml-4 font-bold s my-2'>Dashboard</p>
     </div>
     <div className="flex flex-col md:flex-row justify-center md:justify-between sm:p-6 space-y-6 max-w-[1440px]">
 
     <div className="flex flex-col justify-center  sm:justify-between  md:items-start w-full md:w-3/6  ">
-      <div className="flex items-center space-x-4 w-full my-4">
+      <div className="flex items-center space-x-4 w-full my-4 ml-4">
 
         <img 
            src={user && user.profile_photo ? user.profile_photo :User}
@@ -223,7 +223,7 @@ today.setHours(0, 0, 0, 0);
         />
         <div>
           <h1 className="text-lg md:text-xl lg:text-2xl font-Poppins mb-[10px]">Welcome !!</h1>
-          <p className="text-xl md:text-2xl lg:text-3xl font-bold font-Poppins">{user && user.username ? user.username : 'User'}</p>
+          <p className="text-2xl md:text-2xl lg:text-3xl font-bold font-Poppins">{user && user.username ? user.username : 'User'}</p>
         </div>
       </div>
 
@@ -242,7 +242,7 @@ today.setHours(0, 0, 0, 0);
      
 
 
-    <div className="  py-6  w-[320px] sm:w-[350px]   md:w-3/6 my-4 ">
+    <div className="  py-6  w-[320px] sm:w-[350px] ml-4  md:w-3/6 my-4 ">
         <h2 className="text-xl md:tetx-2xl lg:text-3xl font-bold font-Poppins">Upcoming Booking</h2>
         <div className="mt-4 space-y-4">
           {
@@ -320,7 +320,7 @@ today.setHours(0, 0, 0, 0);
 
 
     </div> */}
-<div className='font-Poppins overflow-x-auto my-[20px] py-6 md:p-6'>
+<div className='font-Poppins overflow-x-auto ml-4 my-[20px] py-6 md:p-6'>
 <h2 className="text-xl md:text-2xl lg:text-3xl md:p-6 font-bold font-Poppins">Last Appointments</h2>
 <TableContainer component={Paper} className='mt-5 overflow-x-auto' >
       <Table sx={{ minWidth: 650, fontFamily: 'Poppins' }} aria-label="simple table">

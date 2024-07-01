@@ -133,7 +133,6 @@ function ConfirmEmail() {
 
 
   useEffect(()=>{
-    console.log("lo mein chal padha")
     sendOTP()
   },[])
 
@@ -170,7 +169,7 @@ function ConfirmEmail() {
               onChange={(e) => setOtp(e.target.value)}
               variant="outlined"
               margin="dense"
-              className=' font-workSans w-[360px] sm:w-[380px]'
+              className=' font-workSans w-[340px] sm:w-[380px]'
             />}
 
 
@@ -183,7 +182,7 @@ function ConfirmEmail() {
             // onClick={formik.handleSubmit}
             onClick={verifyOTP}
             size="large"
-            className='bg-[#F6F6F6] font-workSans w-[360px] sm:w-[380px]'
+            className='bg-[#F6F6F6] font-workSans w-[340px] sm:w-[380px]'
             style={{ margin: "0 auto", marginTop: "5px", height: "50px", backgroundColor: "#489CFF" }}
           >
             {!loading ? 'Verify' : <CircularProgress color="inherit" />}

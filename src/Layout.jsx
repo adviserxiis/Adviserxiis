@@ -11,7 +11,7 @@ function Layout() {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   function handleResize() {
-    if (innerWidth <= 700) {
+    if (innerWidth <= 640) {
       setShowSideBar(false);
       setIsMobile(true);
     } else {
@@ -39,6 +39,10 @@ function Layout() {
       removeEventListener("resize", handleResize);
     };
   }, []);
+
+  useEffect(()=>{
+    handleResize()
+  },[])
 
   return (
     <div className="flex flex-row overflow-hidden overflow-x-auto">

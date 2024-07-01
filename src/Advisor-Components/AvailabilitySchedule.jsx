@@ -142,7 +142,8 @@ const AvailabilitySchedule = ({ open, handleClose}) => {
         <div>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           {daysOfWeek.map((day) => (
-            <div key={day.value} className="flex items-center my-2">
+            <div key={day.value} className="flex items-center my-2 ">
+              <div  className='w-2/6 break-words' style={{ whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word' }}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -151,8 +152,10 @@ const AvailabilitySchedule = ({ open, handleClose}) => {
                   />
                 }
                 label={day.label}
-                className='w-2/6'
+               
+                // style={{ whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word' }}
               />
+              </div>
 
                               <div className="w-4/6 flex items-center space-x-2">
                   <TimePicker

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from "yup";
 import { useFormik } from 'formik';
 import { get, getDatabase, ref, set, update } from "firebase/database";
@@ -7,12 +7,15 @@ import { v1 as uuidv1 } from 'uuid';
 import { Button, CircularProgress } from '@mui/material';
 import Swal from 'sweetalert2';
 import AvailabilitySchedule from './AvailabilitySchedule';
+import { useNavigate } from 'react-router-dom';
 
 const ServiceForm = () => {
 
   const database = getDatabase(app);
   const [loading, setLoading] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  const navigate = useNavigate()
 
   const durations = [
     { title: "30 minutes", value: 30 },
@@ -132,6 +135,23 @@ const ServiceForm = () => {
   const deleteHandler = () =>{
     formik.resetForm()
   }
+
+  useEffect(()=>{
+    const adviserid = JSON.parse(localStorage.getItem('adviserid'))
+     getUser(adviserid).then((user)=>{
+         if(user.availability == undefined)
+          {
+            Swal.fire({
+              title: "Oops!!",
+              text: "You have to set your availability in calender before creating any service in service.",
+              icon: "error"
+            });
+            navigate('/adviser/services')
+
+          }
+     })
+
+  },[])
 
   return (
     <div className="flex flex-col p-6 space-y-6">

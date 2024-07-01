@@ -191,7 +191,7 @@ const handleClickOnTime = (index,time) =>{
 
   useEffect(()=>{
 
-    if(adviserData)
+    if(adviserData && adviserData.availability)
         {
             setValidDays(filterDays(days,adviserData.availability))
         }

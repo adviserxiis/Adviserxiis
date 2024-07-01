@@ -222,7 +222,7 @@ function SignUp() {
         </div>
 
         <div style={{ marginTop: "15px" }}>
-          <form className='flex flex-col mb-[100px] '>
+          <form className='flex flex-col mb-[100px] items-center '>
 
             <TextField
               name='name'
@@ -236,7 +236,7 @@ function SignUp() {
               helperText={formik.touched.name && formik.errors.name}
               variant="outlined"
               margin="dense"
-              className=' font-workSans w-[360px] sm:w-[380px]'
+              className=' font-workSans w-[340px] sm:w-[380px]'
             />
 
             <TextField
@@ -251,7 +251,7 @@ function SignUp() {
               helperText={formik.touched.email && formik.errors.email}
               variant="outlined"
               margin="dense"
-              className=' font-workSans w-[360px] sm:w-[380px]'
+              className=' font-workSans w-[340px] sm:w-[380px]'
             />
 
             <TextField
@@ -266,7 +266,7 @@ function SignUp() {
               helperText={formik.touched.mobile_number && formik.errors.mobile_number}
               variant="outlined"
               margin="dense"
-              className=' font-workSans w-[360px] sm:w-[380px]'
+              className=' font-workSans w-[340px] sm:w-[380px]'
             />
 
             <TextField
@@ -281,7 +281,7 @@ function SignUp() {
               helperText={formik.touched.password && formik.errors.password}
               variant="outlined"
               margin="dense"
-              className=' font-workSans w-[360px] sm:w-[380px]'
+              className=' font-workSans w-[340px] sm:w-[380px]'
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -307,7 +307,7 @@ function SignUp() {
                   margin='dense'
                   label="Country"
                   name="country"
-                  className=' font-workSans w-[360px] sm:w-[380px]'
+                  className=' font-workSans w-[340px] sm:w-[380px]'
                   variant="outlined"
                   required
                   onBlur={formik.handleBlur}
@@ -321,6 +321,7 @@ function SignUp() {
             <Autocomplete
               options={states}
               value={formik.values.state}
+              className=' font-workSans w-[340px] sm:w-[380px]'
               onChange={(event, newValue) => {
                 formik.setFieldValue("state", newValue);
               }}
@@ -330,7 +331,7 @@ function SignUp() {
                   margin='dense'
                   label="State"
                   name="state"
-                  className=' font-workSans w-[360px] sm:w-[380px]'
+                  className=' font-workSans w-[340px] sm:w-[380px]'
                   variant="outlined"
                   required
                   onBlur={formik.handleBlur}
@@ -373,7 +374,7 @@ function SignUp() {
               onClick={formik.handleSubmit}
               // onClick={()=>navigate('/emailconfirmation') }
               size="large"
-              className='bg-[#F6F6F6] font-workSans w-[360px] sm:w-[380px]'
+              className='bg-[#F6F6F6] font-workSans w-[340px] sm:w-[380px]'
               style={{ margin: "0 auto", marginTop: "5px", height: "50px", backgroundColor: "#489CFF" }}
             >
                 { !loading ? 'Create Account' : <CircularProgress  color="inherit"  />}

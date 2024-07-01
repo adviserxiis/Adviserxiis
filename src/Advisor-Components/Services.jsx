@@ -67,11 +67,11 @@ function Services() {
     return <div className='h-screen flex justify-center items-center'><CircularProgress  /></div>; // Show a loading message or spinner while fetching data
   }
   return (
-    <div className="flex flex-col pt-0 p-6 space-y-6">
+    <div className="flex flex-col pt-0 py-6 px-2 sm:p-6 space-y-6">
 
     <div className="flex justify-between items-center">
     <p className='font-Poppins text-3xl md:text-4xl lg:text-5xl font-bold s my-2'>Services</p>
-      <button className="bg-[#489CFF] text-white rounded-md py-2 px-4 md:text-lg lg:text-xl" onClick={()=> navigate('/adviser/createservice')}>Create New Service</button>
+      <button className="bg-[#489CFF] text-white rounded-md py-2 mx-2 px-2 md:px-4 md:text-lg lg:text-xl" onClick={()=> navigate('/adviser/createservice')}>Create New Service</button>
     </div>
 
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
