@@ -11,6 +11,7 @@ import { app } from "../firebase";
 import { v1 as uuidv1 } from 'uuid';
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import Swal from 'sweetalert2'
+import bcrypt from 'bcryptjs';
 
 
 
@@ -76,7 +77,15 @@ function SignUp() {
 
   }
 
-
+  const hashPassword = async (password) => {
+    try {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+      return hashedPassword;
+    } catch (error) {
+      console.error("Error hashing password:", error);
+    }
+  };
 
 
   const validationSchema = Yup.object().shape({
@@ -146,6 +155,8 @@ function SignUp() {
   const handleSubmit = async() => {
      setLoading(true)
      
+
+     const hashedPassword = await hashPassword(formik.values.password)
      const isUser = await isUserExist()
 
      if(isUser)
@@ -165,7 +176,7 @@ function SignUp() {
       username: formik.values.name,
       email: formik.values.email,
       mobile_number: formik.values.mobile_number,
-      password: formik.values.password,
+      password: hashedPassword,
       // country: formik.values.country,
       state: formik.values.state
     });

@@ -354,7 +354,7 @@ today.setHours(0, 0, 0, 0);
           )) :             <TableRow
           sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
         >
-          <TableCell align="center"  >No Data Available</TableCell>
+          <TableCell colSpan={6} align="center" style={{fontSize:"20px"}} >No data available</TableCell>
 
 
         </TableRow> }

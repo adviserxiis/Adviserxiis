@@ -11,6 +11,7 @@ import { v1 as uuidv1 } from 'uuid';
 import Swal from 'sweetalert2';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
+import bcrypt from 'bcryptjs';
 
 export default function Login() {
 
@@ -37,6 +38,78 @@ export default function Login() {
       .required('Password is required'),
   });
 
+  const comparePassword = async (password, hash) => {
+    try {
+      const isMatch = await bcrypt.compare(password, hash);
+      return isMatch;
+    } catch (error) {
+      console.error("Error comparing password:", error);
+    }
+  };
+
+
+  // const handleSubmit = async () => {
+  //   setLoading(true);
+  //   try {
+  //     // Search for user by email
+  //     const snapshot = await get(child(ref(database), `advisers`));
+  //     if (snapshot.exists()) {
+  //       let userFound = false;
+  //       snapshot.forEach((childSnapshot) => {
+  //         const userData = childSnapshot.val();
+  //         if (userData.email === formik.values.email) {
+  //           userFound = true;
+  //           // Compare the provided password with the stored password
+
+  //           const isMatch =  comparePassword(formik.values.password, userData.password)
+  //           if (isMatch) {
+  //             setLoading(false);
+          
+  //             // Save the user's ID in local storage
+  //             localStorage.setItem('adviserid',  JSON.stringify(childSnapshot.key));
+  //             formik.resetForm();
+  //             navigate('/adviser/dashboard');
+  //             // You can redirect the user or do something else here
+  //           } else {
+  //             Swal.fire({
+  //               title: "Error",
+  //               text: "Invalid Email or Password!!",
+  //               icon: "error"
+  //             });
+  //             setLoading(false);
+  //             formik.resetForm();
+  //           }
+  //         }
+  //       });
+  
+  //       if (!userFound) {
+  //         Swal.fire({
+  //           title: "Error",
+  //           text: "User not found",
+  //           icon: "error"
+  //         });
+  //         setLoading(false);
+  //         formik.resetForm();
+  //       }
+  //     } else {
+  //       Swal.fire({
+  //         title: "Error",
+  //         text: "No data available",
+  //         icon: "error"
+  //       });
+  //       setLoading(false);
+  //       formik.resetForm();
+  //     }
+  //   } catch (error) {
+  //     Swal.fire({
+  //       title: "Error",
+  //       text: "An error occurred while fetching user data",
+  //       icon: "error"
+  //     });
+  //     setLoading(false);
+  //     formik.resetForm();
+  //   }
+  // };
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -45,20 +118,32 @@ export default function Login() {
       const snapshot = await get(child(ref(database), `advisers`));
       if (snapshot.exists()) {
         let userFound = false;
+        const childSnapshots = [];
         snapshot.forEach((childSnapshot) => {
+          childSnapshots.push(childSnapshot);
+        });
+
+  
+        for (const childSnapshot of childSnapshots) {
           const userData = childSnapshot.val();
+        
           if (userData.email === formik.values.email) {
+
+            console.log("userData", userData)
             userFound = true;
             // Compare the provided password with the stored password
-            if (userData.password === formik.values.password) {
+            const isMatch = await comparePassword(formik.values.password, userData.password);
+            if (isMatch) {
               setLoading(false);
-          
+  
               // Save the user's ID in local storage
-              localStorage.setItem('adviserid',  JSON.stringify(childSnapshot.key));
+              localStorage.setItem('adviserid', JSON.stringify(childSnapshot.key));
               formik.resetForm();
               navigate('/adviser/dashboard');
               // You can redirect the user or do something else here
+              return;
             } else {
+              console.log("bye")
               Swal.fire({
                 title: "Error",
                 text: "Invalid Email or Password!!",
@@ -66,14 +151,15 @@ export default function Login() {
               });
               setLoading(false);
               formik.resetForm();
+              return;
             }
           }
-        });
+        }
   
         if (!userFound) {
           Swal.fire({
             title: "Error",
-            text: "User not found",
+            text: "User Not Found",
             icon: "error"
           });
           setLoading(false);
@@ -82,22 +168,23 @@ export default function Login() {
       } else {
         Swal.fire({
           title: "Error",
-          text: "No data available",
+          text: "No Data Available",
           icon: "error"
         });
         setLoading(false);
         formik.resetForm();
       }
     } catch (error) {
+      console.error("Error during login:", error);
       Swal.fire({
         title: "Error",
-        text: "An error occurred while fetching user data",
+        text: "Something went wrong. Please try again later.",
         icon: "error"
       });
       setLoading(false);
-      formik.resetForm();
     }
   };
+  
   
 
   const formik = useFormik({

@@ -130,9 +130,12 @@ function ConfirmEmail() {
 
   }
 
-  useEffect(() => {
+
+
+  useEffect(()=>{
+    console.log("lo mein chal padha")
     sendOTP()
-  }, [])
+  },[])
 
   return (
     <div className='min-h-screen flex flex-col md:flex-row'>
@@ -185,54 +188,7 @@ function ConfirmEmail() {
           >
             {!loading ? 'Verify' : <CircularProgress color="inherit" />}
           </Button>
-          {/* {
-  (!otpSent && !verified)  &&  <Button
-  variant="contained"
-  // color="secondary"
-  aria-label="Register"
 
-  margin="normal"
-  // onClick={formik.handleSubmit}
-  onClick={sendOTP}
-  size="large"
-  className='bg-[#F6F6F6] font-workSans w-[360px] sm:w-[380px]'
-style={{ margin: "0 auto", marginTop:"5px",height:"50px", backgroundColor:"#489CFF" }}
->
-{ !loading ? 'Send OTP' : <CircularProgress  color="inherit"  />}
-</Button>
- } */}
-
-
-          {/* {
-              (otpSent && !verified) &&        <Button         variant="contained"
-              // color="secondary"
-              aria-label="Register"
-              margin="normal"
-              // onClick={formik.handleSubmit}
-              onClick={verifyOTP}
-              size="large"
-              className='bg-[#F6F6F6] font-workSans w-[360px] sm:w-[380px]'
-            style={{ margin: "0 auto", marginTop:"5px",height:"50px", backgroundColor:"#489CFF" }}
-            >
-               { !loading ? 'Verify' : <CircularProgress  color="inherit"  />}
-            </Button>
-            } */}
-
-
-          {/* {
-              verified &&    <Button         variant="contained"
-              // color="secondary"
-              aria-label="Register"
-              margin="normal"
-              // onClick={formik.handleSubmit}
-              onClick={()=>navigate('/adviser/professionaldetails')}
-              size="large"
-              className='bg-[#F6F6F6] font-workSans w-[360px] sm:w-[380px]'
-            style={{ margin: "0 auto", marginTop:"5px",height:"50px", backgroundColor:"#489CFF" }}
-            >
-             { !loading ? 'Next' : <CircularProgress  color="inherit"  />}
-            </Button>
-            } */}
 
 
 
