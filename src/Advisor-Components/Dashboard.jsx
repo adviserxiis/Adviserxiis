@@ -322,8 +322,8 @@ today.setHours(0, 0, 0, 0);
     </div> */}
 <div className='font-Poppins overflow-x-auto my-[20px] py-6 md:p-6'>
 <h2 className="text-xl md:text-2xl lg:text-3xl md:p-6 font-bold font-Poppins">Last Appointments</h2>
-<TableContainer component={Paper} className='mt-5 overflow-x-auto'>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+<TableContainer component={Paper} className='mt-5 overflow-x-auto' >
+      <Table sx={{ minWidth: 650, fontFamily: 'Poppins' }} aria-label="simple table">
         <TableHead style={{fontSize:"20px"}}>
           <TableRow >
             <TableCell align="center" style={{fontSize:"20px", fontWeight:"bold" }}>Purchase Date</TableCell>

@@ -79,7 +79,7 @@ function Services() {
 
     {services.length > 0 && services.map((service, idx) => (
   <div className="bg-gray-100 p-6 rounded-xl shadow-md" key={idx} onClick={() => console.log(service)}>
-    <h2 className="text-xl font-bold font-Poppins">{service.data.service_name}</h2>
+    <h2 className="text-xl font-bold font-Poppins break-words">{service.data.service_name}</h2>
     <p className="mt-2 text-gray-700 font-Poppins break-words">{service.data.about_service}</p>
     <p className="mt-4 font-bold font-Poppins">Duration: {service.data.duration} | Rs {service.data.price}/-</p>
     <button className="mt-4 bg-[#489CFF] text-white rounded-md py-2 px-4 md:px-[30px] font-Poppins">Edit</button>

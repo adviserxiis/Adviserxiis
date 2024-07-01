@@ -92,8 +92,8 @@ function UserAdviserProfile() {
       </button>
         </div>
 
-      <div className='flex items-center  w-full'>
-      <div className=" w-1/6 mr-[30px] md:mr-[50px] ">
+      <div className='flex items-center  w-full p-2'>
+      <div className="w-2/6 sm:w-1/6 mr-[30px] md:mr-[50px] ">
       <img
             src={adviser && adviser.profile_photo ? adviser.profile_photo : User}
             alt=""
@@ -101,18 +101,18 @@ function UserAdviserProfile() {
             style={{objectFit:"cover"}}
           />
       </div>
-      <div className='w-5/6'>
+      <div className='w-4/6 sm:w-5/6'>
       <h1 className="text-2xl font-semibold mb-[10px]">{adviser.username}</h1>
-      <p className="text-gray-500">{adviser.professional_bio
+      <p className="text-gray-500 text-sm sm:text-xl">{adviser.professional_bio
       }</p>
       </div>
       </div>
     </div>
-    <div className=" md:ml-[150px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+    <div className=" md:ml-[150px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 px-4">
       {services.map((service, index) => (
-        <div key={index} className="bg-gray-100 p-4 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-2">{service.data.service_name}</h2>
-          <p className="text-gray-500 mb-4">{service.data.about_service}</p>
+        <div key={index} className="bg-gray-100 p-4 rounded-lg shadow-md  px-[20px]">
+          <h2 className="text-lg sm:text-xl font-semibold mb-2 break-words">{service.data.service_name}</h2>
+          <p className="text-gray-500 mb-4 break-words">{service.data.about_service}</p>
           <p className="text-lg font-bold mb-4">Rs {service.data.price}/-</p>
           <button className="bg-gradient-to-b from-[#0165E1] to-[#17A9FD] text-white py-2 px-4 rounded cursor-pointer " onClick={()=>naviagte(`/category/${adviserid}/checkout/${service.id}`)}>Book</button>
         </div>

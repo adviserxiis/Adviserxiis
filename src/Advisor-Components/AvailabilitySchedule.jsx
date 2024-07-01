@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Checkbox, FormControlLabel } from '@mui/material';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 // import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
-import { getDatabase, ref, update } from "firebase/database";
+import { get, getDatabase, ref, update } from "firebase/database";
 import { app } from "../firebase";
 import Swal from 'sweetalert2';
 
@@ -32,7 +32,7 @@ function formatTime(dateString) {
   return `${hours}:${formattedMinutes} ${period}`;
 }
 
-const AvailabilitySchedule = ({ open, handleClose}) => {
+const AvailabilitySchedule = ({ open, handleClose}) => { 
 
   const database = getDatabase(app);
   const [availability, setAvailability] = useState(
@@ -78,8 +78,8 @@ const AvailabilitySchedule = ({ open, handleClose}) => {
         {
             return
         }
-
-
+ 
+          console.log("ans", availability)
         const userid = JSON.parse(localStorage.getItem('adviserid'))
 
         update(ref(database, 'advisers/' + userid),{
@@ -90,6 +90,50 @@ const AvailabilitySchedule = ({ open, handleClose}) => {
         handleClose()
   
   };
+
+  function convertToSchedule(arr) {
+    // Initialize all days with default values
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    const schedule = days.reduce((acc, day) => {
+      acc[day] = { available: false, startTime: null, endTime: null };
+      return acc;
+    }, {});
+  
+    // Update the schedule based on the input array
+    arr.forEach(({ day, timing }) => {
+      const [startTime, endTime] = timing.split(' - ');
+      const dayKey = day.toLowerCase();
+      if (schedule[dayKey]) {
+        schedule[dayKey] = { available: true, startTime, endTime };
+      }
+    });
+  
+    return schedule;
+  }
+
+  async function getAdviser(userId) {
+    const nodeRef = ref(database, `advisers/${userId}`);
+    try {
+      const snapshot = await get(nodeRef);
+      if (snapshot.exists()) {
+        return snapshot.val();
+      } else {
+        console.log('No data available');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error fetching node details:', error);
+      return null;
+    }
+  }
+
+  useEffect (()=>{
+    const userid = JSON.parse(localStorage.getItem('adviserid'))
+    const adviser = getAdviser(userid).then((result)=>{
+      console.log("adviser", convertToSchedule(result.availability))
+      // setAvailability( convertToSchedule(result.availability))
+    })
+  },[])
 
   return (
     <Dialog open={open} onClose={handleClose} >

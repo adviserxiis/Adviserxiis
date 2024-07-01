@@ -86,7 +86,7 @@ export default function UserNavbar() {
             </div>
           </div>
 
-          <Disclosure.Panel className="sm:hidden">
+          <Disclosure.Panel className="sm:hidden bg-gray-100">
             <div className="">
                 <Disclosure.Button>
                   <NavLink to="/" >

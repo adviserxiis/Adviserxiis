@@ -66,25 +66,25 @@ function LandingPage() {
         </div>
 
         <div className='flex flex-col  md:flex-row mt-[20px] sm:mt-[50px]' >
-          <div className='h-full w-full md:w-2/6 flex flex-col justify-center mx-4 sm:ml-[40px] lg:ml-[150px] '>
-            <div className=' flex pl-3 items-center bg-gradient-to-b from-[#0165E1] to-[#17A9FD] text-xl text-center text-white font-Poppins w-[300px] md:w-[400px] lg:w-[500px] h-12 sm:h-16  rounded-lg my-2'>
+          <div className='h-full w-full md:w-2/6 flex flex-col justify-center  sm:ml-[40px] lg:ml-[150px] '>
+            <div className=' flex pl-3 items-center bg-gradient-to-b from-[#0165E1] to-[#17A9FD] text-xl text-center text-white font-Poppins   h-12 sm:h-16  rounded-lg my-2'>
               Personal Profile
             </div>
-            <div className=' flex pl-3 items-center bg-white font-Poppins w-[300px] md:w-[400px] lg:w-[500px] h-12 sm:h-16  rounded-lg my-2'>
+            <div className=' flex pl-3 items-center bg-white font-Poppins  h-12 sm:h-16  rounded-lg my-2'>
               Unlimited Earning
             </div>
-            <div className=' flex pl-3 items-center  bg-white font-Poppins w-[300px] md:w-[400px] lg:w-[500px] h-12 sm:h-16  rounded-lg my-2'>
+            <div className=' flex pl-3 items-center  bg-white font-Poppins h-12 sm:h-16  rounded-lg my-2'>
               Unlimited Services
             </div>
-            <div className=' flex pl-3 items-center bg-white font-Poppins w-[300px] md:w-[400px] lg:w-[500px] h-12 sm:h-16  rounded-lg my-2'>
+            <div className=' flex pl-3 items-center bg-white font-Poppins  h-12 sm:h-16  rounded-lg my-2'>
               Unlimited Audience
             </div>
-            <div className=' flex pl-3 items-center bg-white font-Poppins w-[300px] md:w-[400px] lg:w-[500px] h-12 sm:h-16 rounded-lg my-2'>
+            <div className=' flex pl-3 items-center bg-white font-Poppins  h-12 sm:h-16 rounded-lg my-2'>
               Easy to Use
             </div>
           </div>
-          <div className='mt-[40px] sm:mt-[10px] w-full md:w-4/6 h-full flex justify-center items-center'>
-            <img className="object-cover h-[300px] md:h-[400px] lg:h-[600px]" src={image2} alt="" />
+          <div className='mt-[40px] sm:mt-[10px] w-full md:w-4/6 h-full flex justify-center items-center '>
+            <img className="object-cover h-[300px] md:h-[300px] lg:h-[600px]" src={image2} alt="" />
           </div>
         </div>
       </div>

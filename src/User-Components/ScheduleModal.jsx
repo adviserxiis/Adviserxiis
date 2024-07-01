@@ -139,12 +139,15 @@ function convertDateToISO(dateString) {
         "Sat": "Saturday"
     };
 
-    availability.map((item, idx)=>{
+    {
+      availability &&      availability.map((item, idx)=>{
         if(item.day === dayMap[day])
             {
                 setTimeSlots(divideslots(item.timing, duration))
             }
     })
+    }
+
 
  }
 

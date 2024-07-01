@@ -85,12 +85,12 @@ function UserCategory() {
             Search
           </button>
         </div>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-8 '>
            
            {advisers.map((adviser, idx) => (
 
 <div className="bg-white rounded-lg shadow p-4 px-[20px] flex cursor-pointer" key={idx}  onClick={()=> handleClick(adviser.id)}>
-<div className='w-1/5 flex flex-col justify-center items-center'>
+<div className='w-2/6 sm:w-1/5 flex flex-col justify-center items-center'>
 <img
   src={adviser && adviser.data.profile_photo ? adviser.data.profile_photo : User }
   alt=""
@@ -103,7 +103,7 @@ function UserCategory() {
 {/* <p className='text-center text-sm'>English, Hindi</p> */}
 {/* <p className='text-center text-sm'>₹ 5/min</p> */}
 </div>
-<div className="w-4/5 ml-4 mt-[10px] ">
+<div className="w-4/6 sm:w-4/5 ml-4 mt-[10px] ">
   <div>
   <h2 className="text-2xl font-bold mt-[10px] mb-[8px]">{adviser.data.username}</h2>
   </div>
@@ -114,7 +114,7 @@ function UserCategory() {
   }</span> years</p>
   </div>
 
-  <p className='text-gray-500' >{adviser.data.professional_bio }</p>
+  <p className='text-gray-500 text-sm sm:text-md' >{adviser.data.professional_bio }</p>
 </div>
 </div>
 
