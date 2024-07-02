@@ -3,7 +3,7 @@ import background2 from '../assets/background2.png'
 import image3 from '../assets/image3.png'
 import logo from '../assets/logo.png'
 import { Autocomplete, Button, Checkbox, CircularProgress, TextField } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { get, getDatabase, ref, set, update } from "firebase/database";
 import { app } from "../firebase";
 import Swal from 'sweetalert2'
@@ -12,14 +12,18 @@ import Swal from 'sweetalert2'
 
 function ConfirmEmail() {
   const database = getDatabase(app);
-
+  const location = useLocation()
   const navigate = useNavigate()
   const [otp, setOtp] = useState('')
   const [otpSent, setOtpSent] = useState(false)
   const [verified, setVerified] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const userId = JSON.parse(localStorage.getItem('adviserid'))
+  const { adviserid } = location.state || {}
+
+  console.log("adviserid", adviserid)
+
+  const userId = adviserid
 
   // const sendOTP = async () =>{
   //     setLoading(true)
@@ -49,6 +53,7 @@ function ConfirmEmail() {
   // }
 
   const sendOTP = async () => {
+    setOtpSent(false)
     try {
       // setLoading(true);
       const res = await fetch(`https://adviserxiis-backend-three.vercel.app/sendemail/${userId}`);
@@ -112,6 +117,7 @@ function ConfirmEmail() {
         isVerified: true
 
       });
+      localStorage.setItem("adviserid",JSON.stringify(userId))
       navigate('/adviser/professionaldetails')
       setOtp('')
       setLoading(false)
@@ -191,6 +197,9 @@ function ConfirmEmail() {
 
 
 
+        </div>
+        <div className='mt-4 font-workSans cursor-pointer hover:underline' onClick={sendOTP}>
+          <p>Resend OTP</p>
         </div>
       </div>
 

@@ -49,8 +49,14 @@ function UserCategory() {
   }, []);
 
 
-  const handleClick = (adviserId) =>{
-        navigate(`/category/${adviserId}`)
+  const handleClick = (adviserId, adviserName) =>{
+    console.log("adviserName", adviserName)
+        navigate(`/category/${adviserName}`, {
+          state:{
+            adviserid: adviserId,
+            advisername: adviserName
+          }
+        })
   }
 
 
@@ -88,7 +94,7 @@ function UserCategory() {
         <div className='grid grid-cols-1 md:grid-cols-2 gap-8 '>
            
            {advisers.map((adviser, idx) => (
-(adviser.data.services && <div className="bg-white rounded-lg shadow p-4 px-[20px] flex cursor-pointer" key={idx}  onClick={()=> handleClick(adviser.id)}>
+(adviser.data.services && <div className="bg-white rounded-lg shadow p-4 px-[20px] flex cursor-pointer" key={idx}  onClick={()=> handleClick(adviser.id, adviser.data.username)}>
 <div className='w-2/6 sm:w-1/5 flex flex-col justify-center items-center'>
 <img
   src={adviser && adviser.data.profile_photo ? adviser.data.profile_photo : User }

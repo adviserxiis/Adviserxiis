@@ -37,8 +37,8 @@ const router = createBrowserRouter(
             <Route path="/" element={<UserLandingPage />} />
             <Route path="/createaccount" element={<UserLogin />} />
             <Route path="/category" element={<UserCategory />} />
-            <Route path="/category/:adviserid" element={<UserAdviserProfile />} />
-            <Route path="/category/:adviserid/checkout/:serviceid" element={<UserCheckoutPage />} />
+            <Route path="/category/:advisername" element={<UserAdviserProfile />} />
+            <Route path="/category/:advisername/checkout/:servicename" element={<UserCheckoutPage />} />
 
      </Route>
 

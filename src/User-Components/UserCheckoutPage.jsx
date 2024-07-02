@@ -4,7 +4,7 @@ import fb from '../user-assets/fb.png'
 import twitter from '../user-assets/twitter.png'
 import profile from '../assets/profile.png'
 import backicon from '../user-assets/backicon.png';
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { child, get, getDatabase, ref, set, update } from "firebase/database";
 import { app } from "../firebase";
 import { CircularProgress } from '@mui/material'
@@ -19,8 +19,10 @@ import logo from '../assets/logo.png'
 function UserCheckoutPage() {
   const database = getDatabase(app);
   const navigate = useNavigate()
+  const location = useLocation()
 
-  const { adviserid, serviceid } = useParams()
+  const { adviserid,serviceid, advisername } = location.state ||{}
+
   const userid = JSON.parse(localStorage.getItem('userid'))
 
 
@@ -240,12 +242,12 @@ function UserCheckoutPage() {
 
   const validationSchema = Yup.object().shape({
     date: Yup.date()
-      .required('This is required'),
+      .required('Date is required'),
       // .test('is-today-or-later', 'Date must be today or later', (value) => {
       //   return !isBefore(value, startOfDay(new Date()));
       // }),
     time: Yup.string()
-      .required('This  is required'),
+      .required('Time is required'),
       // .matches(
       //   /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])$/,
       //   'Time must be in HH:mm format'
@@ -282,6 +284,14 @@ function UserCheckoutPage() {
     onSubmit: handleSubmit
   })
 
+  const handleClickOnBackIcon = () =>{
+    navigate(`/category/${advisername}`, { 
+      state:{
+        adviserid: adviserid,
+        advisername: advisername
+      }
+})
+  }
 
 
   async function getUser(userId) {
@@ -358,7 +368,7 @@ function UserCheckoutPage() {
         <div className="flex  items-center my-8 ">
 
           <div className='md:mx-[100px] hidden md:block'>
-            <button className="bg-[#489CFF] text-white py-2 px-4 rounded-full cursor-pointer " onClick={() => navigate(`/category/${adviserid}`)}>
+            <button className="bg-[#489CFF] text-white py-2 px-4 rounded-full cursor-pointer " onClick={handleClickOnBackIcon }>
               <img
                 src={backicon}
                 alt=""

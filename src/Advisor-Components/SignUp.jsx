@@ -182,7 +182,7 @@ function SignUp() {
     });
 
    
-   localStorage.setItem("adviserid",JSON.stringify(userid))
+  //  localStorage.setItem("adviserid",JSON.stringify(userid))
     // alert("Your data saved successfully.")
     // await Swal.fire({
     //   title: "Success",
@@ -191,7 +191,11 @@ function SignUp() {
     // });
     setLoading(true)
     formik.resetForm()
-    navigate('/adviser/emailconfirmation')
+    navigate('/adviser/emailconfirmation',{
+      state:{
+        adviserid:userid
+      }
+    })
 
 
 

@@ -228,7 +228,7 @@ today.setHours(0, 0, 0, 0);
       </div>
 
       <div className="mt-[30px]">
-        <p className="text-lg lg:text-3xl font-Poppins ml-4 font-bold">Total Earning</p>
+        <p className="text-xl lg:text-3xl font-Poppins ml-4 font-bold">Total Earning</p>
         <div className='bg-[#489CFF] text-white rounded-xl p-6 w-[320px] sm:w-[350px] md:w-[400px] m-4 '>
         <h2 className="text-4xl font-bold font-Poppins">₹ {user && user.earnings ? user.earnings : 0}</h2>
         <button className="mt-4 bg-white text-black rounded-[60px] py-2 px-[20px] font-Poppins">Request Withdraw</button>

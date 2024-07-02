@@ -94,7 +94,7 @@ const AvailabilitySchedule = ({ open, handleClose}) => {
       ...prev,
       [day]: {
         ...prev[day],
-        [type]:time,
+        [type]:formatTime(time),
       },
     }));
   };
@@ -107,12 +107,12 @@ const AvailabilitySchedule = ({ open, handleClose}) => {
         }
  
           console.log("ans", availability)
-        // const userid = JSON.parse(localStorage.getItem('adviserid'))
+        const userid = JSON.parse(localStorage.getItem('adviserid'))
 
-        // update(ref(database, 'advisers/' + userid),{
-        //    availability:convertToArray(availability)
+        update(ref(database, 'advisers/' + userid),{
+           availability:convertToArray(availability)
      
-        //  });
+         });
         // formik.setFieldValue("availability", availability)
         handleClose()
   

@@ -63,16 +63,25 @@ function Profile() {
         profilePhotoURL = await getDownloadURL(uploadResult.ref);
       }
   
-      const updateData = {
-        username: name,
-        professional_bio: professional_bio,
-      };
+      // const updateData = {
+      //   username: name,
+      //   professional_bio: professional_bio,
+      // };
   
       if (profilePhotoURL) {
-        updateData.profile_photo = profilePhotoURL;
+        await update(ref(getDatabase(), 'advisers/' + userid),{
+          username: name,
+          professional_bio: professional_bio,
+          profile_photo:profilePhotoURL
+        });
       }
-  
-      await update(ref(getDatabase(), 'advisers/' + userid), updateData);
+      else{
+        await update(ref(getDatabase(), 'advisers/' + userid),{
+          username: name,
+          professional_bio: professional_bio,
+        });
+      }
+
   
       await Swal.fire({
         title: "Success",

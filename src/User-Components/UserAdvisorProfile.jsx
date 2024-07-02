@@ -4,7 +4,7 @@ import fb from '../user-assets/fb.png'
 import twitter from '../user-assets/twitter.png'
 import profile from '../assets/profile.png'
 import backicon from '../user-assets/backicon.png';
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { child, get, getDatabase, ref, set } from "firebase/database";
 import { app } from "../firebase";
 import { CircularProgress } from '@mui/material'
@@ -12,8 +12,9 @@ import User from '../assets/User.png'
 
 function UserAdviserProfile() {
 
+  const location = useLocation()
   const database = getDatabase(app);
-  const { adviserid } = useParams()
+  const { adviserid, advisername } = location.state || {}
   const naviagte = useNavigate()
 
 
@@ -61,15 +62,33 @@ function UserAdviserProfile() {
   }
 
   useEffect(()=>{
-    getUser(adviserid).then((adviserData) => {
-      setAdviser(adviserData)
-      getServiceDetails(adviserData.services).then((servicesData) => {
-        setServices(servicesData)
-      });
-      setLoading(false); // Update loading state after fetching the user data
-    });
+    if(adviserid)
+      {
+        getUser(adviserid).then((adviserData) => {
+          setAdviser(adviserData)
+          getServiceDetails(adviserData.services).then((servicesData) => {
+            setServices(servicesData)
+          });
+          setLoading(false); // Update loading state after fetching the user data
+        });
+      }
+      else{
+        setLoading(false)
+      }
 
-  },[])
+
+  },[adviserid])
+
+
+  const handleClick = (serviceid, servicename) =>{
+    naviagte(`/category/${advisername}/checkout/${servicename}`, {
+      state:{
+        adviserid:adviserid,
+        serviceid:serviceid,
+        advisername:advisername
+      }
+    })
+  }
 
 
   if (loading) {
@@ -82,7 +101,7 @@ function UserAdviserProfile() {
     <div className='min-h-screen'>
     <div className="flex  items-center my-8 ">
 
-        <div className='md:mr-[100px] md:ml-[20px] hidden md:block'>
+        <div className='md:mr-[100px] md:ml-[40px] hidden md:block'>
         <button className="bg-[#489CFF] text-white py-2 px-4 rounded-full cursor-pointer" onClick={()=> naviagte('/category')} >
         <img 
           src={backicon}
@@ -102,8 +121,8 @@ function UserAdviserProfile() {
           />
       </div>
       <div className='w-4/6 sm:w-5/6'>
-      <h1 className="text-2xl font-semibold mb-[10px]">{adviser.username}</h1>
-      <p className="text-gray-500 text-sm sm:text-xl">{adviser.professional_bio
+      <h1 className="text-2xl font-semibold mb-[10px]">{adviser && adviser.username? adviser.username: ''}</h1>
+      <p className="text-gray-500 text-sm sm:text-xl">{ adviser && adviser.professional_bio ? adviser.professional_bio :''
       }</p>
       </div>
       </div>
@@ -114,7 +133,7 @@ function UserAdviserProfile() {
           <h2 className="text-lg sm:text-xl font-semibold mb-2 break-words">{service.data.service_name}</h2>
           <p className="text-gray-500 mb-4 break-words">{service.data.about_service}</p>
           <p className="text-lg font-bold mb-4">Rs {service.data.price}/-</p>
-          <button className="bg-gradient-to-b from-[#0165E1] to-[#17A9FD] text-white py-2 px-4 rounded cursor-pointer " onClick={()=>naviagte(`/category/${adviserid}/checkout/${service.id}`)}>Book</button>
+          <button className="bg-gradient-to-b from-[#0165E1] to-[#17A9FD] text-white py-2 px-4 rounded cursor-pointer " onClick={()=> handleClick(service.id,service.data.service_name)}>Book</button>
         </div> )
 
       ))}
