@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import { get, getDatabase, ref, set, update } from "firebase/database";
 import { app } from "../firebase";
 import { v1 as uuidv1 } from 'uuid';
-import { Button, CircularProgress } from '@mui/material';
+import { Button, Checkbox, CircularProgress } from '@mui/material';
 import Swal from 'sweetalert2';
 import AvailabilitySchedule from './AvailabilitySchedule';
 import { useNavigate } from 'react-router-dom';
@@ -31,7 +31,8 @@ const ServiceForm = () => {
     price: '',
     // booking_days: '',
     // booking_time:''
-    availability:null
+    // availability:null
+    isPublished:false
   }
 
   const validationSchema = Yup.object().shape({
@@ -50,6 +51,8 @@ const ServiceForm = () => {
       .typeError('Price must be a number')
       .positive('Price must be a positive number')
       .integer('Price must be an integer'),
+    isPublished: Yup.boolean()
+,
     // booking_days: Yup.string()
     //   .required('Booking days is required'),
     // booking_time: Yup.string()
@@ -97,6 +100,7 @@ const ServiceForm = () => {
       about_service:formik.values.about_service,
       duration:formik.values.duration,
       price:formik.values.price,
+      isPublished:formik.values.isPublished
       // booking_days:formik.values.booking_days,
       // booking_time:formik.values.booking_time
       // availability:formik.values.availability
@@ -353,9 +357,33 @@ const ServiceForm = () => {
                   </p>
                 )}
         </div> */}
+
+<div>
+              <div className='flex'>
+                <Checkbox
+                  name='isPublished'
+                  value={formik.values.isPublished}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.isPublished && Boolean(formik.errors.isPublished)}
+                  helperText={formik.touched.isPublished && formik.errors.isPublished} /> <p className='font-workSans text-md pt-2'>Do you want to publish it now?</p>
+              </div>
+              {formik.touched.isPublished &&
+                formik.errors.isPublished && (
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      padding: "",
+                      color: "red",
+                    }}
+                  >
+                    {formik.errors.isPublished}
+                  </p>
+                )}
+            </div>
         <div className="flex space-x-4">
           <button className="bg-[#489CFF] text-white rounded-md py-2 px-4 font-Poppins" onClick={formik.handleSubmit} type="submit">
-          { !loading ? 'Publish' : <CircularProgress  color="inherit"  />}
+          { !loading ? 'Create' : <CircularProgress  color="inherit"  />}
           </button>
           <button className="bg-[#FF5348] text-white rounded-md py-2 px-4 font-Poppins" onClick={deleteHandler}>Delete</button>
         </div>

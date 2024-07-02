@@ -159,7 +159,7 @@ const AvailabilitySchedule = ({ open, handleClose}) => {
   useEffect (()=>{
     const userid = JSON.parse(localStorage.getItem('adviserid'))
     const adviser = getAdviser(userid).then((result)=>{
-      console.log("adviser", convertToSchedule(result.availability))
+      // console.log("adviser", convertToSchedule(result.availability))
       // console.log("avalibilty")
       setAvailability( convertToSchedule(result.availability))
     })

@@ -88,8 +88,7 @@ function UserCategory() {
         <div className='grid grid-cols-1 md:grid-cols-2 gap-8 '>
            
            {advisers.map((adviser, idx) => (
-
-<div className="bg-white rounded-lg shadow p-4 px-[20px] flex cursor-pointer" key={idx}  onClick={()=> handleClick(adviser.id)}>
+(adviser.data.services && <div className="bg-white rounded-lg shadow p-4 px-[20px] flex cursor-pointer" key={idx}  onClick={()=> handleClick(adviser.id)}>
 <div className='w-2/6 sm:w-1/5 flex flex-col justify-center items-center'>
 <img
   src={adviser && adviser.data.profile_photo ? adviser.data.profile_photo : User }
@@ -116,7 +115,8 @@ function UserCategory() {
 
   <p className='text-gray-500 text-sm sm:text-md' >{adviser.data.professional_bio }</p>
 </div>
-</div>
+</div> )
+
 
            ))}
 

@@ -110,12 +110,13 @@ function UserAdviserProfile() {
     </div>
     <div className=" md:ml-[150px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 px-4">
       {services.map((service, index) => (
-        <div key={index} className="bg-gray-100 p-4 rounded-lg shadow-md  px-[20px]">
+        ( (service.data.isPublished || service.data.isPublished == undefined) &&         <div key={index} className="bg-gray-100 p-4 rounded-lg shadow-md  px-[20px]">
           <h2 className="text-lg sm:text-xl font-semibold mb-2 break-words">{service.data.service_name}</h2>
           <p className="text-gray-500 mb-4 break-words">{service.data.about_service}</p>
           <p className="text-lg font-bold mb-4">Rs {service.data.price}/-</p>
           <button className="bg-gradient-to-b from-[#0165E1] to-[#17A9FD] text-white py-2 px-4 rounded cursor-pointer " onClick={()=>naviagte(`/category/${adviserid}/checkout/${service.id}`)}>Book</button>
-        </div>
+        </div> )
+
       ))}
     </div>
     {/* <div className="flex justify-center my-8">

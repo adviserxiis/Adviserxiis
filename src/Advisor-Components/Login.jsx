@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { CircularProgress, IconButton, InputAdornment, TextField } from '@mui/material'
@@ -184,6 +184,14 @@ export default function Login() {
       setLoading(false);
     }
   };
+
+
+  useEffect(()=>{
+        if(open === false)
+          {
+            navigate('/adviser')
+          }
+  },[open])
   
   
 

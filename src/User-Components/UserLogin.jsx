@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { CircularProgress, TextField } from '@mui/material'
@@ -264,6 +264,13 @@ export default function UserLogin() {
     validationSchema: validationSchema,
     onSubmit: handleSubmit
   })
+
+  useEffect(()=>{
+    if(open === false)
+      {
+        navigate('/')
+      }
+},[open])
 
   return (
     <Dialog className="relative z-10" open={open} onClose={setOpen}>

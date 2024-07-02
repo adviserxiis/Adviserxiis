@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { child, get, getDatabase, ref, set } from "firebase/database";
+import { child, get, getDatabase, ref, set, update } from "firebase/database";
 import { app } from "../firebase";
 import { CircularProgress } from '@mui/material';
+import Swal from 'sweetalert2';
 
 
 function Services() {
@@ -10,6 +11,8 @@ function Services() {
   const [adviser, setAdviser] = useState(null)
   const [services, setServices] = useState([])
   const [loading, setLoading] = useState(true)
+  const [isUpdated, setIsUpdated] = useState(false) //state to re-render data after publihing any service
+  
 
   const navigate= useNavigate()
   const adviserid = JSON.parse(localStorage.getItem('adviserid'))
@@ -52,6 +55,21 @@ function Services() {
     return serviceDetails;
   }
 
+  const publishHandler = async(serviceid) =>{
+        setLoading(true)
+    await update(ref(database, 'advisers_service/' + serviceid),{
+      isPublished:true
+    });
+
+      await Swal.fire({
+      title: "Success",
+      text: "Service Published Successfully!!",
+      icon: "success"
+    });
+    setLoading(false)
+    setIsUpdated(!isUpdated)
+  }
+
   useEffect(()=>{
     getUser(adviserid).then((adviserData) => {
       setAdviser(adviserData)
@@ -61,7 +79,7 @@ function Services() {
       setLoading(false); // Update loading state after fetching the user data
     });
 
-  },[])
+  },[isUpdated])
 
   if (loading) {
     return <div className='h-screen flex justify-center items-center'><CircularProgress  /></div>; // Show a loading message or spinner while fetching data
@@ -78,11 +96,13 @@ function Services() {
 
 
     {services.length > 0 && services.map((service, idx) => (
-  <div className="bg-gray-100 p-6 rounded-xl shadow-md" key={idx} onClick={() => console.log(service)}>
+  <div className="bg-gray-100 p-6 rounded-xl shadow-md" key={idx} >
     <h2 className="text-xl font-bold font-Poppins break-words">{service.data.service_name}</h2>
     <p className="mt-2 text-gray-700 font-Poppins break-words">{service.data.about_service}</p>
     <p className="mt-4 font-bold font-Poppins">Duration: {service.data.duration} | Rs {service.data.price}/-</p>
     <button className="mt-4 bg-[#489CFF] text-white rounded-md py-2 px-4 md:px-[30px] font-Poppins">Edit</button>
+    { service.data.isPublished == false &&  <button className="mt-4 bg-[#489CFF] text-white rounded-md py-2 px-4 md:px-[30px] font-Poppins mx-4"onClick={()=>publishHandler(service.id)}>Publish</button>}
+    
   </div>
 ))}
 

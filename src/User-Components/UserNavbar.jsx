@@ -3,6 +3,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, MagnifyingGlassCircleIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import logo from '../assets/logo.png'
+import Swal from 'sweetalert2'
 
 
 
@@ -11,8 +12,30 @@ function classNames(...classes) {
 }
 
 export default function UserNavbar() {
+  const userid = JSON.parse(localStorage.getItem('userid'))
 
   const navigate= useNavigate()
+
+  const handleLogOut = async () => {
+  
+    Swal.fire({
+      title: "Do you want to logout?",
+      text: "",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Logout"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.setItem("userid", JSON.stringify(null));
+        navigate('/');
+      }
+    });
+  
+
+  };
+  
   return (
     <Disclosure as="nav" className="bg-[#A9A9A91A] fixed z-50 h-[80px]  w-full">
       {({ open }) => (
@@ -64,11 +87,18 @@ export default function UserNavbar() {
               </div>
         </NavLink>
 
-        <NavLink to="/createaccount">
+        { userid == null &&         <NavLink to="/createaccount">
              <div className={`font-Poppins text-lg  h-full flex items-center mx-3`}>
                <p>LOGIN/SIGNUP</p>
               </div>
-        </NavLink>
+        </NavLink>}
+
+        { userid != null &&         <div  onClick={handleLogOut} className='cursor-pointer' >
+             <div className={`font-Poppins text-lg  h-full flex items-center mx-3`}>
+               <p>LOGOUT</p>
+              </div>
+        </div>}
+
 
 
         {/* <NavLink to="/adviser">
@@ -100,12 +130,19 @@ export default function UserNavbar() {
                <p>CATEGORY</p>
               </div>
         </NavLink>
-
-        <NavLink to="/createaccount" >
+        
+        {userid== null &&         <NavLink to="/createaccount" >
              <div className={`py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors`}>
                <p>LOGIN/SIGNUP</p>
               </div>
-        </NavLink>
+        </NavLink> }
+
+        {userid != null &&         <div onClick={handleLogOut} className='cursor-pointer'>
+             <div className={`py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors`}>
+               <p>LOGOUT</p>
+              </div>
+        </div> }
+
 
 
 {/* 
