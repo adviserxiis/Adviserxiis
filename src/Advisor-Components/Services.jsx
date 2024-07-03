@@ -55,11 +55,22 @@ function Services() {
     return serviceDetails;
   }
 
-  const publishHandler = async(serviceid) =>{
+  const publishHandler = async(serviceid , adviserid) =>{
         setLoading(true)
+
+        const adviserData = await getUser(adviserid)
+
     await update(ref(database, 'advisers_service/' + serviceid),{
       isPublished:true
     });
+
+
+    const publishedServices = adviserData.published_services || [];
+
+    const updatedpublishedServices = [...publishedServices, serviceid];
+
+    await update(ref(database, 'advisers/' + adviserid), { published_services : updatedpublishedServices }); 
+
 
       await Swal.fire({
       title: "Success",
@@ -110,7 +121,7 @@ function Services() {
     <p className="mt-2 text-gray-700 font-Poppins break-words">{service.data.about_service}</p>
     <p className="mt-4 font-bold font-Poppins">Duration: {service.data.duration} | Rs {service.data.price}/-</p>
     <button className="mt-4 bg-[#489CFF] text-white rounded-md py-2 px-4 md:px-[30px] font-Poppins" onClick={()=>EditHandler(service.id)}>Edit</button>
-    { service.data.isPublished == false &&  <button className="mt-4 bg-[#489CFF] text-white rounded-md py-2 px-4 md:px-[30px] font-Poppins mx-4"onClick={()=>publishHandler(service.id)}>Publish</button>}
+    { service.data.isPublished == false &&  <button className="mt-4 bg-[#489CFF] text-white rounded-md py-2 px-4 md:px-[30px] font-Poppins mx-4"onClick={()=>publishHandler(service.id, adviserid)}>Publish</button>}
     
   </div>
 )): <div className='w-full h-full'>

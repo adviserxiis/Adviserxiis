@@ -117,6 +117,15 @@ const ServiceForm = () => {
       
         // Update the array field in the database
         await update(ref(database, 'advisers/' + userid), { services : updatedServices });
+
+        if(formik.values.isPublished == true)
+          {
+            const publishedServices = adviserData.published_services || [];
+
+            const updatedpublishedServices = [...publishedServices, serviceid];
+
+            await update(ref(database, 'advisers/' + userid), { published_services : updatedpublishedServices }); 
+          }
       
     
          await Swal.fire({
@@ -188,11 +197,18 @@ const ServiceForm = () => {
       if (snapshot.exists()) {
         const adviserData = snapshot.val();
         const currentServices = adviserData.services || [];
+        const publishedServices = adviserData.published_services || [];
   
   
         const updatedServices = currentServices.filter(id => id !== serviceId);
+        const updatedpublishedServices = publishedServices.filter(id => id !== serviceId)
+
+
   
-        await update(adviserRef, { services: updatedServices });
+        await update(adviserRef, { 
+          services: updatedServices,
+          published_services: updatedpublishedServices
+         });
   
   
         await Swal.fire({
