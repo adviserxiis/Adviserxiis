@@ -88,12 +88,12 @@ function BankDetails() {
         <img className="object-contain h-auto max-w-full" style={{ paddingTop: "80px" }} src={image4} alt="" />
       </div>
       <div className='min-h-screen w-full md:w-3/6 flex flex-col items-center'>
-        <div className='flex items-center justify-center' style={{ marginTop: "70px" }}>
+        <div className='flex items-center justify-center' style={{ marginTop: "40px" }}>
           <img className="object-cover" src={logo} alt="" />
         </div>
 
         <div className="relative z-10 w-full max-w-md p-8 ">
-          <p className='font-workSans text-md mt-4  text-[#489CFF]' style={{ marginTop: "50px", marginBottom: "20px" }}>BANK DETAILS
+          <p className='font-workSans text-md mt-4  text-[#489CFF]' style={{ marginTop: "20px", marginBottom: "20px" }}>BANK DETAILS
           </p>
           <form>
             <div className="mb-4">

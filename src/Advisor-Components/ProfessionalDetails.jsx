@@ -112,7 +112,7 @@ function ProfessionalDetails() {
         className="hidden sm:block absolute top-0 right-0 w-full h-full bg-no-repeat bg-right-top"
         style={{ backgroundImage: `url(${background3})`, backgroundSize: '60% auto' }}
       ></div>
-      <div className='min-h-screen w-full md:w-3/6 flex flex-col items-center mt-[60px] sm:mt-[150px] '>
+      <div className='min-h-screen w-full md:w-3/6 flex flex-col items-center mt-[60px] sm:mt-[40px] '>
         <div className='flex items-center justify-center' >
           <img className="object-cover" src={logo} alt="" />
         </div>
