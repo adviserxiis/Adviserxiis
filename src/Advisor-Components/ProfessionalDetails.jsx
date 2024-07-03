@@ -20,6 +20,29 @@ function ProfessionalDetails() {
 
   const [loading, setLoading] = useState(false)
 
+  const industries = [
+  "Information Technology (IT) and Software Development",
+  "Healthcare and Medical Services",
+  "Education and EdTech",
+  "Finance and FinTech",
+  "Marketing and Advertising",
+  "Manufacturing and Industry 4.0",
+  "Legal Services",
+  "Media and Entertainment",
+  "Real Estate and Property Management",
+  "Retail and E-commerce",
+  "Hospitality and Tourism",
+  "Human Resources and Talent Management",
+  "Sales and Business Development",
+  "Automotive and Mobility",
+  "Aerospace and Defense",
+  "Energy and Utilities",
+  "Food and Agriculture",
+  "Biotechnology and Pharmaceuticals",
+  "Construction and Real Estate Development",
+  "Transportation and Logistics"
+];
+
   const initialValues = {
     professional_title: '',
     experience: '',
@@ -183,16 +206,13 @@ function ProfessionalDetails() {
               <label className="block text-gray-700 font-workSans">Industry:</label>
               <select className="w-full mt-1 p-2 border border-gray-300 rounded-md font-workSans" name="industry"
                 value={formik.values.industry}
-                onChange={(e) => {
-                  formik.handleChange(e);
-                  formik.setFieldValue('industry', e.target.value);
-                }}
+                onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               >
                 <option>Select Industry</option>
-                <option>IT</option>
-                <option>Medical</option>
-                <option>Management</option>
+                 {industries.map((item, idx) => (
+                  <option key={idx} value={item}>{item}</option>
+                 ))}
                 {/* Add other options here */}
               </select>
               {formik.touched.industry &&
