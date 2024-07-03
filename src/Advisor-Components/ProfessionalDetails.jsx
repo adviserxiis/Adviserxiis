@@ -119,7 +119,7 @@ function ProfessionalDetails() {
 
         <div className="relative z-10 w-full max-w-md p-8  ">
           {/* <h2 className="text-2xl font-bold mb-6 text-center">PROFESSIONAL INFORMATION</h2> */}
-          <p className='font-workSans text-md mt-4  text-[#489CFF] mb-[10px] sm:mb-[20px]' style={{ marginTop: "50px" }}>PROFESSIONAL INFORMATION
+          <p className='font-workSans text-md mt-4  text-[#489CFF] mb-[10px] sm:mb-[20px]  md:mt-[10px] ' >PROFESSIONAL INFORMATION
           </p>
           <form>
             <div className="mb-4">

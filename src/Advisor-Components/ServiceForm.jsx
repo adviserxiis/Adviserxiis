@@ -244,6 +244,26 @@ const ServiceForm = () => {
             navigate('/adviser/services')
 
           }
+          else if (user.profile_photo == undefined )
+            {
+              Swal.fire({
+                title: "Oops!!",
+                text: "Please add your profile image first",
+                icon: "error"
+              });
+              navigate('/adviser/profile')
+  
+            }
+            else if (user.professional_bio == undefined )
+              {
+                Swal.fire({
+                  title: "Oops!!",
+                  text: "Please add your professional bio first",
+                  icon: "error"
+                });
+                navigate('/adviser/profile')
+    
+              }
      })
 
   },[])

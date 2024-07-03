@@ -99,22 +99,49 @@ const AvailabilitySchedule = ({ open, handleClose}) => {
     }));
   };
 
-  const handleSave =  () => {
+  const handleSave =  async () => {
         
     if( !availability.monday.available && !availability.tuesday.available && !availability.wednesday.available && !availability.thursday.available && !availability.friday.available && !availability.saturday.available && !availability.sunday.available )
         {
+          handleClose()
+          await Swal.fire({
+            title: "Error",
+            text: "Please Select the day",
+            icon: "error"
+          });
+            return
+        }
+
+      else if( availability.monday.available && ( availability.monday.startTime == null || availability.monday.endTime == null ) ||
+               availability.tuesday.available && ( availability.tuesday.startTime == null || availability.tuesday.endTime == null ) ||
+               availability.wednesday.available && ( availability.wednesday.startTime == null || availability.wednesday.endTime == null ) ||
+               availability.thursday.available && ( availability.thursday.startTime == null || availability.thursday.endTime == null ) ||
+               availability.friday.available && ( availability.friday.startTime == null || availability.friday.endTime == null ) ||
+               availability.saturday.available && ( availability.saturday.startTime == null || availability.saturday.endTime == null ) ||
+               availability.sunday.available && ( availability.sunday.startTime == null || availability.sunday.endTime == null ) )
+        {
+          handleClose()
+          await Swal.fire({
+            title: "Error",
+            text: "You have to select a proper time slot corresponding to the selected day",
+            icon: "error"
+          });
             return
         }
  
-          console.log("ans", availability)
         const userid = JSON.parse(localStorage.getItem('adviserid'))
-
+           console.log("ans", availability)
         update(ref(database, 'advisers/' + userid),{
            availability:convertToArray(availability)
      
          });
         // formik.setFieldValue("availability", availability)
         handleClose()
+        await Swal.fire({
+          title: "Success",
+          text: "Your availability set successfully!!",
+          icon: "success"
+        });
   
   };
 
@@ -133,7 +160,7 @@ const AvailabilitySchedule = ({ open, handleClose}) => {
       const endTimeString = convertToTimeString(endTime)
       const dayKey = day.toLowerCase();
       if (schedule[dayKey]) {
-        schedule[dayKey] = { available: true, startTimeString, endTimeString };
+        schedule[dayKey] = { available: true, startTime, endTime};
       }
     });
   
@@ -155,6 +182,26 @@ const AvailabilitySchedule = ({ open, handleClose}) => {
       return null;
     }
   }
+
+
+
+
+
+
+
+  const convertTimeStringToDate = (timeString) => {
+    if (!timeString) return null;
+    const [time, modifier] = timeString.split(' ');
+    let [hours, minutes] = time.split(':');
+    if (modifier === 'PM' && hours !== '12') {
+      hours = parseInt(hours, 10) + 12;
+    } else if (modifier === 'AM' && hours === '12') {
+      hours = '00';
+    }
+    return new Date(1970, 0, 1, hours, minutes);
+  };
+
+
 
   useEffect (()=>{
     const userid = JSON.parse(localStorage.getItem('adviserid'))
@@ -190,13 +237,13 @@ const AvailabilitySchedule = ({ open, handleClose}) => {
                               <div className="w-4/6 flex items-center space-x-2">
                   <TimePicker
                     label="Start Time"
-                    value={availability[day.value].startTime}
+                    value={convertTimeStringToDate(availability[day.value].startTime)}
                     onChange={(time) => handleTimeChange(day.value, 'startTime', time)}
                     renderInput={(params) => <TextField {...params} />}
                   />
                   <TimePicker
                     label="End Time"
-                    value={availability[day.value].endTime}
+                    value={convertTimeStringToDate(availability[day.value].endTime)}
                     onChange={(time) => handleTimeChange(day.value, 'endTime', time)}
                     renderInput={(params) => <TextField {...params} />}
                   />
