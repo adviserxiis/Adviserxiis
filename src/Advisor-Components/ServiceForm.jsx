@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import * as Yup from "yup";
 import { useFormik } from 'formik';
-import { get, getDatabase, ref, set, update } from "firebase/database";
+import { get, getDatabase, ref, remove, set, update } from "firebase/database";
 import { app } from "../firebase";
 import { v1 as uuidv1 } from 'uuid';
 import { Button, Checkbox, CircularProgress } from '@mui/material';
 import Swal from 'sweetalert2';
 import AvailabilitySchedule from './AvailabilitySchedule';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const ServiceForm = () => {
 
@@ -16,6 +16,10 @@ const ServiceForm = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const { serviceid } = location.state || {}
+
 
   const durations = [
     { title: "30 minutes", value: 30 },
@@ -44,7 +48,7 @@ const ServiceForm = () => {
       .required('About service is required')
       .min(10, 'About service must be at least 10 characters long')
       .max(500, 'About service cannot be more than 500 characters long'),
-    duration: Yup.string()
+    duration: Yup.number()
       .required('Duration is required'),
     price: Yup.number()
       .required('Price is required')
@@ -62,13 +66,6 @@ const ServiceForm = () => {
     //   .required('You have to set your availability')
   });
 
-  const handleDialogOpen = () => {
-    setDialogOpen(true);
-  };
-
-  const handleDialogClose = () => {
-    setDialogOpen(false);
-  };
 
   async function getUser(userId) {
     const nodeRef = ref(database, `advisers/${userId}`);
@@ -90,44 +87,85 @@ const ServiceForm = () => {
   const handleSubmit = async () => {
           
     setLoading(true)
-    const serviceid = uuidv1();
-    const userid = JSON.parse(localStorage.getItem('adviserid'))
+    if(serviceid == undefined)
+      {
 
-   await set(ref(database, 'advisers_service/' + serviceid),{
-
-      adviserid:userid,
-      service_name:formik.values.service_name,
-      about_service:formik.values.about_service,
-      duration:formik.values.duration,
-      price:formik.values.price,
-      isPublished:formik.values.isPublished
-      // booking_days:formik.values.booking_days,
-      // booking_time:formik.values.booking_time
-      // availability:formik.values.availability
-
-    });
-
-
+        const serviceid = uuidv1();
+        const userid = JSON.parse(localStorage.getItem('adviserid'))
     
-    const adviserData = await getUser(userid)
-    const currentServices = adviserData.services || []; // Retrieve existing IDs or initialize to an empty array
-  
-    // Add the new ID to the array
-    const updatedServices = [...currentServices, serviceid];
-  
-    // Update the array field in the database
-    await update(ref(database, 'advisers/' + userid), { services : updatedServices });
-  
+       await set(ref(database, 'advisers_service/' + serviceid),{
+    
+          adviserid:userid,
+          service_name:formik.values.service_name,
+          about_service:formik.values.about_service,
+          duration:formik.values.duration,
+          price:formik.values.price,
+          isPublished:formik.values.isPublished
+          // booking_days:formik.values.booking_days,
+          // booking_time:formik.values.booking_time
+          // availability:formik.values.availability
+    
+        });
+    
+    
+        
+        const adviserData = await getUser(userid)
+        const currentServices = adviserData.services || []; // Retrieve existing IDs or initialize to an empty array
+      
+        // Add the new ID to the array
+        const updatedServices = [...currentServices, serviceid];
+      
+        // Update the array field in the database
+        await update(ref(database, 'advisers/' + userid), { services : updatedServices });
+      
+    
+         await Swal.fire({
+          title: "Success",
+          text: "Your Service Added Successfully!!",
+          icon: "success"
+        });
+      }
+      else{
+        await update(ref(database, 'advisers_service/' + serviceid),{
+          service_name:formik.values.service_name,
+          about_service:formik.values.about_service,
+          duration:formik.values.duration,
+          price:formik.values.price,
+          isPublished:formik.values.isPublished
+          // booking_days:formik.values.booking_days,
+          // booking_time:formik.values.booking_time
+          // availability:formik.values.availability
+    
+        });
+        await Swal.fire({
+          title: "Success",
+          text: "Your Service Updated Successfully!!",
+          icon: "success"
+        });
+      }
 
-     await Swal.fire({
-      title: "Success",
-      text: "Your Service Added Successfully!!",
-      icon: "success"
-    });
        setLoading(false)
     formik.resetForm();
+    navigate('/adviser/services')
 
   }
+
+  async function getService(serviceId) {
+    const nodeRef = ref(database, `advisers_service/${serviceId}`);
+    try {
+      const snapshot = await get(nodeRef);
+      if (snapshot.exists()) {
+        return snapshot.val();
+      } else {
+        console.log('No data available');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error fetching node details:', error);
+      return null;
+    }
+  }
+
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -136,9 +174,62 @@ const ServiceForm = () => {
   })
 
 
-  const deleteHandler = () =>{
-    formik.resetForm()
+
+
+
+  const deleteHandler = async (serviceId) =>{
+    try {
+      const adviserId = JSON.parse(localStorage.getItem('adviserid'));
+  
+      await remove(ref(database, 'advisers_service/' + serviceId));
+
+      const adviserRef = ref(database, 'advisers/' + adviserId);
+      const snapshot = await get(adviserRef);
+      if (snapshot.exists()) {
+        const adviserData = snapshot.val();
+        const currentServices = adviserData.services || [];
+  
+  
+        const updatedServices = currentServices.filter(id => id !== serviceId);
+  
+        await update(adviserRef, { services: updatedServices });
+  
+  
+        await Swal.fire({
+          title: "Success",
+          text: "Your Service Deleted Successfully!!",
+          icon: "success"
+        });
+        formik.resetForm()
+        navigate('/adviser/services')
+      } else {
+        console.log('Adviser not found');
+      }
+    } catch (error) {
+      console.error('Error deleting service:', error);
+      await Swal.fire({
+        title: "Error",
+        text: "An error occurred while deleting the service.",
+        icon: "error"
+      });
+    }
   }
+
+  useEffect (() =>{
+    if(serviceid != undefined)
+     {
+       getService(serviceid).then((serviceData)=>{
+         formik.setValues({
+           service_name: serviceData.service_name || '',
+           about_service: serviceData.about_service || '',
+           duration: serviceData.duration || '',
+           price: serviceData.price || '',
+           isPublished: serviceData.isPublished || false
+         });
+       })
+     }
+
+ },[])
 
   useEffect(()=>{
     const adviserid = JSON.parse(localStorage.getItem('adviserid'))
@@ -237,23 +328,24 @@ const ServiceForm = () => {
 <div >
               <label className="block text-sm font-bold text-gray-700 font-Poppins ">Duration:</label>
               <select className="mt-1 block w-full h-12 p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 font-Poppins" name="duration"
-                // value={formik.values.duration}
+                value={formik.values.duration}
                 onChange={(e) => {
-                  formik.handleChange(e);
-                  const selectedValue = durations.find(item => item.title === e.target.value)?.value;
-                  formik.setFieldValue('duration', selectedValue);
+                  formik.setFieldValue('duration', Number(e.target.value));
                 }}
+                // onChange={(e) => {
+                //   formik.handleChange(e);
+                //   const selectedValue = durations.find(item => item.title === e.target.value)?.value;
+                //   formik.setFieldValue('duration', selectedValue);
+                // }}
                 onBlur={formik.handleBlur}
               >
                 <option>Select Duration</option>
                 {
                   durations.map((item,idx) => (
-                    <option key={idx}>{item.title}</option>
+                    <option key={idx} value={item.value}>{item.title}</option>
                   ))
                 }
-             
-
-                {/* Add other options here */}
+      
               </select>
               {formik.touched.duration &&
                 formik.errors.duration && (
@@ -358,7 +450,7 @@ const ServiceForm = () => {
                 )}
         </div> */}
 
-<div>
+{ serviceid == undefined && <div>
               <div className='flex'>
                 <Checkbox
                   name='isPublished'
@@ -380,12 +472,18 @@ const ServiceForm = () => {
                     {formik.errors.isPublished}
                   </p>
                 )}
-            </div>
+            </div>}
+
         <div className="flex space-x-4">
-          <button className="bg-[#489CFF] text-white rounded-md py-2 px-4 font-Poppins" onClick={formik.handleSubmit} type="submit">
+        { serviceid == undefined &&           <button className="bg-[#489CFF] text-white rounded-md py-2 px-4 font-Poppins" onClick={formik.handleSubmit} type="submit">
           { !loading ? 'Create' : <CircularProgress  color="inherit"  />}
-          </button>
-          <button className="bg-[#FF5348] text-white rounded-md py-2 px-4 font-Poppins" onClick={deleteHandler}>Delete</button>
+          </button>}
+    
+         { serviceid != undefined && <button className="bg-[#489CFF] text-white rounded-md py-2 px-4 font-Poppins" onClick={formik.handleSubmit} type="submit">
+          { !loading ? 'Update' : <CircularProgress  color="inherit"  />}
+          </button>}
+
+        { serviceid != undefined && <button type="button" className="bg-[#FF5348] text-white rounded-md py-2 px-4 font-Poppins" onClick={()=>deleteHandler(serviceid)}>Delete</button>}
         </div>
       </form>
     </div>

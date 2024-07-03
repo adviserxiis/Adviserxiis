@@ -56,6 +56,7 @@ const router = createBrowserRouter(
       <Route path="/adviser/dashboard" element={<Dashboard />} />
       <Route path="/adviser/services" element={<Services />} />
       <Route path="/adviser/createservice" element={<ServiceForm />} />
+      <Route path="/adviser/editservice" element={<ServiceForm />} />
       <Route path="/adviser/profile" element={<Profile />} />
       <Route path="/adviser/logout" element={<Logout />} />
      </Route>,
