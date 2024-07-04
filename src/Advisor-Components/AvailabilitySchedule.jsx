@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Checkbox, FormControlLabel } from '@mui/material';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
@@ -8,6 +8,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { get, getDatabase, ref, update } from "firebase/database";
 import { app } from "../firebase";
 import Swal from 'sweetalert2';
+import StateContext from '../Context/StateContext';
 
 const daysOfWeek = [
   { label: 'Monday', value: 'monday' },
@@ -35,6 +36,7 @@ function formatTime(dateString) {
 const AvailabilitySchedule = ({ open, handleClose}) => { 
 
   const database = getDatabase(app);
+  const {handleDialogOpen, updateHeader, setUpdateHeader  } = useContext(StateContext)
   const [availability, setAvailability] = useState(
     daysOfWeek.reduce((acc, day) => {
       acc[day.value] = { available: false, startTime: null, endTime: null };
@@ -130,7 +132,7 @@ const AvailabilitySchedule = ({ open, handleClose}) => {
         }
  
         const userid = JSON.parse(localStorage.getItem('adviserid'))
-           console.log("ans", availability)
+          //  console.log("ans", availability)
         update(ref(database, 'advisers/' + userid),{
            availability:convertToArray(availability)
      
@@ -142,6 +144,7 @@ const AvailabilitySchedule = ({ open, handleClose}) => {
           text: "Your availability set successfully!!",
           icon: "success"
         });
+        setUpdateHeader(!updateHeader)
   
   };
 

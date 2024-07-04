@@ -42,7 +42,7 @@ function UploadDocuments() {
           const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
           return allowedTypes.includes(value.type);
         })
-        .test("fileSize", "File size is too large (max 10MB)", (value) => {
+        .test("fileSize", "File size is too large (max 5MB)", (value) => {
           if (!value) return true;
           return value.size <= 5 * 1024 * 1024; // 10MB in bytes
         })
@@ -55,7 +55,7 @@ function UploadDocuments() {
           const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
           return allowedTypes.includes(value.type);
         })
-        .test("fileSize", "File size is too large (max 10MB)", (value) => {
+        .test("fileSize", "File size is too large (max 5MB)", (value) => {
           if (!value) return true;
           return value.size <= 5 * 1024 * 1024; // 10MB in bytes
         }),
@@ -67,7 +67,7 @@ function UploadDocuments() {
           const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
           return allowedTypes.includes(value.type);
         })
-        .test("fileSize", "File size is too large (max 10MB)", (value) => {
+        .test("fileSize", "File size is too large (max 5MB)", (value) => {
           if (!value) return true;
           return value.size <= 5 * 1024 * 1024; // 10MB in bytes
         }),

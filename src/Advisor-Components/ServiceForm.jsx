@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import * as Yup from "yup";
 import { useFormik } from 'formik';
 import { get, getDatabase, ref, remove, set, update } from "firebase/database";
@@ -8,6 +8,7 @@ import { Button, Checkbox, CircularProgress } from '@mui/material';
 import Swal from 'sweetalert2';
 import AvailabilitySchedule from './AvailabilitySchedule';
 import { useLocation, useNavigate } from 'react-router-dom';
+import StateContext from '../Context/StateContext';
 
 const ServiceForm = () => {
 
@@ -17,6 +18,7 @@ const ServiceForm = () => {
 
   const navigate = useNavigate()
   const location = useLocation()
+  const {handleDialogOpen, updateHeader, setUpdateHeader  } = useContext(StateContext)
 
   const { serviceid } = location.state || {}
 
@@ -133,6 +135,8 @@ const ServiceForm = () => {
           text: "Your Service Added Successfully!!",
           icon: "success"
         });
+
+        setUpdateHeader(!updateHeader)
       }
       else{
         await update(ref(database, 'advisers_service/' + serviceid),{
@@ -231,7 +235,47 @@ const ServiceForm = () => {
     }
   }
 
+  const check = async () =>{
+    const adviserid = JSON.parse(localStorage.getItem('adviserid'))
+
+    const user = await getUser(adviserid)
+    if(user.availability == undefined)
+      {
+      await Swal.fire({
+          title: "Oops!!",
+          text: "You have to set your availability in calender before creating any service in service.",
+          icon: "error"
+        });
+        navigate('/adviser/services')
+        handleDialogOpen()
+
+      }
+      else if (user.profile_photo == undefined )
+        {
+         await Swal.fire({
+            title: "Oops!!",
+            text: "Please add your profile image first",
+            icon: "error"
+          });
+          navigate('/adviser/profile')
+
+        }
+        else if (user.professional_bio == undefined )
+          {
+           await  Swal.fire({
+              title: "Oops!!",
+              text: "Please add your professional bio first",
+              icon: "error"
+            });
+            navigate('/adviser/profile')
+
+          }
+
+  }
+
   useEffect (() =>{
+
+    check()
     if(serviceid != undefined)
      {
        getService(serviceid).then((serviceData)=>{
@@ -247,42 +291,7 @@ const ServiceForm = () => {
 
  },[])
 
-  useEffect(()=>{
-    const adviserid = JSON.parse(localStorage.getItem('adviserid'))
-     getUser(adviserid).then((user)=>{
-         if(user.availability == undefined)
-          {
-            Swal.fire({
-              title: "Oops!!",
-              text: "You have to set your availability in calender before creating any service in service.",
-              icon: "error"
-            });
-            navigate('/adviser/services')
 
-          }
-          else if (user.profile_photo == undefined )
-            {
-              Swal.fire({
-                title: "Oops!!",
-                text: "Please add your profile image first",
-                icon: "error"
-              });
-              navigate('/adviser/profile')
-  
-            }
-            else if (user.professional_bio == undefined )
-              {
-                Swal.fire({
-                  title: "Oops!!",
-                  text: "Please add your professional bio first",
-                  icon: "error"
-                });
-                navigate('/adviser/profile')
-    
-              }
-     })
-
-  },[])
 
   return (
     <div className="flex flex-col p-6 space-y-6">
