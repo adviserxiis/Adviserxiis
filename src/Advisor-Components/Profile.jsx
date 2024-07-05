@@ -208,7 +208,7 @@ function Profile() {
 
   return (
     <div className="flex flex-col pt-0 py-6 px-2 sm:p-6 space-y-6">
-    <p className='font-Poppins text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold s my-2'>Profile</p>
+    <p className='font-Poppins text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold s my-2'>Profile</p>
 
     <div className="flex items-center space-x-4 w-full my-4">
         <img 

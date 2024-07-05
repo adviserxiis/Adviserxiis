@@ -26,6 +26,8 @@ import VideoCall from './Advisor-Components/VideoCall.jsx'
 import { MeetingRoom } from '@mui/icons-material'
 import Room from './Advisor-Components/Room.jsx'
 import Payment from './Advisor-Components/Payment.jsx'
+import CreatePost from './Advisor-Components/CreatePost.jsx'
+import BookedServices from './User-Components/BookedServices.jsx'
 
 
 
@@ -39,7 +41,7 @@ const router = createBrowserRouter(
             <Route path="/category" element={<UserCategory />} />
             <Route path="/category/:advisername" element={<UserAdviserProfile />} />
             <Route path="/category/:advisername/checkout/:servicename" element={<UserCheckoutPage />} />
-
+            <Route path="/bookedservices" element={<BookedServices />} />
      </Route>
 
 
@@ -58,6 +60,7 @@ const router = createBrowserRouter(
       <Route path="/adviser/createservice" element={<ServiceForm />} />
       <Route path="/adviser/editservice" element={<ServiceForm />} />
       <Route path="/adviser/profile" element={<Profile />} />
+      <Route path="/adviser/createpost" element={<CreatePost />} />
       <Route path="/adviser/logout" element={<Logout />} />
      </Route>,
 
