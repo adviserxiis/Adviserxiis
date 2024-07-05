@@ -97,11 +97,11 @@ function UserAdviserProfile() {
 
 
   return (
-    <div className="container mx-auto font-inter pt-[80px]">
+    <div className="container mx-auto font-inter pt-[60px] md:pt-[80px] bg-gray-100 md:bg-white">
     <div className='min-h-screen'>
-    <div className="flex  items-center my-8 ">
+    <div className="flex  flex-col md:flex-row  my-8 ">
 
-        <div className='md:mr-[100px] md:ml-[40px] hidden md:block'>
+        <div className='md:mr-[100px] md:ml-[40px] px-4'>
         <button className="bg-[#489CFF] text-white py-2 px-4 rounded-full cursor-pointer" onClick={()=> naviagte('/category')} >
         <img 
           src={backicon}
@@ -111,7 +111,7 @@ function UserAdviserProfile() {
       </button>
         </div>
 
-      <div className='flex items-center  w-full p-2'>
+      <div className='flex   w-full p-4 '>
       <div className="w-2/6 sm:w-1/6 mr-[30px] md:mr-[50px] ">
       <img
             src={adviser && adviser.profile_photo ? adviser.profile_photo : User}
@@ -120,20 +120,24 @@ function UserAdviserProfile() {
             style={{objectFit:"cover"}}
           />
       </div>
-      <div className='w-4/6 sm:w-5/6'>
-      <h1 className="text-2xl font-semibold mb-[10px]">{adviser && adviser.username? adviser.username: ''}</h1>
-      <p className="text-gray-500 text-sm sm:text-xl">{ adviser && adviser.professional_bio ? adviser.professional_bio :''
+      <div className='w-4/6 sm:w-5/6 pt-[10px] break-words'>
+      <h1 className="text-2xl font-semibold mb-[5px]">{adviser && adviser.username? adviser.username: ''}</h1>
+      <p className="text-gray-500 text-lg sm:text-xl">{ adviser && adviser.professional_bio ? adviser.professional_bio :''
       }</p>
       </div>
       </div>
     </div>
-    <div className=" md:ml-[150px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 px-4">
+    <div className=" md:ml-[150px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 px-[20px]">
       {services.map((service, index) => (
-        ( (service.data.isPublished || service.data.isPublished == undefined) &&         <div key={index} className="bg-gray-100 p-4 rounded-lg shadow-md  px-[20px]">
+        ( (service.data.isPublished || service.data.isPublished == undefined) &&         <div key={index} className="bg-gray-200 p-4 rounded-lg shadow-md  px-[20px] py-[30px]">
           <h2 className="text-lg sm:text-xl font-semibold mb-2 break-words">{service.data.service_name}</h2>
           <p className="text-gray-500 mb-4 break-words">{service.data.about_service}</p>
-          <p className="text-lg font-bold mb-4">Rs {service.data.price}/-</p>
-          <button className="bg-gradient-to-b from-[#0165E1] to-[#17A9FD] text-white py-2 px-4 rounded cursor-pointer " onClick={()=> handleClick(service.id,service.data.service_name)}>Book</button>
+         
+          <div className='flex items-center '> 
+          <button className="w-4/6  bg-gradient-to-b from-[#0165E1] to-[#17A9FD] text-white py-2 px-4 rounded cursor-pointer " onClick={()=> handleClick(service.id,service.data.service_name)}>Book</button>
+          <p className="w-2/6  text-xl font-bold ml-2">Rs {service.data.price}/-</p>
+          </div>
+
         </div> )
 
       ))}

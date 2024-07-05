@@ -363,11 +363,11 @@ function UserCheckoutPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 font-inter pt-[80px]">
+    <div className="container mx-auto  font-inter pt-[80px] bg-gray-100 md:bg-white">
       <div className='min-h-screen'>
-        <div className="flex  items-center my-8 ">
+        <div className="flex flex-col md:flex-row  my-8 ">
 
-          <div className='md:mx-[100px] hidden md:block'>
+          <div className='md:mr-[100px] md:ml-[40px] px-4'>
             <button className="bg-[#489CFF] text-white py-2 px-4 rounded-full cursor-pointer " onClick={handleClickOnBackIcon }>
               <img
                 src={backicon}
@@ -377,28 +377,30 @@ function UserCheckoutPage() {
             </button>
           </div>
 
-          <div className='flex items-center w-full'>
-            <div className=" w-1/6 mr-[30px] md:mr-[50px] ">
+          <div className='flex  w-full p-4 '>
+            <div className="w-2/6 sm:w-1/6 mr-[30px] md:mr-[50px] ">
               <img
                 src={adviser && adviser.profile_photo ? adviser.profile_photo : User}
                 alt=""
-                className="h-32 w-32 rounded-full object-cover"
+                className="h-32 w-32 rounded-full "
+                style={{objectFit:"cover"}}
               />
             </div>
-            <div className='w-5/6'>
+            <div className='w-4/6 sm:w-5/6 pt-[10px] break-words'>
               <h1 className="text-2xl font-semibold">{adviser && adviser.username ? adviser.username : ''}</h1>
-              <p className="text-gray-500">{adviser && adviser.professional_bio ? adviser.professional_bio : ''}</p>
+              <p className="text-gray-500 text-lg sm:text-xl">{adviser && adviser.professional_bio ? adviser.professional_bio : ''}</p>
             </div>
           </div>
         </div>
 
-        <div className='md:ml-[250px] flex flex-col md:flex-row'>
-          <div className='w-full md:w-1/6 md:mr-[30px]'>
+        <div className='md:ml-[250px] flex flex-col md:flex-row '>
+          <div className='w-full md:w-1/6 md:mr-[30px] px-4'>
             <h2 className="text-xl font-semibold mb-2">Service Description</h2>
             <p className="text-gray-500">{service && service.about_service ? service.about_service : ''}</p>
           </div>
-
-          <div className="w-full mt-[20px] md:mt-[0px]  md:w-3/6 bg-gray-100 p-6 rounded-lg shadow-md">
+          
+          <div className='mx-4 w-full'>
+          <div className="w-full mt-[20px] md:mt-[0px]  md:w-3/6 bg-gray-200 p-6 rounded-lg shadow-md">
             <form className="space-y-4">
               <div>
                 <label className="block text-gray-700">Service</label>
@@ -527,8 +529,9 @@ function UserCheckoutPage() {
                 </div>
                 <ScheduleModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} adviserData={adviser} serviceData={service} formik={formik}/>
               </div>
-              <button type="submit" className="bg-[#489CFF] text-white py-2 px-4 rounded  h-12 p-2" onClick={formik.handleSubmit}>{!loading1 ? 'Book' : <CircularProgress color="inherit" />}</button>
+              <button type="submit" className="bg-[#489CFF] text-white py-2 px-4 rounded-2xl w-full h-12 p-2" onClick={formik.handleSubmit}>{!loading1 ? 'Proceed' : <CircularProgress color="inherit" />}</button>
             </form>
+          </div>
           </div>
         </div>
       </div>
