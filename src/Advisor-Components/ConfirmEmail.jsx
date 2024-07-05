@@ -20,8 +20,8 @@ function ConfirmEmail() {
   const [loading, setLoading] = useState(false)
 
   const { adviserid } = location.state || {}
+  const { fromDashboard } = location.state || false
 
-  console.log("adviserid", adviserid)
 
   const userId = adviserid
 
@@ -117,8 +117,15 @@ function ConfirmEmail() {
         isVerified: true
 
       });
-      localStorage.setItem("adviserid",JSON.stringify(userId))
-      navigate('/adviser/professionaldetails')
+      // localStorage.setItem("adviserid",JSON.stringify(userId))
+      if(fromDashboard)
+      {
+        navigate('/adviser/dashboard')
+      }
+      else{
+        navigate('/adviser/professionaldetails')
+      }
+      
       setOtp('')
       setLoading(false)
     }
@@ -126,7 +133,7 @@ function ConfirmEmail() {
     else {
       // alert ("Wrong OTP !!")
       await Swal.fire({
-        title: "Success",
+        title: "Error",
         text: "Wrong OTP!!",
         icon: "error"
       });

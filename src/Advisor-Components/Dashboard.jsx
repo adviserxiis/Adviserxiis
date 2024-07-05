@@ -133,24 +133,24 @@ today.setHours(0, 0, 0, 0);
     if (userId) {
       getUser(userId).then((userData) => {
         setUser(userData);
-        if(!userData)
-          {
-            Swal.fire({
-              title: "Oops!!",
-              text: "You must be a loggedin.",
-              icon: "error"
-            });
-                navigate('/adviser')
-          }
-        if(userData && userData.isVerified != true)
-          {
-            Swal.fire({
-              title: "Oops!!",
-              text: "You must be a verified user.",
-              icon: "error"
-            });
-                navigate('/adviser')
-          }
+        // if(!userData)
+        //   {
+        //     Swal.fire({
+        //       title: "Oops!!",
+        //       text: "You must be a loggedin.",
+        //       icon: "error"
+        //     });
+        //         navigate('/adviser')
+        //   }
+        // if(userData && userData.isVerified != true)
+        //   {
+        //     Swal.fire({
+        //       title: "Oops!!",
+        //       text: "You must be a verified user.",
+        //       icon: "error"
+        //     });
+        //         navigate('/adviser')
+        //   }
         setLoading(false); // Update loading state after fetching the user data
       });
     } else {
@@ -208,7 +208,7 @@ today.setHours(0, 0, 0, 0);
   return (
     <div className='max-w-[1440px]'>
       <div className='overflow-hidden'>
-          <div>
+          <div className='pt-0 py-6 px-2 sm:p-6 space-y-6'>
     <p className='font-Poppins text-3xl md:text-4xl lg:text-5xl ml-4 font-bold s my-2'>Dashboard</p>
     </div>
     <div className="flex flex-col md:flex-row justify-center md:justify-between sm:p-6 space-y-6 max-w-[1440px]">

@@ -46,7 +46,7 @@ const SideBar = forwardRef(({ showSideBar,handleOpen }, ref) => {
   return (
     <div ref={ref} className="fixed w-[300px] h-full bg-white">
             <div className="flex  ">
-            <div className='flex items-center justify-center pl-[50px] mt-[70px] lg:mt-[30px] lg:mb-[20px] '>
+            <div className='flex items-center justify-center pl-[50px] mt-[70px]  lg:mb-[20px] '>
               <Link to='/adviser' className="cursor-pointer">
               <img className="object-cover h-24" src={logo} alt="" />
               </Link>

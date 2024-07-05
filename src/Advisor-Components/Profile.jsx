@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import profile from '../assets/profile.png'
 import User from '../assets/User.png'
 import { child, get, getDatabase, ref, set, update } from "firebase/database";
@@ -10,6 +10,7 @@ import { v1 as uuidv1 } from 'uuid';
 import { getDownloadURL, getStorage, uploadBytes } from 'firebase/storage'
 import Swal from 'sweetalert2'
 import { ref as sRef } from 'firebase/storage';
+import StateContext from '../Context/StateContext';
 
 function Profile() {
   const [user, setUser] = useState(null);
@@ -19,9 +20,38 @@ function Profile() {
   const database = getDatabase(app);
   const adviserId = JSON.parse(localStorage.getItem('adviserid'));
 
+  const { updateHeader, setUpdateHeader  } = useContext(StateContext)
+
+  const industries = [
+    "Information Technology (IT) and Software Development",
+    "Healthcare and Medical Services",
+    "Education and EdTech",
+    "Finance and FinTech",
+    "Marketing and Advertising",
+    "Manufacturing and Industry 4.0",
+    "Legal Services",
+    "Media and Entertainment",
+    "Real Estate and Property Management",
+    "Retail and E-commerce",
+    "Hospitality and Tourism",
+    "Human Resources and Talent Management",
+    "Sales and Business Development",
+    "Automotive and Mobility",
+    "Aerospace and Defense",
+    "Energy and Utilities",
+    "Food and Agriculture",
+    "Biotechnology and Pharmaceuticals",
+    "Construction and Real Estate Development",
+    "Transportation and Logistics"
+  ];
+
   const initialValues = {
     name: '',
     professional_bio:'',
+    professional_title: '',
+    experience: '',
+    education: '',
+    industry: '',
     profile_photo:null
   }
 
@@ -34,17 +64,33 @@ function Profile() {
       .required('Professional bio is required')
       .min(10, 'Professional bio must be at least 10 characters')
       .max(1000, 'Professional bio must be at most 1000 characters'),
-    profile_photo: Yup
+      professional_title: Yup.string()
+      .required('Professional title is required')
+      .min(2, 'Professional title must be at least 2 characters')
+      .max(50, 'Professional title must be at most 50 characters'),
+    experience: Yup.number()
+      .required('Experience is required')
+      .typeError('Experience must be a number')
+      .positive('Experience must be a positive number')
+      .integer('Experience must be an integer')
+      .min(0, 'Experience must be at least 0 years')
+      .max(50, 'Experience must be at most 50 years'),
+    education: Yup.string()
+      .required('Education is required'),
+    industry: Yup.string()
+      .required('Industry is required'),
+      profile_photo: Yup
       .mixed()
       .test("fileType", "Unsupported file type", (value) => {
         if (!value) return true;
         const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
         return allowedTypes.includes(value.type);
       })
-      .test("fileSize", "File size is too large (max 10MB)", (value) => {
+      .test("fileSize", "File size is too large (max 5MB)", (value) => {
         if (!value) return true;
         return value.size <= 5 * 1024 * 1024; // 10MB in bytes
       })
+
 
   });
 
@@ -52,7 +98,7 @@ function Profile() {
     setLoading(true);
     const userid = JSON.parse(localStorage.getItem('adviserid'));
     const storage = getStorage();
-    const { profile_photo, name, professional_bio } = formik.values;
+    const { profile_photo, name, professional_bio, professional_title, experience, education ,industry } = formik.values;
   
     try {
       let profilePhotoURL = null;
@@ -72,13 +118,21 @@ function Profile() {
         await update(ref(getDatabase(), 'advisers/' + userid),{
           username: name,
           professional_bio: professional_bio,
-          profile_photo:profilePhotoURL
+          profile_photo:profilePhotoURL,
+          professional_title:professional_title,
+          years_of_experience:experience,
+          education:education,
+          industry:industry,
         });
       }
       else{
         await update(ref(getDatabase(), 'advisers/' + userid),{
           username: name,
           professional_bio: professional_bio,
+          professional_title:professional_title,
+          years_of_experience:experience,
+          education:education,
+          industry:industry,
         });
       }
 
@@ -88,6 +142,7 @@ function Profile() {
         text: "Profile Updated Successfully!!",
         icon: "success",
       });
+      setUpdateHeader(!updateHeader)
     } catch (error) {
       await Swal.fire({
         title: "Error",
@@ -133,7 +188,11 @@ function Profile() {
         setUser(userData);
         formik.setValues({
           name: userData.username || '',
-          professional_bio: userData.professional_bio || ''
+          professional_bio: userData.professional_bio || '',
+          professional_title: userData.professional_title || '',
+          experience: userData.years_of_experience || '',
+          education: userData.education || '',
+          industry: userData.industry || ''
         });
 
         setLoading(false); // Update loading state after fetching the user data
@@ -148,7 +207,7 @@ function Profile() {
   }
 
   return (
-    <div className="flex flex-col p-6 lg:pt-0 space-y-6">
+    <div className="flex flex-col pt-0 py-6 px-2 sm:p-6 space-y-6">
     <p className='font-Poppins text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold s my-2'>Profile</p>
 
     <div className="flex items-center space-x-4 w-full my-4">
@@ -161,7 +220,7 @@ function Profile() {
           {/* <p className="text-lg font-medium font-Poppins">Edit Profile Image</p> */}
         </div>
       </div>
-    <form className="bg-[#D9D9D942] p-6 rounded-xl shadow-md space-y-6 md:w-3/6 pb-[200px] sm:pb-[300px] ">
+    <form className="bg-[#D9D9D942] p-6 rounded-xl shadow-md space-y-6 md:w-4/6 lg:3/6 pb-[200px]  ">
       <div>
         <label className="block text-sm font-bold text-gray-700 font-Poppins">Name</label>
         <input
@@ -171,7 +230,7 @@ function Profile() {
           placeholder='Utkarsh Pandey'
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          className="mt-1 block w-full h-12 p-2 rounded-md border-gray-300  font-Poppinsshadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+          className="w-full mt-1 p-2 border border-gray-300 rounded-md font-Poppins"
         />
                       {formik.touched.name &&
                 formik.errors.name && (
@@ -194,7 +253,7 @@ function Profile() {
           placeholder=''
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          className="mt-1 block w-full h-16 p-2 rounded-md border-gray-300 shadow-sm font-Poppins focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+          className="w-full mt-1 p-2 border border-gray-300 rounded-md font-Poppins h-16"
           rows="3"
         />
                               {formik.touched.professional_bio &&
@@ -210,6 +269,110 @@ function Profile() {
                   </p>
                 )}
       </div>
+      <div className="mb-4">
+              <label className="block text-sm font-bold text-gray-700 font-Poppins">Professional Title:</label>
+              <input
+                name="professional_title"
+                value={formik.values.professional_title}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                type="text"
+                className="w-full mt-1 p-2 border border-gray-300 rounded-md font-Poppins"
+                placeholder="Sr. UI & UX Designer"
+              />
+              {formik.touched.professional_title &&
+                formik.errors.professional_title && (
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      padding: "",
+                      color: "red",
+                    }}
+                  >
+                    {formik.errors.professional_title}
+                  </p>
+                )}
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-bold text-gray-700 font-Poppins">Year of Experience:</label>
+              <input
+                name="experience"
+                value={formik.values.experience}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                type="number"
+                className="w-full mt-1 p-2 border border-gray-300 rounded-md font-Poppins"
+                placeholder="5"
+              />
+              {formik.touched.experience &&
+                formik.errors.experience && (
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      padding: "",
+                      color: "red",
+                    }}
+                  >
+                    {formik.errors.experience}
+                  </p>
+                )}
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-bold text-gray-700 font-Poppins">Education:</label>
+              <select className="w-full mt-1 p-2 border border-gray-300 rounded-md font-Poppins" name="education"
+                value={formik.values.education}
+                onChange={(e) => {
+                  formik.handleChange(e);
+                  formik.setFieldValue('education', e.target.value);
+                }}
+                onBlur={formik.handleBlur}
+              >
+                <option>Select Education</option>
+                <option>12th Pass</option>
+                <option>Graduate</option>
+                <option>Post Graduate</option>
+                <option>Doctrate</option>
+                {/* Add other options here */}
+              </select>
+              {formik.touched.education &&
+                formik.errors.education && (
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      padding: "",
+                      color: "red",
+                    }}
+                  >
+                    {formik.errors.education}
+                  </p>
+                )}
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-bold text-gray-700 font-Poppins">Industry:</label>
+              <select className="w-full mt-1 p-2 border border-gray-300 rounded-md font-Poppins" name="industry"
+                value={formik.values.industry}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              >
+                <option>Select Industry</option>
+                 {industries.map((item, idx) => (
+                  <option key={idx} value={item}>{item}</option>
+                 ))}
+                {/* Add other options here */}
+              </select>
+              {formik.touched.industry &&
+                formik.errors.industry && (
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      padding: "",
+                      color: "red",
+                    }}
+                  >
+                    {formik.errors.industry}
+                  </p>
+                )}
+            </div>
       <div className="mb-4">
                             <label className="block text-sm font-bold text-gray-700 font-Poppins">Change Profile Photo:</label>
 

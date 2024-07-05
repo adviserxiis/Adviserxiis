@@ -4,11 +4,13 @@ import Header from "./Advisor-Components/Header";
 import { Transition } from "@headlessui/react";
 import SideBar from "./Advisor-Components/SideBar";
 import AvailabilitySchedule from "./Advisor-Components/AvailabilitySchedule";
+import StateContext from "./Context/StateContext";
 
 function Layout() {
   const [showSideBar, setShowSideBar] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [updateHeader, setUpdateHeader] = useState(false)
 
   function handleResize() {
     if (innerWidth <= 640) {
@@ -45,6 +47,7 @@ function Layout() {
   },[])
 
   return (
+    <StateContext.Provider value={{handleDialogOpen, updateHeader, setUpdateHeader}}>
     <div className="flex flex-row overflow-hidden overflow-x-auto">
       <Transition
         as={Fragment}
@@ -60,8 +63,8 @@ function Layout() {
       </Transition>
 
       <div className="flex-1">
-        <div className="lg:hidden">
-        <Header  setShowSideBar={setShowSideBar} showSideBar={showSideBar} />
+        <div className="">
+        <Header  setShowSideBar={setShowSideBar} showSideBar={showSideBar} handleOpen={handleDialogOpen} />
         </div>
         <div
           className={`pt-20 lg:pt-[50px]  p-4 transition-all duration-[400ms] ${
@@ -69,10 +72,11 @@ function Layout() {
           } overflow-x-auto`}
         >
           <Outlet className="px-4 md:px-16" />
-          <AvailabilitySchedule open={dialogOpen} handleClose={handleDialogClose}/>
+          <AvailabilitySchedule open={dialogOpen} handleClose={handleDialogClose} />
         </div>
       </div>
     </div>
+    </StateContext.Provider>
   );
 }
 
