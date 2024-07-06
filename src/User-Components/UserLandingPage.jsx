@@ -14,19 +14,23 @@ import fb1 from '../user-assets/fb1.png'
 import linkedin1 from '../user-assets/linkedin1.png'
 import { useNavigate } from "react-router-dom";
 import User from '../assets/User.png'
-import { child, get, getDatabase, ref, set } from "firebase/database";
+import { child, get, getDatabase, ref, set, update } from "firebase/database";
 import { app } from "../firebase";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, useStepContext } from "@mui/material";
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ShareIcon from '@mui/icons-material/Share';
 import VideocamIcon from '@mui/icons-material/Videocam';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
 function UserLandingPage() {
   const database = getDatabase(app);
 
   const navigate = useNavigate()
   const [posts, setPosts] = useState([])
+  const [postsWithAdviser, setPostsWithAdviser] = useState([])
   const [loading, setLoading] = useState(true)
+  const [updated, setUpdated] = useState(false) // state for  re rendering after like changes
+  const userid = JSON.parse(localStorage.getItem('userid'));
 
   async function getAllPost() {
     const nodeRef = ref(database, 'advisers_posts');
@@ -80,6 +84,56 @@ function UserLandingPage() {
       return null;
     }
   }
+
+  async function getPost(postid) {
+    const nodeRef = ref(database, `advisers_posts/${postid}`);
+    try {
+      const snapshot = await get(nodeRef);
+      if (snapshot.exists()) {
+        return snapshot.val();
+      } else {
+        console.log('No data available');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error fetching node details:', error);
+      return null;
+    }
+  }
+
+
+  const addLike = async (postid) =>{
+ 
+      if(userid == null)
+      {
+        return
+      }
+    const postData = await getPost(postid)
+    const currentLikes = postData.likes || []; // Retrieve existing IDs or initialize to an empty array
+  
+    // Add the new ID to the array
+    const updatedLikes = [...currentLikes, userid];
+  
+    // Update the array field in the database
+    await update(ref(database, 'advisers_posts/' + postid), { likes : updatedLikes });
+    setUpdated(!update)
+  }
+
+  const removeLike = async (postid) =>{
+    if(userid == null)
+    {
+      return
+    }
+    const postData = await getPost(postid)
+    const currentLikes = postData.likes || [];
+
+    const updatedLikes = currentLikes.filter((id)=> id != userid)
+
+    await update(ref(database, 'advisers_posts/' + postid), { likes : updatedLikes });
+    setUpdated(!update)
+  }
+
+
   useEffect(() => {
     getAllPost().then((response) => {
       setPosts(response)   
@@ -99,7 +153,7 @@ function UserLandingPage() {
           return { ...post, adviser, firstService };
         })
       );
-      setPosts(details);
+      setPostsWithAdviser(details)
     }
 
     fetchAdviserAndServiceDetails();
@@ -323,10 +377,10 @@ function UserLandingPage() {
     <div className="min-h-screen pt-[80px]">
       <div className=" flex flex-col items-center container mx-auto md:mx-7xl  font-Poppin">
         <div className="m-4">
-          { posts.map((post, idx)=>(
+          { postsWithAdviser.map((post, idx)=>(
                       <div className="max-w-[900px] my-4" key={idx}>
                       <div className="flex items-center justify-between bg-[#5A88FF] p-4 rounded-tr-xl rounded-tl-xl">
-                        <div className="flex items-center">
+                        <div className="flex items-center break-words">
                         <img
                           src={post.adviser?.profile_photo || User}
                           alt=""
@@ -345,14 +399,25 @@ function UserLandingPage() {
                         <img
                           src={post.data && post.data.post_photo ? post.data.post_photo : ''}
                           alt="Post Image"
-                            className="w-96 h-96 sm:w-[500px] sm:h-[500px]  md:w-[600px] md:h-[600px] lg:w-[700px] lg:h-[700px] object-cover rounded"
+                            className="w-96 h-96 sm:w-[500px] sm:h-[500px]  md:w-[600px] md:h-[600px] lg:w-[700px] lg:h-[700px] object-cover"
                         />
                       </div>
                       <div className="flex  items-center bg-[#5A88FF] p-4 rounded-bl-xl rounded-br-xl">
-                        <div className="mx-2">
-                        <ThumbUpOffAltIcon fontSize="large" />
+                       
+                        <div className="mx-2 flex justify-center">
+                       <p className="text-3xl mr-1 text-white">{post.data && post.data.likes ? post.data.likes.length : 0}</p>
+
+                       { post.data && post.data.likes && post.data.likes.includes(userid) ? <div className="cursor-pointer">
+                        <ThumbUpIcon fontSize="large" onClick={()=>removeLike(post.id)} />
+                         </div> : <div className="cursor-pointer">
+                        <ThumbUpOffAltIcon fontSize="large" onClick={()=>addLike(post.id)} />
+                        </div> }
+
                         </div>
-                        <div className="mx-2">
+
+
+                        <div className="mx-2 flex justify-center">
+                          {/* <p className="text-3xl mr-1">0</p> */}
                         <ShareIcon fontSize="large" />
                         </div>
                       </div>

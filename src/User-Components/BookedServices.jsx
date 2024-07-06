@@ -159,7 +159,7 @@ function BookedServices() {
         <section className="container mx-auto px-4">
 
           <div className='grid grid-cols-1 md:grid-cols-2 gap-8 '>
-            { serviceWithAdviser.map((item, idx) => (
+            { serviceWithAdviser.length>0 ? serviceWithAdviser.map((item, idx) => (
                             <div className="bg-white rounded-lg shadow p-2 px-[20px]  cursor-pointer" key={idx}>
                             <div className='flex justify-between py-2'>
                                 <p className='font-bold text-lg'>Adviser Booked</p>
@@ -204,7 +204,10 @@ function BookedServices() {
             
             
                           </div>
-            ))}
+            )) : <div className='w-full h-full'>
+            <p className='font-Poppins text-2xl md:text-4xl text-gray-500'>No data available !!</p>
+          
+          </div>}
 
 
 
