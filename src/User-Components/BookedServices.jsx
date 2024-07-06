@@ -173,19 +173,20 @@ function BookedServices() {
                               <img
                                 src={item && item.adviser ? item.adviser.profile_photo : User}
                                 alt=""
-                                className="rounded-full h-24 w-24 sm:h-28 sm:w-28 object-cover my-[10px]"
+                                className="rounded-full h-20 w-24 sm:h-28 sm:w-28 object-cover my-[10px]"
                               />
-            
+        
                               <div>
                                 {/* <Rating name="read-only" value={5} readOnly /> */}
                               </div>
                               {/* <p className='text-center text-sm'>English, Hindi</p> */}
                               {/* <p className='text-center text-sm'>₹ 5/min</p> */}
                             </div>
-                            <div className="w-5/7 sm:w-4/6 ml-4 mt-[10px] ">
+                            <div className="w-full sm:w-4/6 ml-4 mt-[10px] ">
                               <div className='flex  justify-between'>
                                 <h2 className="text-xl sm:text-2xl font-bold  mb-[8px]">{item && item.adviser ? item.adviser.username : ''}</h2>
-                            <p className="text-lg font-bold">Exp: <span>{item && item.adviser ? item.adviser.years_of_experience : ''}</span> years</p>
+                                <p className="text-sm sm:text-lg font-bold">
+                                Exp: <span className="block sm:inline">    {item && item.adviser ? item.adviser.years_of_experience : ''} years</span></p>
                               </div>
             
                               <div >
@@ -213,7 +214,7 @@ function BookedServices() {
 
         </section>
       </div>
-      <footer className="bg-white py-4">
+      {/* <footer className="bg-white py-4">
         <div className="container mx-auto px-4 text-center my-[20px]">
           <div className="flex justify-between space-x-4 mb-4">
             <a href="#" className="text-gray-600 hover:text-gray-800">About</a>
@@ -246,7 +247,7 @@ function BookedServices() {
             </a>
           </div>
         </div>
-      </footer>
+      </footer> */}
     </div>
   )
 }
