@@ -104,7 +104,7 @@ export default function Navbar() {
             </div>
           </div>
 
-          <Disclosure.Panel className="sm:hidden bg-gray-100">
+          <Disclosure.Panel className="sm:hidden bg-white">
             <div className="">
               <Disclosure.Button>
 

@@ -104,7 +104,7 @@ function UserCategory() {
 
 
   return (
-    <div className="min-h-screen flex flex-col font-inter pt-[80px] mb-[80px] sm:mb-0">
+    <div className="min-h-screen flex flex-col font-inter pt-[80px] mb-[80px] ">
 
       <div className="flex-grow bg-gray-50 py-8">
         <section className="container mx-auto px-4">

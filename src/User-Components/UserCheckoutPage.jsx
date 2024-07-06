@@ -363,7 +363,7 @@ function UserCheckoutPage() {
   }
 
   return (
-    <div className="container mx-auto  font-inter pt-[80px] mb-[80px] sm:mb-0 bg-gray-100 md:bg-white">
+    <div className="container mx-auto  font-inter pt-[80px] mb-[80px]  bg-gray-100 md:bg-white">
       <div className='min-h-screen'>
         <div className="flex flex-col md:flex-row  my-8 ">
 
