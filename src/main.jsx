@@ -28,6 +28,7 @@ import Room from './Advisor-Components/Room.jsx'
 import Payment from './Advisor-Components/Payment.jsx'
 import CreatePost from './Advisor-Components/CreatePost.jsx'
 import BookedServices from './User-Components/BookedServices.jsx'
+import ChangePassword from './Advisor-Components/ChangePassword.jsx'
 
 
 
@@ -48,6 +49,7 @@ const router = createBrowserRouter(
     <Route path ="/adviser" element={<App />} />,
     <Route path="/adviser/login" element={<Login />} />,
     <Route path="/adviser/signup" element={<SignUp />} />,
+    <Route path="/adviser/changepassword" element={<ChangePassword />} />,
     <Route path="/adviser/emailconfirmation" element={<ConfirmEmail />} />,
     <Route path="/adviser/professionaldetails" element={<ProfessionalDetails />} />,
     <Route path="/adviser/bankdetails" element={<BankDetails />} />,
