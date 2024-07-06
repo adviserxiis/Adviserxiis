@@ -399,7 +399,7 @@ function UserCheckoutPage() {
             <p className="text-gray-500">{service && service.about_service ? service.about_service : ''}</p>
           </div>
           
-          <div className='mx-4 w-full'>
+          <div className='mx-4 '>
           <div className="w-full mt-[20px] md:mt-[0px]  md:w-3/6 bg-gray-200 p-6 rounded-lg shadow-md">
             <form className="space-y-4">
               <div>
@@ -535,7 +535,7 @@ function UserCheckoutPage() {
           </div>
         </div>
       </div>
-      <footer className="bg-white py-4">
+      {/* <footer className="bg-white py-4">
         <div className="container mx-auto px-4 text-center my-[20px]">
           <div className="flex justify-between space-x-4 mb-4">
             <a href="#" className="text-gray-600 hover:text-gray-800">About</a>
@@ -568,7 +568,7 @@ function UserCheckoutPage() {
             </a>
           </div>
         </div>
-      </footer>
+      </footer> */}
 
     </div>
   )

@@ -345,7 +345,7 @@ function UserLandingPage() {
                         <img
                           src={post.data && post.data.post_photo ? post.data.post_photo : ''}
                           alt="Post Image"
-                          className="min-h-96 object-cover w-full"
+                            className="w-96 h-96 sm:w-[500px] sm:h-[500px]  md:w-[600px] md:h-[600px] lg:w-[700px] lg:h-[700px] object-cover rounded"
                         />
                       </div>
                       <div className="flex  items-center bg-[#5A88FF] p-4 rounded-bl-xl rounded-br-xl">

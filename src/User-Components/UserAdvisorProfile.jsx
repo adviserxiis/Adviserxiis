@@ -148,7 +148,7 @@ function UserAdviserProfile() {
       </button>
     </div> */}
     </div>
-    <footer className="bg-white py-4">
+    {/* <footer className="bg-white py-4">
       <div className="container mx-auto px-4 text-center my-[20px]">
         <div className="flex justify-between space-x-4 mb-4">
           <a href="#" className="text-gray-600 hover:text-gray-800">About</a>
@@ -181,7 +181,7 @@ function UserAdviserProfile() {
           </a>
         </div>
       </div>
-    </footer>
+    </footer> */}
  
   </div>
   )
