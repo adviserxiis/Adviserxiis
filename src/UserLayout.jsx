@@ -5,7 +5,7 @@ import UserFooter from './User-Components/UserFooter'
 
 function UserLayout() {
   return (
-    <div className='flex flex-col h-screen'>
+    <div className='flex flex-col min-h-screen'>
       <div className='flex-1 overflow-y-auto'>
       <UserNavbar />
       <Outlet />
