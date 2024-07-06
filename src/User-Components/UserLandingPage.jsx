@@ -107,11 +107,12 @@ function UserLandingPage() {
  
       if(userid == null)
       {
-         Swal.fire({
+       await Swal.fire({
           title: "Error",
           text: "You must be loggedin to like the post!!",
           icon: "error"
         });
+        navigate('/createaccount')
         return
       }
     const postData = await getPost(postid)
@@ -128,11 +129,13 @@ function UserLandingPage() {
   const removeLike = async (postid) =>{
     if(userid == null)
     {
-      Swal.fire({
+     await Swal.fire({
         title: "Error",
         text: "You must be loggedin to dislike the post!!",
         icon: "error"
       });
+
+      navigate('/createaccount')
       return
     }
     const postData = await getPost(postid)
@@ -385,24 +388,24 @@ function UserLandingPage() {
     //     </div>
     
 
-    <div className="min-h-screen pt-[50px] mb-[80px] sm:mb-0">
+    <div className="min-h-screen pt-[50px] mb-[80px] ">
       <div className=" flex flex-col items-center container mx-auto md:mx-7xl  font-Poppin">
         <div className="m-4">
           { postsWithAdviser.map((post, idx)=>(
                       <div className="max-w-[900px] my-4" key={idx}>
-                      <div className="flex items-center justify-between bg-[#5A88FF] p-4 rounded-tr-xl rounded-tl-xl">
+                      <div className="flex items-center justify-between bg-[#5A88FF] p-2 px-4 rounded-tr-xl rounded-tl-xl">
                         <div className="flex items-center break-words">
                         <img
                           src={post.adviser?.profile_photo || User}
                           alt=""
                           className="rounded-full h-12 w-12 object-cover my-[10px]"
                         />
-                        <p className="ml-2 text-white text-lg md:text-xl">{post.adviser?.username || 'Unknown Adviser'}</p>
+                        <p className="ml-2 text-white text-lg md:text-xl">{post.adviser?.username || ''}</p>
                         </div>
-                        <div className="flex items-center  bg-white text-[#5A88FF] px-4 py-2 rounded-md">
-                          <p>{post.firstService?.price || 'N/A'}/hr</p>
-                          <div className="ml-2">
-                          <VideocamIcon fontSize="large" />
+                        <div className="flex items-center justify-center  bg-white text-[#5A88FF] px-4 py-1 sm:py-2 rounded-md">
+                          <p className="pt-1">{post.firstService?.price || 'N/A'}/hr</p>
+                          <div className="ml-2 pb-1 text-3xl lg:text-4xl">
+                          <VideocamIcon fontSize="inherit" />
                           </div>
                           </div>
                       </div>
@@ -415,22 +418,22 @@ function UserLandingPage() {
                       </div>
                       <div className="flex  items-center bg-[#5A88FF] p-4 rounded-bl-xl rounded-br-xl">
                        
-                        <div className="mx-2 flex justify-center">
-                       <p className="text-3xl mr-1 text-white">{post.data && post.data.likes ? post.data.likes.length : 0}</p>
+                        <div className="mx-2 flex justify-center items-center">
+                       <p className="text-lg md:text-xl lg:text-3xl mr-1 text-white pt-2 md:pt-4">{post.data && post.data.likes ? post.data.likes.length : 0}</p>
 
-                       { post.data && post.data.likes && post.data.likes.includes(userid) ? <div className="cursor-pointer">
-                        <ThumbUpIcon fontSize="large" onClick={()=>removeLike(post.id)} />
-                         </div> : <div className="cursor-pointer">
-                        <ThumbUpOffAltIcon fontSize="large" onClick={()=>addLike(post.id)} />
+                       { post.data && post.data.likes && post.data.likes.includes(userid) ? <div className="cursor-pointer text-2xl md:text-3xl lg:text-5xl">
+                        <ThumbUpIcon fontSize="inherit" onClick={()=>removeLike(post.id)} />
+                         </div> : <div className="cursor-pointer text-2xl md:text-3xl lg:text-5xl">
+                        <ThumbUpOffAltIcon fontSize="inherit" onClick={()=>addLike(post.id)} />
                         </div> }
 
                         </div>
 
 
-                        <div className="mx-2 flex justify-center">
-                          {/* <p className="text-3xl mr-1">0</p> */}
+                        {/* <div className="mx-2 flex justify-center">
+                          <p className="text-3xl mr-1">0</p>
                         <ShareIcon fontSize="large" />
-                        </div>
+                        </div> */}
                       </div>
           
                     </div>
