@@ -73,7 +73,6 @@ function UserCategory() {
           let firstService = null;
           if (adviser.data.services && adviser.data.services.length > 0) {
             firstService = await fetchServiceById(adviser.data.services[0]);
-            console.log("adviser", firstService)
           }
           return { ...adviser, firstService };
         })
@@ -87,7 +86,6 @@ function UserCategory() {
 
 
   const handleClick = (adviserId, adviserName) => {
-    console.log("adviserName", adviserName)
     navigate(`/category/${adviserName}`, {
       state: {
         adviserid: adviserId,
@@ -128,12 +126,12 @@ function UserCategory() {
             Search
           </button>
         </div> */}
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-8 '>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4 '>
 
           {advisersWithService.map((adviser, idx) => (
   (adviser.data.published_services && adviser.data.published_services.length > 0 && (
     <div
-      className="bg-white rounded-lg shadow p-2 sm:p-4 flex cursor-pointer"
+      className="bg-white rounded-xl  shadow px-4 py-2 sm:p-4 flex cursor-pointer"
       key={idx}
       onClick={() => handleClick(adviser.id, adviser.data.username)}
     >

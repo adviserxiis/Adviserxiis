@@ -36,7 +36,7 @@ const router = createBrowserRouter(
     <>
 
 <Route path="/" element={<UserLayout />} >
-            <Route path="/" element={<UserLandingPage />} />
+            <Route path="/"  element={<UserLandingPage />} />
             <Route path="/createaccount" element={<UserLogin />} />
             <Route path="/category" element={<UserCategory />} />
             <Route path="/category/:advisername" element={<UserAdviserProfile />} />

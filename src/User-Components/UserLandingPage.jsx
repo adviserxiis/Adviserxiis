@@ -27,6 +27,7 @@ function UserLandingPage() {
 
   const navigate = useNavigate()
   const [posts, setPosts] = useState([])
+  const [postsWithAdviser, setPostsWithAdviser] = useState([])
   const [loading, setLoading] = useState(true)
   const [updated, setUpdated] = useState(false) // state for  re rendering after like changes
   const userid = JSON.parse(localStorage.getItem('userid'));
@@ -138,7 +139,7 @@ function UserLandingPage() {
       setPosts(response)   
        setLoading(false)
     })
-  },[updated])
+  },[])
 
   useEffect(() => {
     async function fetchAdviserAndServiceDetails() {
@@ -152,11 +153,11 @@ function UserLandingPage() {
           return { ...post, adviser, firstService };
         })
       );
-      setPosts(details);
+      setPostsWithAdviser(details)
     }
 
     fetchAdviserAndServiceDetails();
-  }, [posts, updated]);
+  }, [posts]);
 
   if (loading) {
     return <div className='h-screen flex justify-center items-center'><CircularProgress  /></div>; // Show a loading message or spinner while fetching data
@@ -376,7 +377,7 @@ function UserLandingPage() {
     <div className="min-h-screen pt-[80px]">
       <div className=" flex flex-col items-center container mx-auto md:mx-7xl  font-Poppin">
         <div className="m-4">
-          { posts.map((post, idx)=>(
+          { postsWithAdviser.map((post, idx)=>(
                       <div className="max-w-[900px] my-4" key={idx}>
                       <div className="flex items-center justify-between bg-[#5A88FF] p-4 rounded-tr-xl rounded-tl-xl">
                         <div className="flex items-center break-words">
@@ -404,7 +405,7 @@ function UserLandingPage() {
                       <div className="flex  items-center bg-[#5A88FF] p-4 rounded-bl-xl rounded-br-xl">
                        
                         <div className="mx-2 flex justify-center">
-                       <p className="text-3xl mr-1">{post.data && post.data.likes ? post.data.likes.length : 0}</p>
+                       <p className="text-3xl mr-1 text-white">{post.data && post.data.likes ? post.data.likes.length : 0}</p>
 
                        { post.data && post.data.likes && post.data.likes.includes(userid) ? <div className="cursor-pointer">
                         <ThumbUpIcon fontSize="large" onClick={()=>removeLike(post.id)} />
