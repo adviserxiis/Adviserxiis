@@ -278,6 +278,7 @@ export default function Login() {
                         {!loading ? 'Login' : <CircularProgress color="inherit" />}
                       </Button>
                     </form>
+                    <p className='my-4 text-center cursor-pointer'> <span className='text-blue-500'><Link to='/adviser/changepassword'>Forgot Password</Link></span></p>
                   </div>
                 </div>
               </div>
