@@ -110,7 +110,7 @@ function UserCategory() {
 
       <div className="flex-grow bg-gray-50 py-8">
         <section className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold mb-4">Categories</h1>
+          {/* <h1 className="text-3xl font-bold mb-4">Categories</h1> */}
           {/* <div className="flex flex-wrap space-x-2 md:space-x-8 space-y-1 mb-6">
           {Categories.map((category) => (
             <button key={category} className="px-4 py-2 bg-gray-200 rounded-full hover:bg-gray-300">

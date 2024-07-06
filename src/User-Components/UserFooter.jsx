@@ -8,31 +8,31 @@ function UserFooter() {
   return (
     <div className='container mx-auto font-Poppins'>
     <div className='w-full flex justify-between p-4 px-[20px]  lg:px-[40px] '>
-        <NavLink to="/" exact className={({ isActive }) => isActive ? 'text-[#407BFF]' : ''} >
+        <NavLink to="/"  className={({ isActive }) => isActive ? 'text-[#407BFF]' : ''} >
         <div className='flex flex-col items-center'>
-          <div>
-            <HomeOutlinedIcon fontSize='large'/>
+          <div className='text-2xl md:text-3xl lg:text-4xl'>
+            <HomeOutlinedIcon fontSize='inherit'/>
           </div>
-          <p className='text-lg md:text-xl '>Home</p>
+          <p className='text-md sm:text-lg md:text-xl '>Home</p>
         </div>
         </NavLink>
 
         <NavLink to="/category"  exact className={({ isActive }) => isActive ? 'text-[#407BFF]' : ''}>
         <div className='flex flex-col items-center'>
-            <div>
-                <PeopleOutlineOutlinedIcon fontSize='large' />
+            <div className='text-2xl md:text-3xl lg:text-4xl' >
+                <PeopleOutlineOutlinedIcon fontSize='inherit' />
             </div>
-            <p className='text-lg md:text-xl '>Adviser</p>
+            <p className='text-md sm:text-lg md:text-xl '>Adviser</p>
 
         </div>
         </NavLink>
 
         <NavLink to='/bookedservices'  exact className={({ isActive }) => isActive ? 'text-[#407BFF]' : ''}>
         <div className='flex flex-col items-center'>
-          <div>
-            <HeadsetMicOutlinedIcon  fontSize='large'/>
+          <div className='text-2xl md:text-3xl lg:text-4xl'>
+            <HeadsetMicOutlinedIcon  fontSize='inherit'/>
           </div>
-          <p className='text-lg md:text-xl '>History</p>
+          <p className='text-md sm:text-lg md:text-xl '>History</p>
         </div>
         </NavLink>
     </div>
