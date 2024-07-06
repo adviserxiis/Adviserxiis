@@ -65,7 +65,7 @@ export default function UserNavbar() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1  items-center justify-between px-[15px] sm:px-0 sm:items-stretch sm:justify-start ">
+              <div className="flex flex-1  items-center justify-between px-[10px] sm:px-0 sm:items-stretch sm:justify-start ">
                 <div className="flex flex-shrink-0 items-center">
                   <Link  to="/">
                   <img
