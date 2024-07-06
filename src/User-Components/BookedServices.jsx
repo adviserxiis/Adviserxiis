@@ -153,7 +153,7 @@ function BookedServices() {
 
 
   return (
-    <div className="min-h-screen flex flex-col font-inter pt-[80px]">
+    <div className="min-h-screen flex flex-col font-inter pt-[50px] md-[50px] sm:mb-0">
 
       <div className="flex-grow bg-gray-50 py-8">
         <section className="container mx-auto px-4">
