@@ -10,7 +10,7 @@ function UserLayout() {
       <UserNavbar />
       <Outlet />
       </div>
-      <div>
+      <div className='mb-[20px] sm:mb-0'>
       <UserFooter />
       </div>
       
