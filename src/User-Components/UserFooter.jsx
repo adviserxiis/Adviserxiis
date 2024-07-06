@@ -11,7 +11,7 @@ function UserFooter() {
     <div className='w-full flex justify-between p-4 px-[20px]  lg:px-[40px] '>
         <NavLink to="/" exact className={({ isActive }) => isActive ? 'text-[#407BFF]' : ''} >
         <div className='flex flex-col items-center'>
-          <div className='text-2xl md:text-3xl lg:text-5xl'>
+          <div className='text-2xl md:text-3xl lg:text-4xl'>
             <HomeOutlinedIcon fontSize='inherit'/>
           </div>
           <p className=' text-md sm:text-lg md:text-xl '>Home</p>
@@ -20,7 +20,7 @@ function UserFooter() {
 
         <NavLink to="/category"  exact className={({ isActive }) => isActive ? 'text-[#407BFF]' : ''}>
         <div className='flex flex-col items-center'>
-            <div className='text-2xl md:text-3xl lg:text-5xl'>
+            <div className='text-2xl md:text-3xl lg:text-4xl'>
                 <PeopleOutlineOutlinedIcon fontSize='inherit' />
             </div>
             <p className='text-md sm:text-lg md:text-xl '>Adviser</p>
@@ -30,7 +30,7 @@ function UserFooter() {
 
         <NavLink to='/bookedservices'  exact className={({ isActive }) => isActive ? 'text-[#407BFF]' : ''}>
         <div className='flex flex-col items-center'>
-          <div className='text-2xl md:text-3xl lg:text-5xl'>
+          <div className='text-2xl md:text-3xl lg:text-4xl'>
             <HeadsetMicOutlinedIcon fontSize='inherit'/>
           </div>
           <p className='text-md sm:text-lg md:text-xl '>History</p>

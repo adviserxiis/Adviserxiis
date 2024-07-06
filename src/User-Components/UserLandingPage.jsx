@@ -402,8 +402,8 @@ function UserLandingPage() {
                         />
                         <p className="ml-2 text-white text-lg md:text-xl">{post.adviser?.username || ''}</p>
                         </div>
-                        <div className="flex items-center justify-center  bg-white text-[#5A88FF] px-4 py-1 sm:py-2 rounded-md">
-                          <p className="pt-1">{post.firstService?.price || 'N/A'}/hr</p>
+                        <div className="flex items-center justify-center  bg-white text-[#5A88FF] px-4 py-1  rounded-md">
+                          <p className="pt-1 md:text-lg lg:text-xl">{post.firstService?.price || 'N/A'}/hr</p>
                           <div className="ml-2 pb-1 text-3xl lg:text-4xl">
                           <VideocamIcon fontSize="inherit" />
                           </div>
