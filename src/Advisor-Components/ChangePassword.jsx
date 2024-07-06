@@ -160,6 +160,11 @@ function ChangePassword() {
       try {
         const res = await fetch(`https://adviserxiis-backend-three.vercel.app/changepassword/${userid}`);
         if (res.status === 200) {
+          await Swal.fire({
+            title: "Success",
+            text: "OTP has been sent to your email.",
+            icon: "success"
+          });
           setOtpSent(true);
         } else {
           await Swal.fire({
@@ -256,8 +261,8 @@ function ChangePassword() {
 
         <div style={{ marginTop: "60px" }}>
           <p className='font-workSans text-3xl font-bold text-center'>Change Password</p>
-          {/* <p className='font-workSans text-md mt-4 text-center text-[#03014C]' style={{ marginTop: "50px" }}>We have send OTP to your email<br /> Please Check
-          </p> */}
+          <p className='font-workSans text-md mt-4 text-center text-[#03014C]' style={{ marginTop: "50px" }}>Enter your email address to get the OTP
+          </p>
 
 
 
