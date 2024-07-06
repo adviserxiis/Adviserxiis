@@ -37,7 +37,7 @@ export default function UserNavbar() {
   };
   
   return (
-    <Disclosure as="nav" className="bg-[#A9A9A91A] fixed z-50 h-[80px]  w-full">
+    <Disclosure as="nav" className="bg-white fixed z-50 h-[80px]  w-full">
       {({ open }) => (
         <>
           <div className=" container mx-auto  px-2 sm:px-6 lg:px-8">

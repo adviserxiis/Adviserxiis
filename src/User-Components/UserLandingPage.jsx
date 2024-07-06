@@ -21,6 +21,7 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ShareIcon from '@mui/icons-material/Share';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import Swal from "sweetalert2";
 
 function UserLandingPage() {
   const database = getDatabase(app);
@@ -106,6 +107,11 @@ function UserLandingPage() {
  
       if(userid == null)
       {
+         Swal.fire({
+          title: "Error",
+          text: "You must be loggedin to like the post!!",
+          icon: "error"
+        });
         return
       }
     const postData = await getPost(postid)
@@ -122,6 +128,11 @@ function UserLandingPage() {
   const removeLike = async (postid) =>{
     if(userid == null)
     {
+      Swal.fire({
+        title: "Error",
+        text: "You must be loggedin to dislike the post!!",
+        icon: "error"
+      });
       return
     }
     const postData = await getPost(postid)

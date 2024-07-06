@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom';
 
 function UserFooter() {
   return (
+    <div className='fixed bottom-0 left-0 w-full bg-white'>
     <div className='container mx-auto font-Poppins'>
     <div className='w-full flex justify-between p-4 px-[20px]  lg:px-[40px] '>
         <NavLink to="/" exact className={({ isActive }) => isActive ? 'text-[#407BFF]' : ''} >
@@ -35,6 +36,7 @@ function UserFooter() {
           <p className='text-md sm:text-lg md:text-xl '>History</p>
         </div>
         </NavLink>
+    </div>
     </div>
     </div>
   )
