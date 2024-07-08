@@ -110,6 +110,10 @@ export default function UserLogin() {
   }
 
 
+
+
+
+
   // const verifyOTP =  async () =>{
   //   setLoading(true)
   //   const code = otp;
@@ -245,7 +249,7 @@ export default function UserLogin() {
       
       formik.resetForm();
       setLoading(false);
-      navigate('/category');
+      navigate('/');
     } catch (error) {
       console.log("error", error);
       Swal.fire({
