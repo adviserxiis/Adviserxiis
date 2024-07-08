@@ -5,13 +5,22 @@ import logo from '../assets/logo.png'
 import { Menu, Transition } from "@headlessui/react";
 import Swal from "sweetalert2";
 import AvailabilitySchedule from "./AvailabilitySchedule";
+import { useMediaQuery } from '@mui/material';
 
-const SideBar = forwardRef(({ showSideBar,handleOpen }, ref) => {
+const SideBar = forwardRef(({ showSideBar,handleOpen, setShowSideBar }, ref) => {
   const navigate = useNavigate()
   // const [dialogOpen, setDialogOpen] = useState(false);
 
+  const matches = useMediaQuery('(max-width:1024px)'); 
+
+  const handleLinkClick = () => {
+    if (matches) {
+      setShowSideBar(false); // Set sidebar to false only on mobile devices
+    }
+  };
+
   const handleLogOut = async () => {
-  
+    handleLinkClick()
     Swal.fire({
       title: "Do you want to logout?",
       text: "",
@@ -26,20 +35,15 @@ const SideBar = forwardRef(({ showSideBar,handleOpen }, ref) => {
         navigate('/adviser');
       }
     });
-  
 
   };
 
-  // const handleDialogOpen = () => {
-  //   setDialogOpen(true);
-  // };
+  const handleClickOnCalender = () =>{
+      handleLinkClick();
+      handleOpen();
+  }
 
-  // const handleDialogClose = () => {
-  //   console.log("hi")
-  //   setDialogOpen(false);
-  //   console.log(dialogOpen)
-    
-  // };
+
 
 
 
@@ -67,6 +71,7 @@ const SideBar = forwardRef(({ showSideBar,handleOpen }, ref) => {
                 : "text-gray-300 hover:text-white font-Poppins"
             } `
           }
+          onClick={handleLinkClick}
         >
           <div
             className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors`}
@@ -86,6 +91,7 @@ const SideBar = forwardRef(({ showSideBar,handleOpen }, ref) => {
                 : "text-gray-300 hover:text-white font-Poppins"
             } `
           }
+          onClick={handleLinkClick}
         >
           <div
             className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors`}
@@ -106,6 +112,7 @@ const SideBar = forwardRef(({ showSideBar,handleOpen }, ref) => {
                 : "text-gray-300 hover:text-white font-Poppins"
             } `
           }
+          onClick={handleLinkClick}
         >
           <div
             className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors`}
@@ -118,7 +125,7 @@ const SideBar = forwardRef(({ showSideBar,handleOpen }, ref) => {
         </NavLink>
 
         <div
-           onClick={handleOpen}
+           onClick={handleClickOnCalender}
            className="text-gray-300 hover:text-white font-Poppins"
         >
           <div
@@ -141,6 +148,7 @@ const SideBar = forwardRef(({ showSideBar,handleOpen }, ref) => {
                 : "text-gray-300 hover:text-white font-Poppins"
             } `
           }
+          onClick={handleLinkClick}
         >
           <div
             className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors`}

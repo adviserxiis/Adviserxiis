@@ -12,9 +12,9 @@ import bg2 from "../user-assets/bg2.jpeg";
 import insta1 from '../user-assets/insta1.png'
 import fb1 from '../user-assets/fb1.png'
 import linkedin1 from '../user-assets/linkedin1.png'
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import User from '../assets/User.png'
-import { child, get, getDatabase, ref, set, update } from "firebase/database";
+import { child, get, getDatabase, ref, remove, set, update } from "firebase/database";
 import { app } from "../firebase";
 import { CircularProgress, useStepContext } from "@mui/material";
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
@@ -22,16 +22,26 @@ import ShareIcon from '@mui/icons-material/Share';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import Swal from "sweetalert2";
+import ShareDialog from "./ShareDialog";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function UserLandingPage() {
   const database = getDatabase(app);
 
   const navigate = useNavigate()
+  const location = useLocation()
+
   const [posts, setPosts] = useState([])
   const [postsWithAdviser, setPostsWithAdviser] = useState([])
   const [loading, setLoading] = useState(true)
   const [updated, setUpdated] = useState(false) // state for  re rendering after like changes
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [shareURL, setShareURL] = useState('')
+
+  const { specificpostid } = location.state || {}
+
   const userid = JSON.parse(localStorage.getItem('userid'));
+  const adviserid = JSON.parse(localStorage.getItem('adviserid'));
 
   async function getAllPost() {
     const nodeRef = ref(database, 'advisers_posts');
@@ -75,7 +85,7 @@ function UserLandingPage() {
     try {
       const snapshot = await get(nodeRef);
       if (snapshot.exists()) {
-        return snapshot.val();
+        return ({data:snapshot.val(),id:snapshot.key});
       } else {
         console.log('No data available');
         return null;
@@ -103,57 +113,130 @@ function UserLandingPage() {
   }
 
 
-  const addLike = async (postid) =>{
- 
-      if(userid == null)
-      {
-       await Swal.fire({
-          title: "Error",
-          text: "You must be loggedin to like the post!!",
-          icon: "error"
-        });
-        navigate('/createaccount')
-        return
-      }
-    const postData = await getPost(postid)
-    const currentLikes = postData.likes || []; // Retrieve existing IDs or initialize to an empty array
-  
-    // Add the new ID to the array
-    const updatedLikes = [...currentLikes, userid];
-  
-    // Update the array field in the database
-    await update(ref(database, 'advisers_posts/' + postid), { likes : updatedLikes });
-    setUpdated(!update)
-  }
-
-  const removeLike = async (postid) =>{
-    if(userid == null)
-    {
-     await Swal.fire({
+  const addLikeOptimistically = async (postid) => {
+    if (userid == null) {
+      await Swal.fire({
         title: "Error",
-        text: "You must be loggedin to dislike the post!!",
+        text: "You must be logged in to like the post!",
         icon: "error"
       });
-
-      navigate('/createaccount')
-      return
+      navigate('/createaccount');
+      return;
     }
-    const postData = await getPost(postid)
+
+    const postData = await getPost(postid);
     const currentLikes = postData.likes || [];
+    let updatedLikes = [...currentLikes]
+    if (!currentLikes.includes(userid)) {
+      updatedLikes = [...currentLikes, userid];
+    }
 
-    const updatedLikes = currentLikes.filter((id)=> id != userid)
 
-    await update(ref(database, 'advisers_posts/' + postid), { likes : updatedLikes });
-    setUpdated(!update)
+    // Optimistically update the state
+    const updatedPosts = postsWithAdviser.map(post =>
+      post.id === postid ? { ...post, data: { ...post.data, likes: updatedLikes } } : post
+    );
+    setPostsWithAdviser(updatedPosts);
+
+    try {
+      await update(ref(database, 'advisers_posts/' + postid), { likes: updatedLikes });
+      setUpdated(!update);
+    } catch (error) {
+      // Revert the state if the update fails
+      const revertedLikes = currentLikes;
+      const revertedPosts = postsWithAdviser.map(post =>
+        post.id === postid ? { ...post, data: { ...post.data, likes: revertedLikes } } : post
+      );
+      setPostsWithAdviser(revertedPosts);
+      console.error('Error updating likes:', error);
+    }
+  };
+
+  const removeLikeOptimistically = async (postid) => {
+    if (userid == null) {
+      await Swal.fire({
+        title: "Error",
+        text: "You must be logged in to dislike the post!",
+        icon: "error"
+      });
+      navigate('/createaccount');
+      return;
+    }
+
+    const postData = await getPost(postid);
+    const currentLikes = postData.likes || [];
+    const updatedLikes = currentLikes.filter(id => id !== userid);
+
+    // Optimistically update the state
+    const updatedPosts = postsWithAdviser.map(post =>
+      post.id === postid ? { ...post, data: { ...post.data, likes: updatedLikes } } : post
+    );
+    setPostsWithAdviser(updatedPosts);
+
+    try {
+      await update(ref(database, 'advisers_posts/' + postid), { likes: updatedLikes });
+      setUpdated(!update);
+    } catch (error) {
+      // Revert the state if the update fails
+      const revertedLikes = currentLikes;
+      const revertedPosts = postsWithAdviser.map(post =>
+        post.id === postid ? { ...post, data: { ...post.data, likes: revertedLikes } } : post
+      );
+      setPostsWithAdviser(revertedPosts);
+      console.error('Error updating likes:', error);
+    }
+  };
+
+
+  const handleShareDialogClose = () => {
+    setShareDialogOpen(false);
+  };
+
+  const handleShareClick = (postid) => {
+    const url = `https://www.adviserxiis.com/post/${postid}`
+    setShareURL(url);
+    setShareDialogOpen(true);
+  };
+
+  const deleteHandler = async (postid) =>{
+         
+
+    Swal.fire({
+      title: "Do you want to delete this post?",
+      text: "",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Delete"
+    }).then((result) => {
+      if (result.isConfirmed) {
+         remove(ref(database, 'advisers_posts/' + postid));
+         setUpdated(prev => !prev)
+      }
+    });
+
+  
   }
 
+
+ const handleClickOnProfile = ( adviserName, adviserId) =>{
+      
+  navigate(`/category/${adviserName}`, {
+    state: {
+      adviserid: adviserId,
+      advisername: adviserName
+    }
+  })
+
+   }
 
   useEffect(() => {
     getAllPost().then((response) => {
-      setPosts(response)   
-       setLoading(false)
+      setPosts(response)
+      setLoading(false)
     })
-  },[])
+  }, [updated])
 
   useEffect(() => {
     async function fetchAdviserAndServiceDetails() {
@@ -161,20 +244,41 @@ function UserLandingPage() {
         posts.map(async (post) => {
           const adviser = await getUser(post.data.adviserid);
           let firstService = null;
-          if (adviser && adviser.services && adviser.services.length > 0) {
-            firstService = await fetchServiceById(adviser.services[0]);
+          if (adviser && adviser.data?.services && adviser.data.services.length > 0) {
+            firstService = await fetchServiceById(adviser.data.services[0]);
           }
           return { ...post, adviser, firstService };
         })
       );
+
+  
+
+      // Enhanced sort function to handle date and time properly
+      details.sort((a, b) => {
+        const dateA = new Date(a.data.dop).getTime();
+        const dateB = new Date(b.data.dop).getTime();
+        return dateB - dateA; // Sort in descending order (latest posts first)
+      });
+
+      if (specificpostid != undefined) {
+        const postIndex = details.findIndex(post => post.id === specificpostid);
+        console.log("postIndex", postIndex)
+        if (postIndex !== -1) {
+          const postToMove = details.splice(postIndex, 1)[0];
+          details.unshift(postToMove); // Move the post to the beginning of the array
+        }
+      }
       setPostsWithAdviser(details)
     }
 
     fetchAdviserAndServiceDetails();
   }, [posts]);
 
+
+
+
   if (loading) {
-    return <div className='h-screen flex justify-center items-center'><CircularProgress  /></div>; // Show a loading message or spinner while fetching data
+    return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>; // Show a loading message or spinner while fetching data
   }
 
   return (
@@ -386,57 +490,76 @@ function UserLandingPage() {
     //         </div>
     //       </div>
     //     </div>
-    
+
 
     <div className="min-h-screen pt-[50px] mb-[80px] ">
       <div className=" flex flex-col items-center container mx-auto md:mx-7xl  font-Poppin">
         <div className="m-4">
-          { postsWithAdviser.map((post, idx)=>(
-                      <div className="max-w-[900px] my-4" key={idx}>
-                      <div className="flex items-center justify-between bg-[#5A88FF] p-2 px-4 rounded-tr-xl rounded-tl-xl">
-                        <div className="flex items-center break-words">
-                        <img
-                          src={post.adviser?.profile_photo || User}
-                          alt=""
-                          className="rounded-full h-12 w-12 object-cover my-[10px]"
-                        />
-                        <p className="ml-2 text-white text-lg md:text-xl">{post.adviser?.username || ''}</p>
-                        </div>
-                        <div className="flex items-center justify-center  bg-white text-[#5A88FF] px-4 py-1  rounded-md">
-                          <p className="pt-1 md:text-lg lg:text-xl">{post.firstService?.price || 'N/A'}/hr</p>
-                          <div className="ml-2 pb-1 text-3xl lg:text-4xl">
-                          <VideocamIcon fontSize="inherit" />
-                          </div>
-                          </div>
-                      </div>
-                      <div>
-                        <img
-                          src={post.data && post.data.post_photo ? post.data.post_photo : ''}
-                          alt="Post Image"
-                            className="w-96 h-96 sm:w-[500px] sm:h-[500px]  md:w-[600px] md:h-[600px] lg:w-[700px] lg:h-[700px] object-cover"
-                        />
-                      </div>
-                      <div className="flex  items-center bg-[#5A88FF] p-4 rounded-bl-xl rounded-br-xl">
-                       
-                        <div className="mx-2 flex justify-center items-center">
-                       <p className="text-lg md:text-xl lg:text-3xl mr-1 text-white pt-2 md:pt-4">{post.data && post.data.likes ? post.data.likes.length : 0}</p>
+          {postsWithAdviser.map((post, idx) => (
+            <div className="max-w-[900px] my-4" key={idx}>
+              <div className="flex items-center justify-between bg-[#5A88FF] p-2 px-4 rounded-tr-xl rounded-tl-xl">
+                <div className="flex items-center cursor-pointer break-words" onClick={()=>handleClickOnProfile(post.adviser?.data?.username, post.adviser?.id)}>
+                  <img
+                    src={post.adviser?.data?.profile_photo || User}
+                    alt=""
+                    className="rounded-full h-12 w-12 object-cover my-[10px]"
+                  />
+                  <p className="ml-2 text-white text-lg md:text-xl">{post.adviser?.data?.username || ''}</p>
+                </div>
+                <div className="flex items-center justify-center  bg-white text-[#5A88FF] px-4 py-1  rounded-md">
+                  <p className="pt-1 md:text-lg lg:text-xl">{post.firstService?.price || 'N/A'}/hr</p>
+                  <div className="ml-2 pb-1 text-3xl lg:text-4xl">
+                    <VideocamIcon fontSize="inherit" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <img
+                  src={post.data && post.data.post_photo ? post.data.post_photo : ''}
+                  alt="Post Image"
+                  className="w-96 h-96 sm:w-[500px] sm:h-[500px]  md:w-[600px] md:h-[600px] lg:w-[700px] lg:h-[700px] object-cover"
+                />
+              </div>
+              <div className="flex justify-between  items-center bg-[#5A88FF] p-4 rounded-bl-xl rounded-br-xl">
+                
 
-                       { post.data && post.data.likes && post.data.likes.includes(userid) ? <div className="cursor-pointer text-2xl md:text-3xl lg:text-5xl">
-                        <ThumbUpIcon fontSize="inherit" onClick={()=>removeLike(post.id)} />
-                         </div> : <div className="cursor-pointer text-2xl md:text-3xl lg:text-5xl">
-                        <ThumbUpOffAltIcon fontSize="inherit" onClick={()=>addLike(post.id)} />
-                        </div> }
+                <div className="flex">
+                <div className="mx-2 flex justify-center items-center">
+                  <p className="text-lg md:text-xl lg:text-3xl mr-1 text-white pt-2 ">{post.data && post.data.likes ? post.data.likes.length : 0}</p>
 
-                        </div>
+                  {post.data && post.data.likes && post.data.likes.includes(userid) ? <div className="cursor-pointer text-2xl md:text-3xl lg:text-4xl">
+                    <ThumbUpIcon fontSize="inherit" onClick={() => removeLikeOptimistically(post.id)} />
+                  </div> : <div className="cursor-pointer text-2xl md:text-3xl lg:text-4xl">
+                    <ThumbUpOffAltIcon fontSize="inherit" onClick={() => addLikeOptimistically(post.id)} />
+                  </div>}
+
+                </div>
 
 
-                        {/* <div className="mx-2 flex justify-center">
-                          <p className="text-3xl mr-1">0</p>
-                        <ShareIcon fontSize="large" />
-                        </div> */}
-                      </div>
-          
-                    </div>
+                <div className="mx-2 flex justify-center">
+                  {/* <p className="text-3xl mr-1">0</p> */}
+                  <div className="cursor-pointer text-2xl md:text-3xl lg:text-4xl">
+                    <ShareIcon fontSize="inherit" onClick={() => handleShareClick(post.id)} />
+                  </div>
+                </div>
+                <ShareDialog
+                  open={shareDialogOpen}
+                  handleClose={handleShareDialogClose}
+                  url={shareURL}
+                />
+                </div>
+
+                <div className="cursor-pointer text-2xl md:text-3xl lg:text-4xl">
+
+                  { post.data && post.data.adviserid && (post.data.adviserid === adviserid) ?   <DeleteIcon  fontSize="inherit"  onClick={()=>deleteHandler(post.id)
+                  } /> :'' }
+                  
+
+                </div>
+
+              </div>
+              
+            </div>
           ))}
 
         </div>

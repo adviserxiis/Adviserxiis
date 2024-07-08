@@ -59,7 +59,7 @@ function Layout() {
         leaveFrom="translate-x-0"
         leaveTo="-translate-x-full"
       >
-        <SideBar showSideBar={showSideBar} handleOpen={handleDialogOpen}/>
+        <SideBar showSideBar={showSideBar} handleOpen={handleDialogOpen} setShowSideBar={setShowSideBar}/>
       </Transition>
 
       <div className="flex-1">

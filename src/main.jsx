@@ -29,6 +29,7 @@ import Payment from './Advisor-Components/Payment.jsx'
 import CreatePost from './Advisor-Components/CreatePost.jsx'
 import BookedServices from './User-Components/BookedServices.jsx'
 import ChangePassword from './Advisor-Components/ChangePassword.jsx'
+import Post from './User-Components/Post.jsx'
 
 
 
@@ -43,6 +44,7 @@ const router = createBrowserRouter(
             <Route path="/category/:advisername" element={<UserAdviserProfile />} />
             <Route path="/category/:advisername/checkout/:servicename" element={<UserCheckoutPage />} />
             <Route path="/bookedservices" element={<BookedServices />} />
+            <Route path="/post/:postid" element={<Post />} />
      </Route>
 
 

@@ -16,6 +16,8 @@ function CreatePost() {
 
     const adviserid = JSON.parse(localStorage.getItem('adviserid'))
 
+
+
     const initialValues = {
         post_photo:null,
 
@@ -41,6 +43,7 @@ function CreatePost() {
         const userid = JSON.parse(localStorage.getItem('adviserid'));
         const storage = getStorage();
         const { post_photo} = formik.values;
+        const date = new Date().toString(); 
 
         try {
             let postPhotoURL = null;
@@ -60,6 +63,7 @@ function CreatePost() {
                 await set(ref(database, 'advisers_posts/' +uuidv1()), {
                     adviserid:adviserid,
                     post_photo:postPhotoURL,
+                    dop:date,
                     likes:[],
                   });
 
