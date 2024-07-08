@@ -525,7 +525,7 @@ function UserLandingPage() {
 
                 <div className="flex">
                 <div className="mx-2 flex justify-center items-center">
-                  <p className="text-lg md:text-xl lg:text-3xl mr-1 text-white pt-2 ">{post.data && post.data.likes ? post.data.likes.length : 0}</p>
+                  <p className="text-lg md:text-xl lg:text-3xl mr-1 text-white  ">{post.data && post.data.likes ? post.data.likes.length : 0}</p>
 
                   {post.data && post.data.likes && post.data.likes.includes(userid) ? <div className="cursor-pointer text-2xl md:text-3xl lg:text-4xl">
                     <ThumbUpIcon fontSize="inherit" onClick={() => removeLikeOptimistically(post.id)} />

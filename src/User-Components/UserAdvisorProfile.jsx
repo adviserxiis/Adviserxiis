@@ -9,6 +9,7 @@ import { child, get, getDatabase, ref, set, update } from "firebase/database";
 import { app } from "../firebase";
 import { CircularProgress } from '@mui/material'
 import User from '../assets/User.png'
+import Swal from 'sweetalert2'
 
 function UserAdviserProfile() {
 
