@@ -30,6 +30,7 @@ import CreatePost from './Advisor-Components/CreatePost.jsx'
 import BookedServices from './User-Components/BookedServices.jsx'
 import ChangePassword from './Advisor-Components/ChangePassword.jsx'
 import Post from './User-Components/Post.jsx'
+import CreatedPosts from './Advisor-Components/CreatedPosts.jsx'
 
 
 
@@ -65,6 +66,7 @@ const router = createBrowserRouter(
       <Route path="/adviser/editservice" element={<ServiceForm />} />
       <Route path="/adviser/profile" element={<Profile />} />
       <Route path="/adviser/createpost" element={<CreatePost />} />
+      <Route path="/adviser/createdpost" element={<CreatedPosts />} />
       <Route path="/adviser/logout" element={<Logout />} />
      </Route>,
 

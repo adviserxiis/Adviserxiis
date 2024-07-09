@@ -160,6 +160,27 @@ const SideBar = forwardRef(({ showSideBar,handleOpen, setShowSideBar }, ref) => 
           </div>
         </NavLink>
 
+        <NavLink
+          to="/adviser/createdpost"
+          className={({ isActive }) =>
+            ` ${
+              isActive
+                ? " text-white font-Poppins"
+                : "text-gray-300 hover:text-white font-Poppins"
+            } `
+          }
+          onClick={handleLinkClick}
+        >
+          <div
+            className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors`}
+          >
+
+            <div>
+              <p className="font-Poppins font-2xl" style={{fontSize:"20px"}}>Created Posts</p>
+            </div>
+          </div>
+        </NavLink>
+
 
 
         <div
