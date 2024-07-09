@@ -233,8 +233,8 @@ function UserAdviserProfile() {
 
             </div>
             <div className='w-4/6 sm:w-5/6 pt-[10px] break-words'>
-              <h1 className="text-2xl font-semibold mb-[5px]">{adviser && adviser.username ? adviser.username : ''}</h1>
-              <p className="text-gray-500 text-sm sm:text-md md:text-lg ">{adviser && adviser.professional_bio ? adviser.professional_bio : ''
+              <h1 className="text-md sm:text-xl md:text-2xl font-bold  mb-[5px]">{adviser && adviser.username ? adviser.username : ''}</h1>
+              <p className="text-gray-500 text-xs sm:text-sm md:text-md ">{adviser && adviser.professional_bio ? adviser.professional_bio : ''
               }</p>
             </div>
           </div>
@@ -243,11 +243,11 @@ function UserAdviserProfile() {
           {services.map((service, index) => (
             ((service.data.isPublished || service.data.isPublished == undefined) && <div key={index} className="bg-gray-200 p-4 rounded-lg shadow-md  px-[20px] py-[30px]">
               <h2 className="text-lg sm:text-xl font-semibold mb-2 break-words">{service.data.service_name}</h2>
-              <p className="text-gray-500 mb-4 break-words text-sm sm:text-md ">{service.data.about_service}</p>
+              <p className="text-gray-500 mb-4 break-words text-xs sm:text-sm  md:md ">{service.data.about_service}</p>
 
               <div className='flex items-center '>
                 <button className="w-4/6  bg-gradient-to-b from-[#0165E1] to-[#17A9FD] text-white py-2 px-4 rounded cursor-pointer " onClick={() => handleClick(service.id, service.data.service_name)}>Book</button>
-                <p className="w-2/6  text-xl font-bold ml-2">Rs {service.data.price}/-</p>
+                <p className="w-2/6 text-lg  sm:text-xl font-bold ml-2">Rs {service.data.price}/-</p>
               </div>
 
             </div>)

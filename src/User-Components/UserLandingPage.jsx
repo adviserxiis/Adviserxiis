@@ -536,7 +536,7 @@ function UserLandingPage() {
                 </div>
 
 
-                <div className="mx-2 flex justify-center items-center ">
+                <div className="mx-2 flex justify-center items-center pt-1 ">
                   {/* <p className="text-3xl mr-1">0</p> */}
                   <div className="cursor-pointer text-2xl md:text-3xl lg:text-4xl">
                     <ShareIcon fontSize="inherit" onClick={() => handleShareClick(post.id)} />
