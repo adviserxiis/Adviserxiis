@@ -504,7 +504,7 @@ function UserLandingPage() {
                     alt=""
                     className="rounded-full h-12 w-12 object-cover my-[10px]"
                   />
-                  <p className="ml-2 text-white text-lg md:text-xl">{post.adviser?.data?.username || ''}</p>
+                  <p className="ml-2 text-white text-md sm:text-lg md:text-xl">{post.adviser?.data?.username || ''}</p>
                 </div>
                 <div className="flex items-center justify-center  bg-white text-[#5A88FF] px-4 py-1  rounded-md">
                   <p className="pt-1 md:text-lg lg:text-xl">{post.firstService?.price || 'N/A'}/hr</p>

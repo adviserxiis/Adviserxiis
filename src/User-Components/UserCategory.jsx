@@ -155,7 +155,7 @@ function UserCategory() {
           <p className="text-[13px] sm:text-md">{adviser.data.professional_title}</p>
           </div>
           <div className='w-2/6 '>
-          <p className="text-sm sm:text-md font-bold">
+          <p className="text-xs sm:text-sm  md:text-md font-bold">
   Exp: <span className="block sm:inline">{adviser.data.years_of_experience} years</span>
 </p>
 </div>
