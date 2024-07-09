@@ -514,11 +514,25 @@ function UserLandingPage() {
                 </div>
               </div>
               <div>
-                <img
+                {/* <img
                   src={post.data && post.data.post_photo ? post.data.post_photo : ''}
                   alt="Post Image"
                   className="w-96 h-96 sm:w-[500px] sm:h-[500px]  md:w-[600px] md:h-[600px] lg:w-[700px] lg:h-[700px] object-cover"
-                />
+                /> */}
+                          {post.data.post_file && (
+           post.data.file_type && post.data.file_type === 'video' ? (
+              <video controls width="700" height="700">
+                <source src={post.data.post_file} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            ) : (
+                               <img
+                  src={post.data && post.data.post_file ? post.data.post_file : ''}
+                  alt="Post Image"
+                  className="w-96 h-96 sm:w-[500px] sm:h-[500px]  md:w-[600px] md:h-[600px] lg:w-[700px] lg:h-[700px] object-cover"
+                /> 
+            )
+          )}
               </div>
               <div className="flex justify-between  items-center bg-[#5A88FF] p-4 rounded-bl-xl rounded-br-xl">
                 

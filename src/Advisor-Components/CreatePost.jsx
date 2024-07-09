@@ -19,39 +19,41 @@ function CreatePost() {
 
 
     const initialValues = {
-        post_photo:null,
+        post_file:null,
 
     }
 
     const validationSchema = Yup.object().shape({
-        post_photo: Yup
+        post_file: Yup
         .mixed()
         .test("fileType", "Unsupported file type", (value) => {
           if (!value) return true;
-          const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
+          const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "video/mp4", "video/avi"];
           return allowedTypes.includes(value.type);
         })
         .test("fileSize", "File size is too large (max 5MB)", (value) => {
           if (!value) return true;
-          return value.size <= 5 * 1024 * 1024; // 10MB in bytes
+          return value.size <= 50 * 1024 * 1024; // 10MB in bytes
         })
-        .required("Image is required"),
+        .required("file is required"),
      });
 
      const handleSubmit = async () =>{
         setLoading(true);
         const userid = JSON.parse(localStorage.getItem('adviserid'));
         const storage = getStorage();
-        const { post_photo} = formik.values;
+        const { post_file} = formik.values;
         const date = new Date().toString(); 
 
         try {
-            let postPhotoURL = null;
+            let postFileURL = null;
+            let fileType = null;
         
-            if (post_photo) {
-              const imgRef = sRef(storage, `posts/${uuidv1()}`);
-              const uploadResult = await uploadBytes(imgRef, post_photo);
-              postPhotoURL = await getDownloadURL(uploadResult.ref);
+            if (post_file) {
+              const fileRef = sRef(storage, `posts/${uuidv1()}`);
+              const uploadResult = await uploadBytes(fileRef, post_file);
+              postFileURL = await getDownloadURL(uploadResult.ref);
+              fileType = post_file.type.startsWith('video/') ? 'video' : 'image';
             }
         
             // const updateData = {
@@ -62,7 +64,8 @@ function CreatePost() {
         
                 await set(ref(database, 'advisers_posts/' +uuidv1()), {
                     adviserid:adviserid,
-                    post_photo:postPhotoURL,
+                    post_file:postFileURL,
+                    file_type: fileType,
                     dop:date,
                     likes:[],
                   });
@@ -103,20 +106,20 @@ function CreatePost() {
 
 
       <div className="mb-4">
-                            <label className="block text-sm font-bold text-gray-700 font-Poppins">Select Image to Post</label>
+                            <label className="block text-sm font-bold text-gray-700 font-Poppins">Select Image or video to Post</label>
 
                             <div className='my-4'>
                                 <label class="block">
                                     <span class="sr-only">Choose Post</span>
                                     <input type="file" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
-                                        name="post_photo"
+                                        name="post_file"
                                         onChange={(event) => {
-                                            formik.setFieldValue("post_photo", event.target.files[0]);
+                                            formik.setFieldValue("post_file", event.target.files[0]);
                                         }}
                                     />
                                 </label>
-                                {formik.touched.post_photo &&
-                                    formik.errors.post_photo && (
+                                {formik.touched.post_file &&
+                                    formik.errors.post_file && (
                                         <p
                                             style={{
                                                 fontSize: "13px",
@@ -124,7 +127,7 @@ function CreatePost() {
                                                 color: "red",
                                             }}
                                         >
-                                            {formik.errors.post_photo}
+                                            {formik.errors.post_file}
                                         </p>
                                     )}
                             </div>

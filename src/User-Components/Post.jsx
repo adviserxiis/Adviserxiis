@@ -84,11 +84,26 @@ function Post() {
       {/* Left side content */}
       <div className="flex-1 lg:mr-4 mb-4 lg:mb-0">
         <div className="w-full aspect-w-1 aspect-h-1 flex items-center justify-center">
-          <img
+          {/* <img
             src={post && post.post_photo ? post.post_photo : ''}
             alt="Post"
             className="w-96 h-96 sm:w-[500px] sm:h-[500px]  md:w-[600px] md:h-[600px] lg:w-[700px] lg:h-[700px] object-cover"
-          />
+          /> */}
+
+{post.post_file && (
+           post.file_type && post.file_type === 'video' ? (
+              <video controls width="700" height="700">
+                <source src={post.post_file} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            ) : (
+                               <img
+                  src={post && post.post_file ? post.post_file : ''}
+                  alt="Post Image"
+                  className="w-96 h-96 sm:w-[500px] sm:h-[500px]  md:w-[600px] md:h-[600px] lg:w-[700px] lg:h-[700px] object-cover"
+                /> 
+            )
+          )}
         </div>
       </div>
 
