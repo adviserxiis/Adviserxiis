@@ -210,17 +210,18 @@ function Profile() {
     <div className="flex flex-col pt-0 py-6 px-2 sm:p-6 space-y-6">
     <p className='font-Poppins text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold s my-2'>Profile</p>
 
-    <div className="flex items-center space-x-4 w-full my-4">
+    <div className="flex  items-center space-x-4 w-full my-4 md:w-4/6 lg:w-3/6">
         <img 
           src={user && user.profile_photo ? user.profile_photo : User} 
           alt="" 
           className="rounded-full w-32 h-32 lg:h-48 lg:w-48 object-cover"
         />
-        <div>
-          {/* <p className="text-lg font-medium font-Poppins">Edit Profile Image</p> */}
+        <div className=' flex flex-col justify-center items-center ' style={{marginLeft:"30px"}}>
+          <p className="text-lg md:text-xl lg:text-2xl font-bold font-Poppins">Followers</p>
+          <p className='text-lg md:text-xl lg:text-2xl font-bold font-Poppins'>{user && user.followers ? user.followers.length : 0}</p>
         </div>
       </div>
-    <form className="bg-[#D9D9D942] p-6 rounded-xl shadow-md space-y-6 md:w-4/6 lg:3/6 pb-[200px]  ">
+    <form className="bg-[#D9D9D942] p-6 rounded-xl shadow-md space-y-6 md:w-4/6 lg:w-3/6 pb-[200px]  ">
       <div>
         <label className="block text-sm font-bold text-gray-700 font-Poppins">Name</label>
         <input

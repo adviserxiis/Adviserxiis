@@ -393,14 +393,14 @@ function UserCheckoutPage() {
           </div>
         </div>
 
-        <div className='md:ml-[250px] flex flex-col md:flex-row  '>
+        <div className='md:ml-[250px] flex flex-col md:flex-row '>
           <div className='w-full md:w-1/6 md:mr-[30px] px-[20px]'>
             <h2 className="text-xl font-semibold mb-2">Service Description</h2>
             <p className="text-gray-500 text-sm sm:text-md ">{service && service.about_service ? service.about_service : ''}</p>
           </div>
           
           <div className='mx-4 '>
-          <div className="w-full mt-[20px] md:mt-[0px]   bg-gray-200 p-6 rounded-lg shadow-md">
+          <div className="w-full mt-[20px]   bg-gray-200 p-6 rounded-lg shadow-md">
             <form className="space-y-4">
               <div>
                 <label className="block text-gray-700">Service</label>
