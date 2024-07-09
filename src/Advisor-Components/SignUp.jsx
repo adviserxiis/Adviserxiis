@@ -91,7 +91,8 @@ function SignUp() {
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .min(3, 'Name must be at least 3 characters long')
-      .required('Name is required'),
+      .required('Name is required')
+      .matches(/^[^/]*$/, 'Name must not contain "/"'),
     email: Yup.string()
       .email('Invalid email address')
       .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|in)$/, 'Email must be a valid .com or .in domain')

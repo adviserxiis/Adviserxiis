@@ -45,7 +45,7 @@ const ServiceForm = () => {
     service_name: Yup.string()
       .required('Service name is required')
       .min(2, 'Service name must be at least 2 characters long')
-      .max(50, 'Service name cannot be more than 50 characters long'),
+      .matches(/^[^/]*$/, 'Servicename must not contain "/"'),
     about_service: Yup.string()
       .required('About service is required')
       .min(10, 'About service must be at least 10 characters long')

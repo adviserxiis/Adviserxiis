@@ -184,11 +184,11 @@ function BookedServices() {
                             </div>
                             <div className="w-full sm:w-4/6 ml-4 mt-[10px] ">
                               <div className='flex  justify-between'>
-                                <div className='w-4/6'>
+                                <div className='w-4/6 md:w-4/5'>
                                 <h2 className="text-md sm:text-xl md:text-2xl font-bold ">{item && item.adviser ? item.adviser.username : ''}</h2>
                                 <p className="text-[13px] sm:text-md">{item && item.adviser ? item.adviser.professional_title : ''}</p>
                                 </div>
-                                <div className='w-2/6'>
+                                <div className='w-2/6 md:1/5'>
                                 <p className="text-xs sm:text-sm  md:text-md font-bold">
                                 Exp: <span className="block sm:inline">    {item && item.adviser ? item.adviser.years_of_experience : ''} years</span></p>
                                 </div>
