@@ -131,7 +131,7 @@ function CreatePost() {
                         </div>
  
       <div className="flex space-x-4">
-        <button type="submit" className="bg-[#489CFF] text-white rounded-md py-2 px-4" onClick={formik.handleSubmit}>
+        <button type="submit" className="bg-[#489CFF] text-white rounded-md py-2 px-4" onClick={formik.handleSubmit} disabled={loading}>
         { !loading ? 'Create Post' : <CircularProgress  color="inherit"  />}
         </button>
       </div>

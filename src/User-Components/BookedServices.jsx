@@ -153,7 +153,7 @@ function BookedServices() {
 
 
   return (
-    <div className="min-h-screen flex flex-col font-inter pt-[50px] mb-[80px] ">
+    <div className="min-h-screen flex flex-col font-inter pt-[80px] mb-[80px] ">
 
       <div className="flex-grow bg-gray-50 py-8">
         <section className="container mx-auto px-4">
@@ -162,10 +162,10 @@ function BookedServices() {
             { serviceWithAdviser.length>0 ? serviceWithAdviser.map((item, idx) => (
                             <div className="bg-white rounded-lg shadow p-2 px-[20px]  cursor-pointer" key={idx}>
                             <div className='flex justify-between py-2'>
-                                <p className='font-bold text-lg'>Adviser Booked</p>
+                                <p className='font-bold text-sm sm:text-md md:text-lg '>Adviser Booked</p>
                                 <div className='flex'>
-                                <p className='text-[#5A88FF] flex justify-center items-center mr-1'>{item.data && item.data.scheduled_date? convertDateFormat(item.data.scheduled_date):''}<span><CalendarMonthIcon fontSize='small' /></span></p>
-                                <p className='text-[#5A88FF] flex justify-center items-center'>{item.data && item.data.scheduled_time ? item.data.scheduled_time : ''}<span><AccessAlarmsIcon fontSize='small'/></span></p>
+                                <p className='text-xs sm:text-sm  text-[#5A88FF] flex justify-center items-center mr-1'>{item.data && item.data.scheduled_date? convertDateFormat(item.data.scheduled_date):''}<span><CalendarMonthIcon fontSize='small' /></span></p>
+                                <p className='text-xs sm:text-sm  text-[#5A88FF] flex justify-center items-center'>{item.data && item.data.scheduled_time ? item.data.scheduled_time : ''}<span><AccessAlarmsIcon fontSize='small'/></span></p>
                                 </div>
                             </div>
                            <div className='flex'>
@@ -184,18 +184,22 @@ function BookedServices() {
                             </div>
                             <div className="w-full sm:w-4/6 ml-4 mt-[10px] ">
                               <div className='flex  justify-between'>
-                                <h2 className="text-xl sm:text-2xl font-bold  mb-[8px]">{item && item.adviser ? item.adviser.username : ''}</h2>
-                                <p className="text-sm sm:text-lg font-bold">
+                                <div className='w-4/5'>
+                                <h2 className="text-md sm:text-xl md:text-2xl font-bold ">{item && item.adviser ? item.adviser.username : ''}</h2>
+                                <p className="text-md ">{item && item.adviser ? item.adviser.professional_title : ''}</p>
+                                </div>
+                                <div className='w-1/5'>
+                                <p className="text-sm sm:text-md font-bold">
                                 Exp: <span className="block sm:inline">    {item && item.adviser ? item.adviser.years_of_experience : ''} years</span></p>
+                                </div>
                               </div>
             
-                              <div >
-                                <p className="text-md ">{item && item.adviser ? item.adviser.professional_title : ''}</p>
+                              <div  className='mt-2'>
                                 <p className='text-gray-500 text-sm sm:text-md' >{item && item.adviser ? item.adviser.professional_bio : ''}</p>
                               </div>
             
                                 <div className=' my-4 w-4/5 md:w-3/5'>
-                                <div className="flex items-center justify-center border border-[#5A88FF] text-[#5A88FF] px-4 py-1  rounded-full">
+                                <div className="flex items-center justify-center border border-[#5A88FF] text-[#5A88FF] px-4 py-1  rounded-full text-md sm:text-lg">
                                         {daysUntil(item.data.scheduled_date)} Days left !!
                                       </div>
                                 </div>                  

@@ -520,11 +520,11 @@ const ServiceForm = () => {
             </div>}
 
         <div className="flex space-x-4">
-        { serviceid == undefined &&           <button className="bg-[#489CFF] text-white rounded-md py-2 px-4 font-Poppins" onClick={formik.handleSubmit} type="submit">
+        { serviceid == undefined &&           <button className="bg-[#489CFF] text-white rounded-md py-2 px-4 font-Poppins" onClick={formik.handleSubmit} type="submit" disabled={loading}>
           { !loading ? 'Create' : <CircularProgress  color="inherit"  />}
           </button>}
     
-         { serviceid != undefined && <button className="bg-[#489CFF] text-white rounded-md py-2 px-4 font-Poppins" onClick={formik.handleSubmit} type="submit">
+         { serviceid != undefined && <button className="bg-[#489CFF] text-white rounded-md py-2 px-4 font-Poppins" onClick={formik.handleSubmit} type="submit" disabled={loading}>
           { !loading ? 'Update' : <CircularProgress  color="inherit"  />}
           </button>}
 

@@ -524,7 +524,7 @@ function UserLandingPage() {
                 
 
                 <div className="flex">
-                <div className="mx-2 flex justify-center items-center">
+                <div className="mx-2 flex justify-center items-center ">
                   <p className="text-lg md:text-xl lg:text-3xl mr-1 text-white pt-2 ">{post.data && post.data.likes ? post.data.likes.length : 0}</p>
 
                   {post.data && post.data.likes && post.data.likes.includes(userid) ? <div className="cursor-pointer text-2xl md:text-3xl lg:text-4xl">
@@ -536,7 +536,7 @@ function UserLandingPage() {
                 </div>
 
 
-                <div className="mx-2 flex justify-center">
+                <div className="mx-2 flex justify-center items-center ">
                   {/* <p className="text-3xl mr-1">0</p> */}
                   <div className="cursor-pointer text-2xl md:text-3xl lg:text-4xl">
                     <ShareIcon fontSize="inherit" onClick={() => handleShareClick(post.id)} />

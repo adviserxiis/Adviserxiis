@@ -378,6 +378,7 @@ function SignUp() {
               onClick={formik.handleSubmit}
               // onClick={()=>navigate('/emailconfirmation') }
               size="large"
+              disabled={loading}
               className='bg-[#F6F6F6] font-workSans w-[340px] sm:w-[380px]'
               style={{ margin: "0 auto", marginTop: "5px", height: "50px", backgroundColor: "#489CFF" }}
             >

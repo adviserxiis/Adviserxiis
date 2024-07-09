@@ -106,7 +106,7 @@ function UserCategory() {
   return (
     <div className="min-h-screen flex flex-col font-inter pt-[80px] mb-[80px] ">
 
-      <div className="flex-grow bg-gray-50 py-8">
+      <div className="flex-grow bg-gray-100 py-8">
         <section className="container mx-auto px-4">
           {/* <h1 className="text-3xl font-bold mb-4">Categories</h1> */}
           {/* <div className="flex flex-wrap space-x-2 md:space-x-8 space-y-1 mb-6">
@@ -150,15 +150,20 @@ function UserCategory() {
       </div>
       <div className="w-full sm:w-4/6 ml-4 mt-[10px]">
         <div className='flex justify-between'>
-          <h2 className="text-lg sm:text-2xl font-bold mb-[8px]">{adviser.data.username}</h2>
-          <p className="text-sm sm:text-lg font-bold">
+          <div className='w-4/5'>
+          <h2 className="text-md sm:text-xl md:text-2xl font-bold ">{adviser.data.username}</h2>
+          <p className="text-[13px] sm:text-md">{adviser.data.professional_title}</p>
+          </div>
+          <div className='w-1/5 '>
+          <p className="text-sm sm:text-md font-bold">
   Exp: <span className="block sm:inline">{adviser.data.years_of_experience} years</span>
 </p>
+</div>
         </div>
 
-        <div>
-          <p className="text-sm sm:text-md">{adviser.data.professional_title}</p>
-          <p className='text-gray-500 text-xs sm:text-sm'>{adviser.data.professional_bio}</p>
+        <div className='mt-2'>
+          
+          <p className='text-gray-500 text-xs sm:text-sm '>{adviser.data.professional_bio}</p>
         </div>
 
         <div className='my-4 w-3/5'>
