@@ -92,7 +92,7 @@ function Post() {
 
 {post.post_file && (
            post.file_type && post.file_type === 'video' ? (
-              <video controls width="700" height="700">
+              <video controls className="w-96 h-96 sm:w-[500px] sm:h-[500px]  md:w-[600px] md:h-[600px] lg:w-[700px] lg:h-[700px] object-cover">
                 <source src={post.post_file} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
