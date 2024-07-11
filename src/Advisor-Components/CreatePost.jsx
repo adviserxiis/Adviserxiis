@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import * as Yup from "yup";
 import { useFormik } from 'formik';
-import { child, get, getDatabase, ref, set } from "firebase/database";
+import { child, get, getDatabase, ref, set, update } from "firebase/database";
 import { app } from "../firebase";
 import { v1 as uuidv1 } from 'uuid';
 import { getDownloadURL, getStorage, uploadBytes } from 'firebase/storage'
@@ -38,6 +38,22 @@ function CreatePost() {
         .required("file is required"),
      });
 
+     async function getUser(userId) {
+      const nodeRef = ref(database, `advisers/${userId}`);
+      try {
+        const snapshot = await get(nodeRef);
+        if (snapshot.exists()) {
+          return snapshot.val();
+        } else {
+          console.log('No data available');
+          return null;
+        }
+      } catch (error) {
+        console.error('Error fetching node details:', error);
+        return null;
+      }
+    }
+
      const handleSubmit = async () =>{
         setLoading(true);
         const userid = JSON.parse(localStorage.getItem('adviserid'));
@@ -60,15 +76,24 @@ function CreatePost() {
             //   username: name,
             //   professional_bio: professional_bio,
             // };
+            const postid = uuidv1();
         
-        
-                await set(ref(database, 'advisers_posts/' +uuidv1()), {
+                await set(ref(database, 'advisers_posts/' +postid), {
                     adviserid:adviserid,
                     post_file:postFileURL,
                     file_type: fileType,
                     dop:date,
                     likes:[],
                   });
+
+                  const adviserData = await getUser(adviserid)
+                  const currentPosts = adviserData.posts || []; // Retrieve existing IDs or initialize to an empty array
+                
+                  // Add the new ID to the array
+                  const updatedPosts = [...currentPosts, postid];
+                
+                  // Update the array field in the database
+                  await update(ref(database, 'advisers/' + adviserid), { posts: updatedPosts });
 
       
         

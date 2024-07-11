@@ -100,6 +100,27 @@ function CreatedPosts() {
     }
   }
 
+  const deletePost = async (postid) =>{
+    remove(ref(database, 'advisers_posts/' + postid));
+           
+    const adviserRef = ref(database, 'advisers/' + adviserid);
+    const snapshot = await get(adviserRef);
+    if (snapshot.exists()) {
+      const adviserData = snapshot.val();
+      const currentPosts = adviserData.posts || [];
+
+
+      const updatedPosts = currentPosts.filter(id => id !== postid);
+
+
+
+      await update(adviserRef, { 
+        posts: updatedPosts,
+       });
+      }    
+
+    setUpdated(prev => !prev)
+  }
 
  
 
@@ -118,8 +139,7 @@ function CreatedPosts() {
       confirmButtonText: "Delete"
     }).then((result) => {
       if (result.isConfirmed) {
-         remove(ref(database, 'advisers_posts/' + postid));
-         setUpdated(prev => !prev)
+           deletePost(postid)
       }
     });
 

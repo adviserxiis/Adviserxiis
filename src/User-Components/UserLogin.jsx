@@ -35,66 +35,59 @@ export default function UserLogin() {
 
 
   const onCapchaVerify = () => {
-    setLoading(true)
-    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-      'size': 'normal',
-      'callback': (response) => {
-        setLoading(false)
-        // reCAPTCHA solved, allow signInWithPhoneNumber.
-        // ...
-      },
-      'expired-callback': () => {
-        setLoading(false)
-        // Response expired. Ask user to solve reCAPTCHA again.
-        // ...
-      }
-    });
+    setLoading(false)
+
+    if (window.recaptchaVerifier) {
+      window.recaptchaVerifier.clear();
+      window.recaptchaVerifier = undefined;
+    }
+
+    if (!window.recaptchaVerifier) {
+       // Clear the existing verifier if any
+       console.log("byii1")
+       console.log("window.recapchverifier", window.recaptchaVerifier)
+       window.recaptchaVerifier = new RecaptchaVerifier(auth, 'sign-in-button', {
+        'size': 'invisible',
+        'callback': (response) => {
+          // setLoading(false)
+          console.log("bi2")
+          console.log("response", response)
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+          // ...
+        },
+        'expired-callback': () => {
+          // setLoading(false)
+          console.log("bii3")
+          // Response expired. Ask user to solve reCAPTCHA again.
+          // ...
+        }
+      });
+    }
+
+
+  
   }
 
-
-  //   const sendOTP = async () =>{
-
-  //     onCapchaVerify()
-
-  //     setLoading(true)
-  //   const phoneNumber = "+91"+ formik.values.mobile_number
-  // const appVerifier = window.recaptchaVerifier;
-  //   signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-  //   .then((confirmationResult) => {
-  //     // SMS sent. Prompt user to type the code from the message, then sign the
-  //     // user in with confirmationResult.confirm(code).
-  //     window.confirmationResult = confirmationResult;
-  //     alert("OTP has been sent")
-  //     setOtpSent(true)
-  //     setLoading(false)
-
-  //     // ...
-  //   }).catch((error) => {
-  //     setLoading(false)
-  //     // Error; SMS not sent
-  //     // ...
-  //   });
-  // }
-
-
   const sendOTP = async () => {
-    onCapchaVerify();
+    console.log("hii1");
+      onCapchaVerify();
+    
+  
+    console.log("hii2")
     setLoading(true);
+
+    setOtpSent(false)
+    setVerified(false)
 
     const phoneNumber = "+91" + formik.values.mobile_number;
     const appVerifier = window.recaptchaVerifier;
 
     try {
+      console.log("hii3")
       const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
-      // SMS sent. Prompt user to type the code from the message, then sign the
-      // user in with confirmationResult.confirm(code).
       window.confirmationResult = confirmationResult;
       // alert("OTP has been sent")
-      // await Swal.fire({
-      //   title: "Success",
-      //   text: "OTP Sent Successfully!!",
-      //   icon: "success"
-      // });
+
       setOtpSent(true);
     } catch (error) {
       // Error; SMS not sent
@@ -328,7 +321,7 @@ export default function UserLogin() {
                       />}
 
                       {
-                        (!verified && !otpSent) && <div id="recaptcha-container"  style={{ width: "100%", marginTop: "10px", }} className='sm:mt-4 w-[300px] sm:w-[380px]'></div>
+                        (!verified && !otpSent) && <div id="sign-in-button"  style={{ width: "100%", marginTop: "10px", }} className='sm:mt-4 w-[300px] sm:w-[380px] hidden'></div>
                       }
 
 
@@ -383,6 +376,10 @@ export default function UserLogin() {
 
 
                     </form>
+
+                    <div className='pt-4'>
+                      <p className='text-center cursor-pointer hover:underline' onClick={sendOTP}>Resend OTP</p>
+                    </div>
                   </div>
                 </div>
               </div>
