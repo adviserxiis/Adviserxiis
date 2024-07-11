@@ -44,14 +44,11 @@ export default function UserLogin() {
 
     if (!window.recaptchaVerifier) {
        // Clear the existing verifier if any
-       console.log("byii1")
-       console.log("window.recapchverifier", window.recaptchaVerifier)
+
        window.recaptchaVerifier = new RecaptchaVerifier(auth, 'sign-in-button', {
         'size': 'invisible',
         'callback': (response) => {
           // setLoading(false)
-          console.log("bi2")
-          console.log("response", response)
           // reCAPTCHA solved, allow signInWithPhoneNumber.
           // ...
         },
