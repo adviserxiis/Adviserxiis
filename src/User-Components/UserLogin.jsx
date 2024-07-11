@@ -69,11 +69,11 @@ export default function UserLogin() {
   }
 
   const sendOTP = async () => {
-    console.log("hii1");
+    // console.log("hii1");
       onCapchaVerify();
     
   
-    console.log("hii2")
+    // console.log("hii2")
     setLoading(true);
 
     setOtpSent(false)
@@ -83,7 +83,7 @@ export default function UserLogin() {
     const appVerifier = window.recaptchaVerifier;
 
     try {
-      console.log("hii3")
+      // console.log("hii3")
       const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
       window.confirmationResult = confirmationResult;
       // alert("OTP has been sent")
@@ -376,10 +376,10 @@ export default function UserLogin() {
 
 
                     </form>
-
+{/* 
                     <div className='pt-4'>
                       <p className='text-center cursor-pointer hover:underline' onClick={sendOTP}>Resend OTP</p>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
