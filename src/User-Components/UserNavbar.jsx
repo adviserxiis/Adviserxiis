@@ -101,18 +101,18 @@ export default function UserNavbar() {
 
         <NavLink to="/category">
              <div className={`font-Poppins text-lg  h-full flex items-center mx-3`}>
-               <p>CATEGORY</p>
+               <p>ADVISER</p>
               </div>
         </NavLink>
 
         { userid == null &&         <NavLink to="/createaccount">
-             <div className={`font-Poppins text-lg  h-full flex items-center mx-3`}>
+             <div className={`font-Poppins text-lg  h-full flex items-center mx-3 px-4 py-2 rounded-lg text-white bg-[#0069B4]`}>
                <p>LOGIN/SIGNUP</p>
               </div>
         </NavLink>}
 
         { userid != null &&         <div  onClick={handleLogOut} className='cursor-pointer' >
-             <div className={`font-Poppins text-lg  h-full flex items-center mx-3`}>
+             <div className={`font-Poppins text-lg  h-full flex items-center mx-3 px-4 py-2 rounded-lg text-white bg-[#0069B4]`}>
                <p>LOGOUT</p>
               </div>
         </div>}
@@ -145,7 +145,7 @@ export default function UserNavbar() {
 
         <NavLink to="/category" >
              <div className={`py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors`}>
-               <p>CATEGORY</p>
+               <p>ADVISER</p>
               </div>
         </NavLink>
         
