@@ -12,6 +12,7 @@ import { app } from "../firebase";
 import Swal from 'sweetalert2';
 import User from '../assets/User.png'
 import { CircularProgress } from '@mui/material';
+import profile_background from '../assets/profile_background.jpg'
 
 const tabs = ['Services', 'Posts', 'Videos'];
 
@@ -349,7 +350,9 @@ const AdvisorProfile = () => {
   return (
     <div className="min-h-screen bg-white pb-[80px] font-inter">
       <div className="relative w-full h-48 md:h-64">
-        <img src={Profile_bg} alt="Background" className="w-full h-full object-cover" />
+        <img src={adviser && adviser.profile_background ? adviser.profile_background : profile_background}
+         alt="Background" 
+         className="w-full h-full object-cover" />
       </div>
 
 
