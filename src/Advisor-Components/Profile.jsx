@@ -51,7 +51,7 @@ function Profile() {
     name: '',
     professional_bio:'',
     professional_title: '',
-    experience: '',
+    experience:0,
     education: '',
     industry: '',
     profile_photo:null,
@@ -73,11 +73,7 @@ function Profile() {
       .max(50, 'Professional title must be at most 50 characters'),
     experience: Yup.number()
       .required('Experience is required')
-      .typeError('Experience must be a number')
-      .positive('Experience must be a positive number')
-      .integer('Experience must be an integer')
-      .min(0, 'Experience must be at least 0 years')
-      .max(50, 'Experience must be at most 50 years'),
+      .min(0, 'Experience must be at least 0 years'),
     education: Yup.string()
       .required('Education is required'),
     industry: Yup.string()
@@ -93,7 +89,7 @@ function Profile() {
         if (!value) return true;
         return value.size <= 5 * 1024 * 1024; // 5MB in bytes
       }),
-      profile_background: Yup
+    profile_background: Yup
       .mixed()  
       .test("fileType", "Unsupported file type", (value) => {
         if (!value) return true;
@@ -110,6 +106,7 @@ function Profile() {
 
   const handleSubmit = async () => {
     setLoading(true);
+    console.log("formik", formik)
     const userid = JSON.parse(localStorage.getItem('adviserid'));
     const storage = getStorage();
     const { profile_photo, name, professional_bio, professional_title, experience, education ,industry, profile_background } = formik.values;
@@ -136,6 +133,9 @@ function Profile() {
       // };
   
       if (profilePhotoURL && profileBackgroundURL) {
+        console.log("hii")
+        console.log("profile_photo", profilePhotoURL)
+        console.log("profile_background", profileBackgroundURL)
         await update(ref(getDatabase(), 'advisers/' + userid),{
           username: name,
           professional_bio: professional_bio,
@@ -148,6 +148,9 @@ function Profile() {
         });
       }
       else if( profilePhotoURL){
+        console.log("hii2")
+        console.log("profile_photo", profilePhotoURL)
+        console.log("profile_background", profileBackgroundURL)
         await update(ref(getDatabase(), 'advisers/' + userid),{
           username: name,
           professional_bio: professional_bio,
@@ -159,6 +162,9 @@ function Profile() {
         });
       }
       else if (profileBackgroundURL){
+        console.log("hii3")
+        console.log("profile_photo", profilePhotoURL)
+        console.log("profile_background", profileBackgroundURL)
         await update(ref(getDatabase(), 'advisers/' + userid),{
           username: name,
           professional_bio: professional_bio,
@@ -229,6 +235,7 @@ function Profile() {
     
     if (adviserId) {
       getUser(adviserId).then((userData) => {
+        console.log("userData",userData)
         setUser(userData);
         formik.setValues({
           name: userData.username || '',
@@ -258,11 +265,11 @@ function Profile() {
        alt="" 
        className='h-full w-full object-cover'
         />
-    <label htmlFor="profileImageInput" className="absolute bottom-0 right-0 bg-black text-white p-1 rounded-full cursor-pointer mr-4">
+    <label htmlFor="profileBackgroundInput" className="absolute bottom-0 right-0 bg-black text-white p-1 rounded-full cursor-pointer mr-4">
               <EditIcon />
             </label>
             <input
-              id="profileImageInput"
+              id="profileBackgroundInput"
               type="file"
               accept="image/*"
               className="hidden"
@@ -402,7 +409,10 @@ function Profile() {
               <input
                 name="experience"
                 value={formik.values.experience}
-                onChange={formik.handleChange}
+                // onChange={formik.handleChange}
+                onChange={(e)=>{
+                  formik.setFieldValue("experience", e.target.value)
+                }}
                 onBlur={formik.handleBlur}
                 type="number"
                 className="w-full mt-1 p-2 border border-gray-300 rounded-md font-Poppins"
