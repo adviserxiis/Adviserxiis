@@ -106,7 +106,6 @@ function Profile() {
 
   const handleSubmit = async () => {
     setLoading(true);
-    console.log("formik", formik)
     const userid = JSON.parse(localStorage.getItem('adviserid'));
     const storage = getStorage();
     const { profile_photo, name, professional_bio, professional_title, experience, education ,industry, profile_background } = formik.values;
@@ -133,7 +132,6 @@ function Profile() {
       // };
   
       if (profilePhotoURL && profileBackgroundURL) {
-        console.log("hii")
         console.log("profile_photo", profilePhotoURL)
         console.log("profile_background", profileBackgroundURL)
         await update(ref(getDatabase(), 'advisers/' + userid),{
@@ -148,7 +146,6 @@ function Profile() {
         });
       }
       else if( profilePhotoURL){
-        console.log("hii2")
         console.log("profile_photo", profilePhotoURL)
         console.log("profile_background", profileBackgroundURL)
         await update(ref(getDatabase(), 'advisers/' + userid),{
@@ -162,7 +159,6 @@ function Profile() {
         });
       }
       else if (profileBackgroundURL){
-        console.log("hii3")
         console.log("profile_photo", profilePhotoURL)
         console.log("profile_background", profileBackgroundURL)
         await update(ref(getDatabase(), 'advisers/' + userid),{
@@ -235,13 +231,12 @@ function Profile() {
     
     if (adviserId) {
       getUser(adviserId).then((userData) => {
-        console.log("userData",userData)
         setUser(userData);
         formik.setValues({
           name: userData.username || '',
           professional_bio: userData.professional_bio || '',
           professional_title: userData.professional_title || '',
-          experience: userData.years_of_experience || '',
+          experience: parseInt(userData.years_of_experience, 10) || 0,
           education: userData.education || '',
           industry: userData.industry || ''
         });
@@ -409,12 +404,9 @@ function Profile() {
               <input
                 name="experience"
                 value={formik.values.experience}
-                // onChange={formik.handleChange}
-                onChange={(e)=>{
-                  formik.setFieldValue("experience", e.target.value)
-                }}
+                onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                type="number"
+                type="text"
                 className="w-full mt-1 p-2 border border-gray-300 rounded-md font-Poppins"
                 placeholder="5"
               />
@@ -431,7 +423,7 @@ function Profile() {
                   </p>
                 )}
             </div>
-            <div className="mb-4">
+                       <div className="mb-4">
               <label className="block text-sm font-bold text-gray-700 font-Poppins">Education:</label>
               <select className="w-full mt-1 p-2 border border-gray-300 rounded-md font-Poppins" name="education"
                 value={formik.values.education}
