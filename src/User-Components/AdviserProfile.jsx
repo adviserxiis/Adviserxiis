@@ -348,8 +348,8 @@ const AdvisorProfile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white pb-[80px] font-inter">
-      <div className="relative w-full h-48 md:h-64">
+    <div className="min-h-screen bg-white  py-[80px] font-inter ">
+      <div className="relative w-full h-28 sm:h-48 md:h-64">
         <img src={adviser && adviser.profile_background ? adviser.profile_background : profile_background}
          alt="Background" 
          className="w-full h-full object-cover" />
