@@ -567,6 +567,10 @@ function UserLandingPage() {
 
 
     <div className="min-h-screen pt-[50px] mb-[120px] ">
+      <div className="flex flex-col items-center container mx-auto md:mx-7xl  font-Poppin m-4">
+
+     
+      </div>
       <div className=" flex flex-col items-center container mx-auto md:mx-7xl  font-Poppin">
         <div className="m-4">
           {postsWithAdviser.map((post, idx) => (
