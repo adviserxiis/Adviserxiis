@@ -31,6 +31,7 @@ import BookedServices from './User-Components/BookedServices.jsx'
 import ChangePassword from './Advisor-Components/ChangePassword.jsx'
 import Post from './User-Components/Post.jsx'
 import CreatedPosts from './Advisor-Components/CreatedPosts.jsx'
+import Question from './User-Components/Question.jsx'
 
 
 
@@ -74,6 +75,8 @@ const router = createBrowserRouter(
      <Route path="/room/:meetingid" element={<Room />} />,
 
      <Route path="/payment" element={<Payment />} />,
+
+     <Route path="/createquestion" element={<Question />} />,
 
     
 

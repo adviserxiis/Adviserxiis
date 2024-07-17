@@ -4,7 +4,7 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { CircularProgress, TextField } from '@mui/material'
 import * as Yup from "yup";
 import { useFormik } from 'formik';
-import { child, get, getDatabase, ref, set } from "firebase/database";
+import { child, get, getDatabase, ref, set, update } from "firebase/database";
 import { app } from "../firebase";
 import { RecaptchaVerifier, getAuth, signInWithPhoneNumber } from 'firebase/auth';
 import { v1 as uuidv1 } from 'uuid';
@@ -25,12 +25,16 @@ export default function UserLogin() {
 
   const initialValues = {
     mobile_number: '',
+    name:''
   }
 
   const validationSchema = Yup.object().shape({
     mobile_number: Yup.string()
       .matches(/^[0-9]{10}$/, 'Mobile number must be exactly 10 digits')
       .required('Mobile number is required'),
+    name: Yup.string()
+      .min(3, 'Name must be at least 3 characters long')
+      .matches(/^[^/]*$/, 'Name must not contain "/"'),
   });
 
 
@@ -216,6 +220,14 @@ export default function UserLogin() {
           const userData = childSnapshot.val();
           if (userData.mobile_number === formik.values.mobile_number) {
             localStorage.setItem('userid', JSON.stringify(childSnapshot.key));
+            const userid = childSnapshot.key
+            if(formik.values.name !== '')
+            {
+            update(ref(database, 'users/' + userid), {
+              username:formik.values.name
+            });
+          }
+
             userExists = true;
             return true; // Exit loop early
           }
@@ -223,17 +235,35 @@ export default function UserLogin() {
         
         if (!userExists) {
           const userid = uuidv1();
+          if(formik.values.name !== '')
+          {
+          set(ref(database, 'users/' + userid), {
+            mobile_number: formik.values.mobile_number,
+            username:formik.values.name
+          });
+        }
+        else{
           set(ref(database, 'users/' + userid), {
             mobile_number: formik.values.mobile_number,
           });
+        }
           localStorage.setItem("userid", JSON.stringify(userid));
         }
   
       } else {
         const userid = uuidv1();
-        set(ref(database, 'users/' + userid), {
-          mobile_number: formik.values.mobile_number,
-        });
+        if(formik.values.name !== '')
+          {
+          set(ref(database, 'users/' + userid), {
+            mobile_number: formik.values.mobile_number,
+            username:formik.values.name
+          });
+        }
+        else{
+          set(ref(database, 'users/' + userid), {
+            mobile_number: formik.values.mobile_number,
+          });
+        }
         localStorage.setItem("userid", JSON.stringify(userid));
       }
       
@@ -316,6 +346,21 @@ export default function UserLogin() {
                         margin="dense"
                         className=' font-workSans w-[300px] sm:w-[380px]'
                       />}
+
+<TextField
+              name='name'
+              id="outlined-basic"
+              type="text"
+              label="Name (Optional)"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              helperText={formik.touched.name && formik.errors.name}
+              variant="outlined"
+              margin="dense"
+              className=' font-workSans w-[300px] sm:w-[380px]'
+            />
 
                       {
                         (!verified && !otpSent) && <div id="sign-in-button"  style={{ width: "100%", marginTop: "10px", }} className='sm:mt-4 w-[300px] sm:w-[380px] hidden'></div>
