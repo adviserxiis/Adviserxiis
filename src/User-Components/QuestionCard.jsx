@@ -33,10 +33,14 @@ const QuestionCard = ({question}) => {
   const [tempAnswers, setTempAnswers] = useState([])
 
   const handleInputChange = (e) => {
-    if (isLoggedIn) {
-      setIsDialogOpen(true);
+
+    const userid = JSON.parse(localStorage.getItem('userid'));
+    const adviserid = JSON.parse(localStorage.getItem('adviserid'));
+    if (userid === null && adviserid === null) {
+        navigate('/createaccount'); 
+   
     } else {
-      navigate('/createaccount'); // Navigate to login page
+      setIsDialogOpen(true); // Navigate to login page
     }
   };
 
@@ -92,6 +96,13 @@ const QuestionCard = ({question}) => {
   }
 
   const handleAnswerSubmit = async(questionid) =>{
+
+        if(answer == '')
+        {
+            handleDialogClose()
+            return
+        }
+      
     try {
 
         const userid = JSON.parse(localStorage.getItem('userid'));
@@ -104,32 +115,20 @@ const QuestionCard = ({question}) => {
             return
         }
 
-      // Fetch the current question data
+
+
       const questionData = await getQuestion(questionid);
-    //   console.log("questionData", questionData);
-  
-  
-  
-      // Get the current answers array or initialize it to an empty array if it doesn't exist
       const currentAnswers = questionData.data.answers || [];
       let updatedAnswers = [...currentAnswers];
-      
-      // Get user and adviser IDs from local storage
-
       const date = new Date().toString();
-          
-      
-      // Create the new answer object
 
       let currentAnswer = null
-      
-
       if(adviserid!= null)
       {
          currentAnswer = {
              answer: answer,
              userid: adviserid,
-             upvote: 0,
+             upvote: [],
              doa:date,
            };
       }
@@ -138,25 +137,18 @@ const QuestionCard = ({question}) => {
          currentAnswer = {
              answer: answer,
              userid: userid,
-             upvote: 0,
+             upvote: [],
            };
       }
-
-  
-      // Append the new answer to the updated answers array
       updatedAnswers.push(currentAnswer);
-  
-      
-
-  
-      // Update the question with the new answers array
       await update(ref(database, 'questions/' + questionid), { answers: updatedAnswers });
          
-      //for frequently updating the answers
+    
       setTempAnswers(updatedAnswers)
 
 
       setAnswer('')
+      handleDialogClose()
     
     } catch (error) {
       console.error('Error updating answers:', error);
@@ -253,11 +245,11 @@ getUserDetailsForAnswers(tempAnswers).then((response)=>{
           placeholder="Type..."
           className=" flex-grow p-2 border bg-gray-300 focus:outline-none rounded-full px-4 w-full pr-[60px]"
         />
-                    {answer && (
+                    {/* {answer && (
               <button className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-transparent text-blue-500"  onClick={()=>handleAnswerSubmit(question.id)}>
                 Post
               </button>
-            )}
+            )} */}
             </div>
         <button className="bg-gray-300 p-2 rounded-full mx-2">
           <ThumbUpOffAltIcon />
@@ -280,14 +272,19 @@ getUserDetailsForAnswers(tempAnswers).then((response)=>{
           <textarea
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
-            rows={4}
+            rows={3}
             className="w-full p-2 border bg-gray-100 rounded-md"
             placeholder="Type your answer here..."
           />
+           
+              <button className=" bg-blue-500 text-white w-full px-4 py-2 rounded-full cursor-pointer"  onClick={()=>handleAnswerSubmit(question.id)}  >
+                Post
+              </button>
+        
         </DialogContent>
-        <DialogActions>
+        {/* <DialogActions>
           <Button onClick={handleDialogClose}>Close</Button>
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
     
 
