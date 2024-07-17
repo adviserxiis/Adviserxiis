@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 // import { AiOutlineMenu } from 'react-icons/ai'; // Ensure you have react-icons installed
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
@@ -6,6 +6,10 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { child, get, getDatabase, ref, remove, set, update } from "firebase/database";
 import { app } from "../firebase";
 import User from '../assets/User.png'
+
+
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 
 const QuestionCard = ({question}) => {
@@ -13,7 +17,13 @@ const QuestionCard = ({question}) => {
 
     const database = getDatabase(app);
 
-    const navigate = useNavigate()
+    const inputRef = useRef(null);
+
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+    const navigate= useNavigate()
+
 
 
   const [showAnswers, setShowAnswers] = useState(false);
@@ -21,6 +31,22 @@ const QuestionCard = ({question}) => {
   const [answers, setAnswers] = useState([])
   const [updated, setUpdated] = useState(false)
   const [tempAnswers, setTempAnswers] = useState([])
+
+  const handleInputChange = (e) => {
+
+    const userid = JSON.parse(localStorage.getItem('userid'));
+    const adviserid = JSON.parse(localStorage.getItem('adviserid'));
+    if (userid === null && adviserid === null) {
+        navigate('/createaccount'); 
+   
+    } else {
+      setIsDialogOpen(true); // Navigate to login page
+    }
+  };
+
+  const handleDialogClose = () => {
+    setIsDialogOpen(false);
+  };
 
 
 
@@ -70,6 +96,13 @@ const QuestionCard = ({question}) => {
   }
 
   const handleAnswerSubmit = async(questionid) =>{
+
+        if(answer == '')
+        {
+            handleDialogClose()
+            return
+        }
+      
     try {
 
         const userid = JSON.parse(localStorage.getItem('userid'));
@@ -82,32 +115,20 @@ const QuestionCard = ({question}) => {
             return
         }
 
-      // Fetch the current question data
+
+
       const questionData = await getQuestion(questionid);
-    //   console.log("questionData", questionData);
-  
-  
-  
-      // Get the current answers array or initialize it to an empty array if it doesn't exist
       const currentAnswers = questionData.data.answers || [];
       let updatedAnswers = [...currentAnswers];
-      
-      // Get user and adviser IDs from local storage
-
       const date = new Date().toString();
-          
-      
-      // Create the new answer object
 
       let currentAnswer = null
-      
-
       if(adviserid!= null)
       {
          currentAnswer = {
              answer: answer,
              userid: adviserid,
-             upvote: 0,
+             upvote: [],
              doa:date,
            };
       }
@@ -116,25 +137,18 @@ const QuestionCard = ({question}) => {
          currentAnswer = {
              answer: answer,
              userid: userid,
-             upvote: 0,
+             upvote: [],
            };
       }
-
-  
-      // Append the new answer to the updated answers array
       updatedAnswers.push(currentAnswer);
-  
-      
-
-  
-      // Update the question with the new answers array
       await update(ref(database, 'questions/' + questionid), { answers: updatedAnswers });
          
-      //for frequently updating the answers
+    
       setTempAnswers(updatedAnswers)
 
 
       setAnswer('')
+      handleDialogClose()
     
     } catch (error) {
       console.error('Error updating answers:', error);
@@ -223,22 +237,56 @@ getUserDetailsForAnswers(tempAnswers).then((response)=>{
       <div className="flex items-center mt-4">
         <div className='relative w-full'>
         <input
+         ref={inputRef}
           type="text"
           value={answer}
-          onChange={(e)=>setAnswer(e.target.value)}
+        //   onChange={(e)=>setAnswer(e.target.value)}
+        onChange={handleInputChange}
           placeholder="Type..."
           className=" flex-grow p-2 border bg-gray-300 focus:outline-none rounded-full px-4 w-full pr-[60px]"
         />
-                    {answer && (
+                    {/* {answer && (
               <button className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-transparent text-blue-500"  onClick={()=>handleAnswerSubmit(question.id)}>
                 Post
               </button>
-            )}
+            )} */}
             </div>
         <button className="bg-gray-300 p-2 rounded-full mx-2">
           <ThumbUpOffAltIcon />
         </button>
       </div>
+
+
+      <Dialog open={isDialogOpen} onClose={handleDialogClose} maxWidth="sm" fullWidth={true} className='font-Poppins'>
+        <DialogTitle>
+          Write Your Answer
+          <IconButton
+            aria-label="close"
+            onClick={handleDialogClose}
+            sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <textarea
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+            rows={3}
+            className="w-full p-2 border bg-gray-100 rounded-md"
+            placeholder="Type your answer here..."
+          />
+           
+              <button className=" bg-blue-500 text-white w-full px-4 py-2 rounded-full cursor-pointer"  onClick={()=>handleAnswerSubmit(question.id)}  >
+                Post
+              </button>
+        
+        </DialogContent>
+        {/* <DialogActions>
+          <Button onClick={handleDialogClose}>Close</Button>
+        </DialogActions> */}
+      </Dialog>
+    
 
     </div>
   );
