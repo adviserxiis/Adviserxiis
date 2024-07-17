@@ -25,6 +25,7 @@ import Swal from "sweetalert2";
 import ShareDialog from "./ShareDialog";
 import DeleteIcon from '@mui/icons-material/Delete';
 import QuestionCard from "./QuestionCard";
+import Question from "./Question";
 
 function UserLandingPage() {
   const database = getDatabase(app);
@@ -117,11 +118,11 @@ function UserLandingPage() {
 
   const addLikeOptimistically = async (postid) => {
     if (userid == null) {
-      await Swal.fire({
-        title: "Error",
-        text: "You must be logged in to like the post!",
-        icon: "error"
-      });
+      // await Swal.fire({
+      //   title: "Error",
+      //   text: "You must be logged in to like the post!",
+      //   icon: "error"
+      // });
       navigate('/createaccount');
       return;
     }
@@ -156,11 +157,11 @@ function UserLandingPage() {
 
   const removeLikeOptimistically = async (postid) => {
     if (userid == null) {
-      await Swal.fire({
-        title: "Error",
-        text: "You must be logged in to dislike the post!",
-        icon: "error"
-      });
+      // await Swal.fire({
+      //   title: "Error",
+      //   text: "You must be logged in to dislike the post!",
+      //   icon: "error"
+      // });
       navigate('/createaccount');
       return;
     }
@@ -569,7 +570,7 @@ function UserLandingPage() {
     <div className="min-h-screen pt-[50px] mb-[120px] ">
       <div className="flex flex-col items-center container mx-auto md:mx-7xl  font-Poppin m-4">
 
-     
+              <Question />
       </div>
       <div className=" flex flex-col items-center container mx-auto md:mx-7xl  font-Poppin">
         <div className="m-4">
