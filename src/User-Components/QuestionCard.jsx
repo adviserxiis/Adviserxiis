@@ -202,7 +202,7 @@ getUserDetailsForAnswers(tempAnswers).then((response)=>{
               <div>
                 <h4 className="font-bold text-xs sm:text-md  md:text-lg">{item?.user?.username ? item.user.username  : 'Certified User'}</h4>
                 {/* <p className="text-sm text-gray-600">{answer.time}</p> */}
-                <p className="mt-2 text-xs sm:text-md  md:text-lg">{item.answer}</p>
+                <p className="mt-2 text-xs sm:text-md  md:text-lg">{item?.answer}</p>
               </div>
             </div>
           ))}
