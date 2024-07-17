@@ -23,7 +23,7 @@ const QuestionModel = ({ open, handleClose }) => {
 
         question: Yup.string()
             .required('Question is required')
-            .max(250, 'Question can nott have more than 250 character'),
+            .max(250, 'Question can not have more than 250 character'),
     });
 
     const handleSubmit = async () => {

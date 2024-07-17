@@ -134,7 +134,7 @@ function UserCheckoutPage() {
           });
 
           await update(ref(database, 'users/' + userid), {
-            name: `${user.name ? user.name : formik.values.name}`,
+            username: `${user.name ? user.name : formik.values.name}`,
             email: formik.values.email
           });
 

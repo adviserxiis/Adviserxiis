@@ -351,7 +351,7 @@ export default function UserLogin() {
               name='name'
               id="outlined-basic"
               type="text"
-              label="Name (Optional)"
+              label="Name"
               value={formik.values.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
