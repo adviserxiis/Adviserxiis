@@ -83,7 +83,8 @@ const QuestionCard = ({question}) => {
       const userid = JSON.parse(localStorage.getItem('userid'));
       const adviserid = JSON.parse(localStorage.getItem('adviserid'));
       const date = new Date().toString();
-  
+          
+      
       // Create the new answer object
 
       let currentAnswer = null
@@ -170,7 +171,7 @@ getUserDetailsForAnswers(tempAnswers).then((response)=>{
             className="w-10 h-10 rounded-full mr-4"
           />
           <div>
-            <h3 className="font-bold">{question && question.user?.username ? question.data.username : 'Certified User'}</h3>
+            <h3 className="font-bold">{question && question.user?.username ? question.user.username : 'Certified User'}</h3>
             {/* <p className="text-sm text-gray-600">5h ago</p> */}
           </div>
         </div>
@@ -214,7 +215,7 @@ getUserDetailsForAnswers(tempAnswers).then((response)=>{
           value={answer}
           onChange={(e)=>setAnswer(e.target.value)}
           placeholder="Type..."
-          className=" flex-grow p-2 border bg-gray-300 focus:outline-none rounded-full px-4 w-full"
+          className=" flex-grow p-2 border bg-gray-300 focus:outline-none rounded-full px-4 w-full pr-[60px]"
         />
                     {answer && (
               <button className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-transparent text-blue-500"  onClick={()=>handleAnswerSubmit(question.id)}>
