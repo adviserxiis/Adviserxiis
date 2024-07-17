@@ -76,7 +76,7 @@ const router = createBrowserRouter(
 
      <Route path="/payment" element={<Payment />} />,
 
-     <Route path="/createquestion" element={<Question />} />,
+     {/* <Route path="/createquestion" element={<Question />} />, */}
 
     
 
