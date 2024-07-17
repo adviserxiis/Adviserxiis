@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 // import { AiOutlineMenu } from 'react-icons/ai'; // Ensure you have react-icons installed
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
@@ -6,11 +6,21 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { child, get, getDatabase, ref, remove, set, update } from "firebase/database";
 import { app } from "../firebase";
 import User from '../assets/User.png'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { useNavigate } from 'react-router-dom';
 
 const QuestionCard = ({question}) => {
 
 
     const database = getDatabase(app);
+
+    const inputRef = useRef(null);
+
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+    const navigate= useNavigate()
 
 
 
@@ -19,6 +29,18 @@ const QuestionCard = ({question}) => {
   const [answers, setAnswers] = useState([])
   const [updated, setUpdated] = useState(false)
   const [tempAnswers, setTempAnswers] = useState([])
+
+  const handleInputChange = (e) => {
+    if (isLoggedIn) {
+      setIsDialogOpen(true);
+    } else {
+      navigate('/createaccount'); // Navigate to login page
+    }
+  };
+
+  const handleDialogClose = () => {
+    setIsDialogOpen(false);
+  };
 
 
 
@@ -210,9 +232,11 @@ getUserDetailsForAnswers(tempAnswers).then((response)=>{
       <div className="flex items-center mt-4">
         <div className='relative w-full'>
         <input
+         ref={inputRef}
           type="text"
           value={answer}
-          onChange={(e)=>setAnswer(e.target.value)}
+        //   onChange={(e)=>setAnswer(e.target.value)}
+        onChange={handleInputChange}
           placeholder="Type..."
           className=" flex-grow p-2 border bg-gray-300 focus:outline-none rounded-full px-4 w-full"
         />
@@ -226,6 +250,33 @@ getUserDetailsForAnswers(tempAnswers).then((response)=>{
           <ThumbUpOffAltIcon />
         </button>
       </div>
+
+
+      <Dialog open={isDialogOpen} onClose={handleDialogClose} maxWidth="sm" fullWidth={true} className='font-Poppins'>
+        <DialogTitle>
+          Write Your Answer
+          <IconButton
+            aria-label="close"
+            onClick={handleDialogClose}
+            sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <textarea
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+            rows={4}
+            className="w-full p-2 border bg-gray-100 rounded-md"
+            placeholder="Type your answer here..."
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
+    
 
     </div>
   );
