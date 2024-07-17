@@ -24,6 +24,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import Swal from "sweetalert2";
 import ShareDialog from "./ShareDialog";
 import DeleteIcon from '@mui/icons-material/Delete';
+import QuestionCard from "./QuestionCard";
 
 function UserLandingPage() {
   const database = getDatabase(app);
@@ -37,6 +38,7 @@ function UserLandingPage() {
   const [updated, setUpdated] = useState(false) // state for  re rendering after like changes
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [shareURL, setShareURL] = useState('')
+  const [questions, setQuestions] = useState([])
 
   const { specificpostid } = location.state || {}
 
@@ -295,6 +297,57 @@ function UserLandingPage() {
     fetchAdviserAndServiceDetails();
   }, [posts]);
 
+  useEffect(()=>{
+
+    async function getAllQuestionsWithUserDetails() {
+      const questionsRef = ref(database, 'questions');
+      try {
+        const snapshot = await get(questionsRef);
+        if (snapshot.exists()) {
+          const posts = [];
+          const userPromises = [];
+          snapshot.forEach(childSnapshot => {
+            const postData = { data: childSnapshot.val(), id: childSnapshot.key };
+            posts.push(postData);
+              
+            // Get user details
+            const userRef = ref(database, `users/${postData.data.userid}`);
+            userPromises.push(get(userRef));
+          });
+    
+          const userSnapshots = await Promise.all(userPromises);
+    
+          userSnapshots.forEach((userSnapshot, index) => {
+            if (userSnapshot.exists()) {
+              posts[index].user = userSnapshot.val();
+            } else {
+              posts[index].user = null;
+            }
+          });
+
+
+          posts.sort((a, b) => {
+            const dateA = new Date(a.data.doq).getTime();
+            const dateB = new Date(b.data.doq).getTime();
+            return dateB - dateA; // Sort in descending order (latest posts first)
+          });
+    
+          return posts;
+        } else {
+          console.log('No data available');
+          return [];
+        }
+      } catch (error) {
+        console.error('Error fetching node details:', error);
+        return [];
+      }
+    }
+
+      getAllQuestionsWithUserDetails().then((response)=>{
+        setQuestions(response)
+      })
+},[])
+
 
 
 
@@ -513,7 +566,7 @@ function UserLandingPage() {
     //     </div>
 
 
-    <div className="min-h-screen pt-[50px] mb-[80px] ">
+    <div className="min-h-screen pt-[50px] mb-[120px] ">
       <div className=" flex flex-col items-center container mx-auto md:mx-7xl  font-Poppin">
         <div className="m-4">
           {postsWithAdviser.map((post, idx) => (
@@ -600,6 +653,26 @@ function UserLandingPage() {
         </div>
 
       </div>
+      <div className="flex flex-col items-center container mx-auto md:mx-7xl  font-Poppin m-4">
+        {
+          questions.map((item, idx)=>(
+            <QuestionCard  key={idx} question={item}/>
+          ))
+        }
+     
+      </div>
+      <button
+            className="fixed bottom-[90px]  md:bottom-[200px] right-[30px] md:right-[200px] lg:right-[250px] p-4 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 hover:shadow-xl transition duration-300"
+            onClick={() => {
+                navigate('/createquestion')
+            }}
+        >
+            {/* Add your icon or text here */}
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+        </button>
     </div>
   );
 }
