@@ -6,12 +6,14 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { child, get, getDatabase, ref, remove, set, update } from "firebase/database";
 import { app } from "../firebase";
 import User from '../assets/User.png'
+import { useNavigate } from 'react-router-dom';
 
 const QuestionCard = ({question}) => {
 
 
     const database = getDatabase(app);
 
+    const navigate = useNavigate()
 
 
   const [showAnswers, setShowAnswers] = useState(false);
@@ -69,6 +71,17 @@ const QuestionCard = ({question}) => {
 
   const handleAnswerSubmit = async(questionid) =>{
     try {
+
+        const userid = JSON.parse(localStorage.getItem('userid'));
+        const adviserid = JSON.parse(localStorage.getItem('adviserid'));
+
+
+        if(userid === null && adviserid === null)
+        {
+            navigate('/createaccount')
+            return
+        }
+
       // Fetch the current question data
       const questionData = await getQuestion(questionid);
     //   console.log("questionData", questionData);
@@ -80,8 +93,7 @@ const QuestionCard = ({question}) => {
       let updatedAnswers = [...currentAnswers];
       
       // Get user and adviser IDs from local storage
-      const userid = JSON.parse(localStorage.getItem('userid'));
-      const adviserid = JSON.parse(localStorage.getItem('adviserid'));
+
       const date = new Date().toString();
           
       
