@@ -243,7 +243,7 @@ getUserDetailsForAnswers(tempAnswers).then((response)=>{
         //   onChange={(e)=>setAnswer(e.target.value)}
         onChange={handleInputChange}
           placeholder="Type..."
-          className=" flex-grow p-2 border bg-gray-300 focus:outline-none rounded-full px-4 w-full pr-[60px]"
+          className=" flex-grow p-2 border bg-gray-300 focus:outline-none rounded-full px-4 w-full  text-xs sm:text-sm md:text-md"
         />
                     {/* {answer && (
               <button className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-transparent text-blue-500"  onClick={()=>handleAnswerSubmit(question.id)}>
@@ -259,7 +259,7 @@ getUserDetailsForAnswers(tempAnswers).then((response)=>{
 
       <Dialog open={isDialogOpen} onClose={handleDialogClose} maxWidth="sm" fullWidth={true} className='font-Poppins'>
         <DialogTitle>
-          Write Your Answer
+          <p className='text-sm sm:text-md md:text-lg font-semibold '>Write Your Answer </p>
           <IconButton
             aria-label="close"
             onClick={handleDialogClose}
@@ -273,7 +273,7 @@ getUserDetailsForAnswers(tempAnswers).then((response)=>{
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
             rows={3}
-            className="w-full p-2 border bg-gray-100 rounded-md"
+            className="w-full p-2 border bg-gray-100 rounded-md text-xs sm:text-sm md:text-md"
             placeholder="Type your answer here..."
           />
            
