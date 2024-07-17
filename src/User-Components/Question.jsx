@@ -216,7 +216,7 @@ import { useNavigate } from 'react-router-dom';
         }
     },[])
     return (
-        <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10 font-Poppins">
+      
             <div className="max-w-[900px] w-[325px]  sm:w-[500px]  md:w-[600px] lg:w-[700px]  m-4 p-4  bg-white rounded-xl border ">
                 <form onSubmit={formik.handleSubmit}>
                     <label htmlFor="question" className="block text-gray-700 text-sm font-bold mb-2">
@@ -255,7 +255,7 @@ import { useNavigate } from 'react-router-dom';
 
 
           
-        </div>
+        
     );
 }
 
