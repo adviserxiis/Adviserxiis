@@ -8,10 +8,12 @@ import { getDownloadURL, getStorage, uploadBytes } from 'firebase/storage'
 import Swal from 'sweetalert2'
 import { ref as sRef } from 'firebase/storage';
 import { CircularProgress } from '@mui/material';
+import { getAuth } from 'firebase/auth';
 
 function CreatePost() {
 
     const database = getDatabase(app);
+    const auth= getAuth();
     const [loading, setLoading] = useState(false)
 
     const adviserid = JSON.parse(localStorage.getItem('adviserid'))

@@ -13,9 +13,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { child, get, getDatabase, ref, set } from "firebase/database";
 import { app } from "../firebase";
 import StateContext from "../Context/StateContext";
+import { getAuth } from "firebase/auth";
 
 function Header({ setShowSideBar, showSideBar, handleOpen }) {
   const database = getDatabase(app);
+  const auth = getAuth();
   const navigate = useNavigate()
 
   const { updateHeader, setUpdateHeader  } = useContext(StateContext)

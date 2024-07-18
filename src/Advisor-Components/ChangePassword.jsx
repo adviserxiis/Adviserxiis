@@ -11,11 +11,13 @@ import * as Yup from "yup";
 import { useFormik } from 'formik';
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import bcrypt from 'bcryptjs';
+import { getAuth } from 'firebase/auth'
 
 
 
 function ChangePassword() {
   const database = getDatabase(app);
+  const auth= getAuth();
   const location = useLocation()
   const navigate = useNavigate()
   const [otp, setOtp] = useState('')

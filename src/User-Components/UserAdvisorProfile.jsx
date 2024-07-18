@@ -10,11 +10,13 @@ import { app } from "../firebase";
 import { CircularProgress } from '@mui/material'
 import User from '../assets/User.png'
 import Swal from 'sweetalert2'
+import { getAuth } from 'firebase/auth'
 
 function UserAdviserProfile() {
 
   const location = useLocation()
   const database = getDatabase(app);
+  const auth= getAuth();
   const { adviserid, advisername } = location.state || {}
   const navigate = useNavigate()
 

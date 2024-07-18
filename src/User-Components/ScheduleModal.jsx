@@ -1,7 +1,10 @@
+import { getAuth } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 
 const ScheduleModal = ({ isOpen, onClose,serviceData, adviserData ,formik}) => {
   const [selectedDate, setSelectedDate] = useState(0);
+
+  const auth= getAuth();
 
   const [validDays, setValidDays] = useState([])
   const [timeSlots, setTimeSlots] = useState([])

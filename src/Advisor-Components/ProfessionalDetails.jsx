@@ -10,12 +10,14 @@ import { useFormik } from 'formik';
 import { getDatabase, ref, update } from "firebase/database";
 import { app } from "../firebase";
 import Swal from 'sweetalert2'
+import { getAuth } from 'firebase/auth'
 
 
 
 function ProfessionalDetails() {
 
   const database = getDatabase(app);
+  const auth = getAuth();
   const navigate = useNavigate()
 
   const [loading, setLoading] = useState(false)

@@ -9,10 +9,12 @@ import Swal from 'sweetalert2';
 import AvailabilitySchedule from './AvailabilitySchedule';
 import { useLocation, useNavigate } from 'react-router-dom';
 import StateContext from '../Context/StateContext';
+import { getAuth } from 'firebase/auth';
 
 const ServiceForm = () => {
 
   const database = getDatabase(app);
+  const auth = getAuth();
   const [loading, setLoading] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -89,6 +91,14 @@ const ServiceForm = () => {
   const handleSubmit = async () => {
           
     setLoading(true)
+
+        const user = auth.currentUser;
+    if (!user) {
+        // Handle authentication error
+        console.error('User is not authenticated.');
+        setLoading(false);
+        return;
+    }
     if(serviceid == undefined)
       {
 

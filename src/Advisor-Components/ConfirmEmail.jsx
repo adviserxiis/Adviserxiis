@@ -7,11 +7,13 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { get, getDatabase, ref, set, update } from "firebase/database";
 import { app } from "../firebase";
 import Swal from 'sweetalert2'
+import { getAuth } from 'firebase/auth'
 
 
 
 function ConfirmEmail() {
   const database = getDatabase(app);
+  const auth= getAuth();
   const location = useLocation()
   const navigate = useNavigate()
   const [otp, setOtp] = useState('')

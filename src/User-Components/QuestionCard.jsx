@@ -11,11 +11,13 @@ import User from '../assets/User.png'
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
 
 const QuestionCard = ({question}) => {
 
 
     const database = getDatabase(app);
+    const auth= getAuth();
 
     const inputRef = useRef(null);
 

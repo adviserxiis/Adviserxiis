@@ -3,6 +3,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, MagnifyingGlassCircleIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import logo from '../assets/logo.png'
+import { getAuth } from 'firebase/auth'
 
 
 
@@ -12,6 +13,8 @@ function classNames(...classes) {
 
 export default function Navbar() {
   const adviserid = JSON.parse(localStorage.getItem('adviserid'))
+
+  const auth = getAuth() 
 
   const navigate = useNavigate()
   return (
