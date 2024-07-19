@@ -11,6 +11,25 @@ import { CircularProgress } from '@mui/material';
 import { getAuth } from 'firebase/auth';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
+Yup.addMethod(Yup.mixed, 'aspectRatio', function (ratio, message) {
+  return this.test('aspect-ratio', message, async (value) => {
+    if (!value) return true;
+
+    const video = document.createElement('video');
+    video.src = URL.createObjectURL(value);
+
+    return new Promise((resolve) => {
+      video.onloadedmetadata = () => {
+        const videoAspectRatio = video.videoWidth / video.videoHeight;
+        const [expectedWidth, expectedHeight] = ratio.split(':').map(Number);
+        const expectedAspectRatio = expectedWidth / expectedHeight;
+
+        resolve(Math.abs(videoAspectRatio - expectedAspectRatio) < 0.01); // Tolerance for floating-point errors
+      };
+    });
+  });
+});
+
 function CreatePost() {
 
     const database = getDatabase(app);
@@ -27,18 +46,41 @@ function CreatePost() {
     }
 
     const validationSchema = Yup.object().shape({
-        post_file: Yup
-        .mixed()
-        .test("fileType", "Unsupported file type", (value) => {
+        // post_file: Yup
+        // .mixed()
+        // .test("fileType", "Unsupported file type", (value) => {
+        //   if (!value) return true;
+        //   const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "video/mp4", "video/avi"];
+        //   return allowedTypes.includes(value.type);
+        // })
+        // .test("fileSize", "File size is too large (max 5MB)", (value) => {
+        //   if (!value) return true;
+        //   return value.size <= 50 * 1024 * 1024; // 10MB in bytes
+        // })
+        // .required("file is required"),
+
+        post_file: Yup.mixed()
+        .test('fileType', 'Unsupported file type', (value) => {
           if (!value) return true;
-          const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "video/mp4", "video/avi"];
+          const allowedTypes = ['video/mp4', 'video/avi'];
           return allowedTypes.includes(value.type);
         })
-        .test("fileSize", "File size is too large (max 5MB)", (value) => {
+        // .test('fileSize', 'File size is too large (max 50MB)', (value) => {
+        //   if (!value) return true;
+        //   return value.size <= 50 * 1024 * 1024; // 50MB in bytes
+        // })
+        .test('fileDuration', 'Video must not be more than 60 seconds', async (value) => {
           if (!value) return true;
-          return value.size <= 50 * 1024 * 1024; // 10MB in bytes
+          const video = document.createElement('video');
+          video.src = URL.createObjectURL(value);
+          return new Promise((resolve) => {
+            video.onloadedmetadata = () => {
+              resolve(video.duration <= 60);
+            };
+          });
         })
-        .required("file is required"),
+        .aspectRatio('9:16', 'Video must have an aspect ratio of 9:16') 
+        .required('Video is required'),
      });
 
      async function getUser(userId) {
@@ -62,59 +104,60 @@ function CreatePost() {
         const userid = JSON.parse(localStorage.getItem('adviserid'));
         const storage = getStorage();
         const { post_file} = formik.values;
-        const date = new Date().toString(); 
+        const date = new Date().toString();
+        
+        
 
-        try {
-            let postFileURL = null;
-            let fileType = null;
+         return 
+        // try {
+        //     let postFileURL = null;
+        //     let fileType = null;
         
-            if (post_file) {
-              const fileRef = sRef(storage, `posts/${uuidv1()}`);
-              const uploadResult = await uploadBytes(fileRef, post_file);
-              postFileURL = await getDownloadURL(uploadResult.ref);
-              fileType = post_file.type.startsWith('video/') ? 'video' : 'image';
-            }
+        //     if (post_file) {
+        //       const fileRef = sRef(storage, `posts/${uuidv1()}`);
+        //       const uploadResult = await uploadBytes(fileRef, post_file);
+        //       postFileURL = await getDownloadURL(uploadResult.ref);
+        //       fileType = post_file.type.startsWith('video/') ? 'video' : 'image';
+        //     }
         
-            // const updateData = {
-            //   username: name,
-            //   professional_bio: professional_bio,
-            // };
-            const postid = uuidv1();
-        
-                await set(ref(database, 'advisers_posts/' +postid), {
-                    adviserid:adviserid,
-                    post_file:postFileURL,
-                    file_type: fileType,
-                    dop:date,
-                    likes:[],
-                  });
 
-                  const adviserData = await getUser(adviserid)
-                  const currentPosts = adviserData.posts || []; // Retrieve existing IDs or initialize to an empty array
+        //     const postid = uuidv1();
+        
+        //         await set(ref(database, 'advisers_posts/' +postid), {
+        //             adviserid:adviserid,
+        //             post_file:postFileURL,
+        //             file_type: fileType,
+        //             dop:date,
+        //             views:0,
+        //             likes:[],
+        //           });
+
+        //           const adviserData = await getUser(adviserid)
+        //           const currentPosts = adviserData.posts || []; // Retrieve existing IDs or initialize to an empty array
                 
-                  // Add the new ID to the array
-                  const updatedPosts = [...currentPosts, postid];
+        //           // Add the new ID to the array
+        //           const updatedPosts = [...currentPosts, postid];
                 
-                  // Update the array field in the database
-                  await update(ref(database, 'advisers/' + adviserid), { posts: updatedPosts });
+        //           // Update the array field in the database
+        //           await update(ref(database, 'advisers/' + adviserid), { posts: updatedPosts });
 
       
         
-            await Swal.fire({
-              title: "Success",
-              text: "Post Created Successfully!!",
-              icon: "success",
-            });
-          } catch (error) {
-            console.log("Error", error)
-            await Swal.fire({
-              title: "Error",
-              text: "Something Went Wrong!!",
-              icon: "error",
-            });
-          } finally {
-            setLoading(false)
-          }
+        //     await Swal.fire({
+        //       title: "Success",
+        //       text: "Post Created Successfully!!",
+        //       icon: "success",
+        //     });
+        //   } catch (error) {
+        //     console.log("Error", error)
+        //     await Swal.fire({
+        //       title: "Error",
+        //       text: "Something Went Wrong!!",
+        //       icon: "error",
+        //     });
+        //   } finally {
+        //     setLoading(false)
+        //   }
      }
 
      const formik = useFormik({
@@ -134,7 +177,7 @@ function CreatePost() {
 
 
       <div className="mb-4">
-                            <label className="block text-sm font-bold text-gray-700 font-Poppins">Select Image or video to Post</label>
+                            <label className="block text-sm font-bold text-gray-700 font-Poppins">Select video or image to Post</label>
 
                             <div className='my-4'>
                                 <label class="block">
