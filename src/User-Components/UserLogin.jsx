@@ -364,7 +364,7 @@ export default function UserLogin() {
             />
 
                       {
-                        (!verified && !otpSent) && <div id="sign-in-button"  style={{ width: "100%", marginTop: "10px", }} className='sm:mt-4 w-[300px] sm:w-[380px] '></div>
+                        (!verified && !otpSent) && <div id="sign-in-button"  style={{ width: "100%", marginTop: "10px", }} className='sm:mt-4 w-[300px] sm:w-[380px] hidden'></div>
                       }
 
 
