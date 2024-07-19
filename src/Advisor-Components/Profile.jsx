@@ -14,9 +14,10 @@ import StateContext from '../Context/StateContext';
 import EditIcon from '@mui/icons-material/Edit';
 import profile_background from '../assets/profile_background.jpg'
 
+
 function Profile() {
  
-  const  auth= getAuth()
+  
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true)
