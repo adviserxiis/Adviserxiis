@@ -13,12 +13,15 @@ import { app } from "../firebase";
 import { v1 as uuidv1 } from 'uuid';
 import { getDownloadURL, getStorage, uploadBytes } from 'firebase/storage'
 import Swal from 'sweetalert2'
+import { getAuth } from 'firebase/auth'
 
 
 
 function UploadDocuments() {
     const imgDB= getStorage(app)
     const database = getDatabase(app);
+
+    const auth = getAuth();
 
     const [profileUrl, setProfileUrl] = useState('')
     const [aadharFrontUrl, setAadharFrontUrl] = useState('')

@@ -11,12 +11,15 @@ import User from '../assets/User.png'
 import VideocamIcon from '@mui/icons-material/Videocam';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
+import { getAuth } from 'firebase/auth'
 
 const Categories = ["Career", "Business", "Health", "Technology", "Education", "Legal", "Marketing"]
 
 function BookedServices() {
   const database = getDatabase(app);
   const navigate = useNavigate()
+
+  const auth = getAuth();
 
   const [bookedServices, setBookedServices] = useState([])
   const [serviceWithAdviser, setServiceWithAdviser] = useState([])

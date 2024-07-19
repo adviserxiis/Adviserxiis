@@ -1,3 +1,4 @@
+import { getAuth } from 'firebase/auth';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { v1 as uuidv1 } from 'uuid';
@@ -7,6 +8,7 @@ function VideoCall() {
 
  const [meetingId , setMeetingId] = useState('')
  const navigate = useNavigate()
+ const auth = getAuth();
 
 
  const handleClick = ()=>{
