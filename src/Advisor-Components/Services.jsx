@@ -5,6 +5,7 @@ import { app } from "../firebase";
 import { CircularProgress } from '@mui/material';
 import Swal from 'sweetalert2';
 import { getAuth } from 'firebase/auth';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 
 function Services() {
@@ -133,6 +134,15 @@ function Services() {
 
 
     </div>
+    <button>
+    <a
+            href='https://api.whatsapp.com/send/?phone=%2B917703874893&text&type=phone_number&app_absent=0'
+            target="_blank"
+            className="fixed bottom-[60px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
+        >
+            <WhatsAppIcon fontSize="large"/>
+        </a>
+        </button>
   </div>
   )
 }

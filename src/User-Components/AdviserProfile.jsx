@@ -15,7 +15,8 @@ import { CircularProgress } from '@mui/material';
 import profile_background from '../assets/profile_background.jpg'
 import { getAuth } from 'firebase/auth'
 
-const tabs = ['Services', 'Posts', 'Videos'];
+// const tabs = ['Services', 'Posts', 'Videos'];
+const tabs = ['Services', 'Videos'];
 
 const AdvisorProfile = () => {
 
@@ -305,25 +306,25 @@ const AdvisorProfile = () => {
             ))}
           </div>
         );
-      case 'Posts':
-        return <div className='grid grid-cols-2 md:grid-cols-3 md:gap-4 font-inter'>
-          {posts.map((post, idx) => (
-            post.data.post_file && (
-              post.data.file_type && post.data.file_type === 'image' && (
-                <div key={idx} className="p-4 md:m-2 bg-white rounded-xl md:rounded-2xl  w-full">
-                  {/* <img src={photoCard}
-                                          alt=""
-                                          className='h-auto w-full object-cover'
-                                          /> */}
-                  <img
-                    src={post.data && post.data.post_file ? post.data.post_file : ''}
-                    alt="Post Image"
-                    className="w-36 h-36 sm:h-48 sm:w-48 md:w-[500px] md:h-[500px] rounded-xl object-cover"
-                  />
-                </div>
-              ))
-          ))}
-        </div>;
+      // case 'Posts':
+      //   return <div className='grid grid-cols-2 md:grid-cols-3 md:gap-4 font-inter'>
+      //     {posts.map((post, idx) => (
+      //       post.data.post_file && (
+      //         post.data.file_type && post.data.file_type === 'image' && (
+      //           <div key={idx} className="p-4 md:m-2 bg-white rounded-xl md:rounded-2xl  w-full">
+      //             {/* <img src={photoCard}
+      //                                     alt=""
+      //                                     className='h-auto w-full object-cover'
+      //                                     /> */}
+      //             <img
+      //               src={post.data && post.data.post_file ? post.data.post_file : ''}
+      //               alt="Post Image"
+      //               className="w-36 h-36 sm:h-48 sm:w-48 md:w-[500px] md:h-[500px] rounded-xl object-cover"
+      //             />
+      //           </div>
+      //         ))
+      //     ))}
+      //   </div>;
       case 'Videos':
         return <div className='grid grid-cols-2 md:grid-cols-4 md:gap-4 font-inter'>
           {posts.map((post, idx) => (

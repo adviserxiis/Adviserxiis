@@ -198,6 +198,9 @@ const SideBar = forwardRef(({ showSideBar,handleOpen, setShowSideBar }, ref) => 
         </div>
       </div>
     </div>
+
+
+
     </div>
   );
 });

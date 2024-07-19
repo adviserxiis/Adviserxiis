@@ -10,6 +10,7 @@ import AvailabilitySchedule from './AvailabilitySchedule';
 import { useLocation, useNavigate } from 'react-router-dom';
 import StateContext from '../Context/StateContext';
 import { getAuth } from 'firebase/auth';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 const ServiceForm = () => {
 
@@ -541,6 +542,15 @@ const ServiceForm = () => {
         { serviceid != undefined && <button type="button" className="bg-[#FF5348] text-white rounded-md py-2 px-4 font-Poppins" onClick={()=>deleteHandler(serviceid)}>Delete</button>}
         </div>
       </form>
+      <button>
+    <a
+            href='https://api.whatsapp.com/send/?phone=%2B917703874893&text&type=phone_number&app_absent=0'
+            target="_blank"
+            className="fixed bottom-[60px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
+        >
+            <WhatsAppIcon fontSize="large"/>
+        </a>
+        </button>
     </div>
   );
 };
