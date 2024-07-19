@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 import User from '../assets/User.png'
 import { CircularProgress } from '@mui/material';
 import profile_background from '../assets/profile_background.jpg'
+import { getAuth } from 'firebase/auth'
 
 const tabs = ['Services', 'Posts', 'Videos'];
 
@@ -20,6 +21,9 @@ const AdvisorProfile = () => {
 
   const navigate = useNavigate()
   const location = useLocation()
+
+  const auth = getAuth(); 
+
   const database = getDatabase(app);
   const { adviserid, advisername } = location.state || {}
   const userid = JSON.parse(localStorage.getItem('userid'))

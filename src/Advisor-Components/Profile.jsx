@@ -13,11 +13,14 @@ import { ref as sRef } from 'firebase/storage';
 import StateContext from '../Context/StateContext';
 import EditIcon from '@mui/icons-material/Edit';
 import profile_background from '../assets/profile_background.jpg'
+import { getAuth } from 'firebase/auth'
 
 function Profile() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true)
   const [ isUpdated, setIsUpdated] = useState(false)
+
+  const auth = getAuth()
 
   const database = getDatabase(app);
   const adviserId = JSON.parse(localStorage.getItem('adviserid'));
@@ -132,8 +135,7 @@ function Profile() {
       // };
   
       if (profilePhotoURL && profileBackgroundURL) {
-        console.log("profile_photo", profilePhotoURL)
-        console.log("profile_background", profileBackgroundURL)
+
         await update(ref(getDatabase(), 'advisers/' + userid),{
           username: name,
           professional_bio: professional_bio,
@@ -146,8 +148,7 @@ function Profile() {
         });
       }
       else if( profilePhotoURL){
-        console.log("profile_photo", profilePhotoURL)
-        console.log("profile_background", profileBackgroundURL)
+
         await update(ref(getDatabase(), 'advisers/' + userid),{
           username: name,
           professional_bio: professional_bio,
@@ -159,8 +160,7 @@ function Profile() {
         });
       }
       else if (profileBackgroundURL){
-        console.log("profile_photo", profilePhotoURL)
-        console.log("profile_background", profileBackgroundURL)
+
         await update(ref(getDatabase(), 'advisers/' + userid),{
           username: name,
           professional_bio: professional_bio,
@@ -233,12 +233,12 @@ function Profile() {
       getUser(adviserId).then((userData) => {
         setUser(userData);
         formik.setValues({
-          name: userData.username || '',
-          professional_bio: userData.professional_bio || '',
-          professional_title: userData.professional_title || '',
-          experience: parseInt(userData.years_of_experience, 10) || 0,
-          education: userData.education || '',
-          industry: userData.industry || ''
+          name: userData?.username || '',
+          professional_bio: userData?.professional_bio || '',
+          professional_title: userData?.professional_title || '',
+          experience: parseInt(userData?.years_of_experience, 10) || 0,
+          education: userData?.education || '',
+          industry: userData?.industry || ''
         });
 
         setLoading(false); // Update loading state after fetching the user data
