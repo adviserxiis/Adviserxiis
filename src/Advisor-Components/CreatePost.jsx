@@ -11,6 +11,7 @@ import { CircularProgress } from '@mui/material';
 import { getAuth } from 'firebase/auth';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
+
 Yup.addMethod(Yup.mixed, 'aspectRatio', function (ratio, message) {
   return this.test('aspect-ratio', message, async (value) => {
     if (!value) return true;
@@ -35,8 +36,8 @@ function CreatePost() {
     const database = getDatabase(app);
     const auth= getAuth();
     const [loading, setLoading] = useState(false)
-
     const adviserid = JSON.parse(localStorage.getItem('adviserid'))
+    
 
 
 
@@ -99,6 +100,8 @@ function CreatePost() {
       }
     }
 
+
+
      const handleSubmit = async () =>{
         setLoading(true);
         const userid = JSON.parse(localStorage.getItem('adviserid'));
@@ -115,8 +118,11 @@ function CreatePost() {
               const fileRef = sRef(storage, `posts/${uuidv1()}`);
               const uploadResult = await uploadBytes(fileRef, post_file);
               postFileURL = await getDownloadURL(uploadResult.ref);
+
+
               fileType = post_file.type.startsWith('video/') ? 'video' : 'image';
             }
+
         
 
             const postid = uuidv1();
@@ -175,7 +181,7 @@ function CreatePost() {
 
 
       <div className="mb-4">
-                            <label className="block text-sm font-bold text-gray-700 font-Poppins">Select video or image to Post</label>
+                            <label className="block text-sm font-bold text-gray-700 font-Poppins">Select video to Post in 9:16 ratio</label>
 
                             <div className='my-4'>
                                 <label class="block">

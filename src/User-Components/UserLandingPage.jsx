@@ -592,7 +592,7 @@ function UserLandingPage() {
     <div className="min-h-screen pt-[50px] mb-[120px] ">
 
       <div className=" flex flex-col items-center container mx-auto md:mx-7xl  font-Poppin">
-        <div className="m-4">
+        <div className="mx-4 mt-4 pt-2">
           {postsWithAdviser.map((post, idx) => (
             <div className="max-w-[900px] my-4" key={idx}>
               <div className="flex items-center justify-between bg-[#5A88FF] p-2 px-4 rounded-tr-xl rounded-tl-xl">
@@ -619,7 +619,12 @@ function UserLandingPage() {
                 /> */}
                           {post.data.post_file && (
            post.data.file_type && post.data.file_type === 'video' ? (
-              <video controls className="w-96 h-96 sm:w-[500px] sm:h-[500px]  md:w-[600px] md:h-[600px] lg:w-[700px] lg:h-[700px] object-cover">
+              <video 
+              controls 
+              autoPlay
+              loop
+              muted
+              className="w-[325px] h-[450px] sm:w-[500px] sm:h-[600px]  md:w-[600px] md:h-[700px] lg:w-[700px] lg:h-[800px] object-cover">
                 <source src={post.data.post_file} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
@@ -627,7 +632,7 @@ function UserLandingPage() {
                                <img
                   src={post.data && post.data.post_file ? post.data.post_file : ''}
                   alt="Post Image"
-                  className="w-96 h-96 sm:w-[500px] sm:h-[500px]  md:w-[600px] md:h-[600px] lg:w-[700px] lg:h-[700px] object-cover"
+                  className="w-[325px] h-[325px] sm:w-[500px] sm:h-[500px]  md:w-[600px] md:h-[600px] lg:w-[700px] lg:h-[700px] object-cover"
                 /> 
             )
           )}
