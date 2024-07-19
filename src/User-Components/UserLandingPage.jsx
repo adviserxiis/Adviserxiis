@@ -26,6 +26,7 @@ import ShareDialog from "./ShareDialog";
 import DeleteIcon from '@mui/icons-material/Delete';
 import QuestionCard from "./QuestionCard";
 import QuestionModel from "./QuestionModel";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function UserLandingPage() {
   const database = getDatabase(app);
@@ -33,6 +34,7 @@ function UserLandingPage() {
   const navigate = useNavigate()
   const location = useLocation()
 
+  const auth = getAuth()
   const [posts, setPosts] = useState([])
   const [postsWithAdviser, setPostsWithAdviser] = useState([])
   const [loading, setLoading] = useState(true)
@@ -353,6 +355,20 @@ function UserLandingPage() {
       getAllQuestionsWithUserDetails().then((response)=>{
         setQuestions(response)
       })
+
+      // const fetchQuestions = async () => {
+      //   onAuthStateChanged(auth, async (user) => {
+      //     if (user) {
+      //       const response = await getAllQuestionsWithUserDetails();
+      //       console.log("response", response)
+      //       setQuestions(response);
+      //     } else {
+      //       console.error('User not authenticated');
+      //     }
+      //   });
+      // };
+    
+      // fetchQuestions();
 },[])
 
 

@@ -4,10 +4,12 @@ import { child, get, getDatabase, ref, set, update } from "firebase/database";
 import { app } from "../firebase";
 import { CircularProgress } from '@mui/material';
 import Swal from 'sweetalert2';
+import { getAuth } from 'firebase/auth';
 
 
 function Services() {
   const database = getDatabase(app);
+  const auth= getAuth();
   const [adviser, setAdviser] = useState(null)
   const [services, setServices] = useState([])
   const [loading, setLoading] = useState(true)

@@ -13,6 +13,8 @@ import { useNavigate } from 'react-router-dom';
     const database = getDatabase(app);
     // let user = firebase.auth().currentUser;
 
+    const auth= getAuth();
+
     const navigate = useNavigate()
 
 

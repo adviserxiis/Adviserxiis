@@ -9,6 +9,7 @@ import { get, getDatabase, ref, update } from "firebase/database";
 import { app } from "../firebase";
 import Swal from 'sweetalert2';
 import StateContext from '../Context/StateContext';
+import { getAuth } from 'firebase/auth';
 
 const daysOfWeek = [
   { label: 'Monday', value: 'monday' },
@@ -36,6 +37,7 @@ function formatTime(dateString) {
 const AvailabilitySchedule = ({ open, handleClose}) => { 
 
   const database = getDatabase(app);
+  const auth = getAuth();
   const {handleDialogOpen, updateHeader, setUpdateHeader  } = useContext(StateContext)
   const [availability, setAvailability] = useState(
     daysOfWeek.reduce((acc, day) => {

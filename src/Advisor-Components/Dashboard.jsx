@@ -15,9 +15,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button } from '@mui/base';
 import { Typography } from '@mui/material';
+import { getAuth } from 'firebase/auth';
 
 function Dashboard() {
   const database = getDatabase(app);
+  const auth= getAuth();
   const navigate= useNavigate()
 
   const [user, setUser] = useState(null);

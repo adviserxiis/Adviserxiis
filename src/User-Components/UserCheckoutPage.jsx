@@ -15,9 +15,12 @@ import Swal from 'sweetalert2'
 import User from '../assets/User.png'
 import ScheduleModal from './ScheduleModal'
 import logo from '../assets/logo.png'
+import { getAuth } from 'firebase/auth'
 
 function UserCheckoutPage() {
   const database = getDatabase(app);
+  const auth= getAuth();
+
   const navigate = useNavigate()
   const location = useLocation()
 

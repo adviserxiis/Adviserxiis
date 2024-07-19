@@ -3,8 +3,10 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
 import HeadsetMicOutlinedIcon from '@mui/icons-material/HeadsetMicOutlined';
 import { NavLink } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
 
 function UserFooter() {
+  const auth = getAuth();
   return (
     <div className='fixed bottom-0 left-0 w-full bg-white'>
     <div className='container mx-auto font-Poppins'>

@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 const QuestionModel = ({ open, handleClose }) => {
 
     const database = getDatabase(app);
+    const auth= getAuth();
 
     const initialValues = {
         question: ''
