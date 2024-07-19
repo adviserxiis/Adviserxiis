@@ -16,6 +16,7 @@ import Paper from '@mui/material/Paper';
 import { Button } from '@mui/base';
 import { Typography } from '@mui/material';
 import { getAuth } from 'firebase/auth';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 function Dashboard() {
   const database = getDatabase(app);
@@ -364,6 +365,17 @@ today.setHours(0, 0, 0, 0);
       </Table>
     </TableContainer>
   </div>
+
+  <button>
+    <a
+            href='https://api.whatsapp.com/send/?phone=%2B917703874893&text&type=phone_number&app_absent=0'
+            target="_blank"
+            // rel="noopener noreferrer"
+            className="fixed bottom-[60px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
+        >
+            <WhatsAppIcon fontSize="large"/>
+        </a>
+        </button>
   </div>
   )
 }

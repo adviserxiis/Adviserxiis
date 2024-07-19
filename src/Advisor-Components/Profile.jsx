@@ -13,6 +13,7 @@ import { ref as sRef } from 'firebase/storage';
 import StateContext from '../Context/StateContext';
 import EditIcon from '@mui/icons-material/Edit';
 import profile_background from '../assets/profile_background.jpg'
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 function Profile() {
  
@@ -525,6 +526,15 @@ function Profile() {
         </button>
       </div>
     </form>
+    <button>
+    <a
+            href='https://api.whatsapp.com/send/?phone=%2B917703874893&text&type=phone_number&app_absent=0'
+            target="_blank"
+            className="fixed bottom-[60px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
+        >
+            <WhatsAppIcon fontSize="large"/>
+        </a>
+        </button>
   </div>
   )
 }
