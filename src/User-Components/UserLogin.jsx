@@ -83,6 +83,7 @@ export default function UserLogin() {
     const phoneNumber = "+91" + formik.values.mobile_number;
     const appVerifier = window.recaptchaVerifier;
 
+
     try {
       // console.log("hii3")
       const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
@@ -363,7 +364,7 @@ export default function UserLogin() {
             />
 
                       {
-                        (!verified && !otpSent) && <div id="sign-in-button"  style={{ width: "100%", marginTop: "10px", }} className='sm:mt-4 w-[300px] sm:w-[380px] hidden'></div>
+                        (!verified && !otpSent) && <div id="sign-in-button"  style={{ width: "100%", marginTop: "10px", }} className='sm:mt-4 w-[300px] sm:w-[380px] '></div>
                       }
 
 
