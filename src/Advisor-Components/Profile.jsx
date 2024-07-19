@@ -13,14 +13,13 @@ import { ref as sRef } from 'firebase/storage';
 import StateContext from '../Context/StateContext';
 import EditIcon from '@mui/icons-material/Edit';
 import profile_background from '../assets/profile_background.jpg'
-import { getAuth } from 'firebase/auth'
 
 function Profile() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true)
   const [ isUpdated, setIsUpdated] = useState(false)
 
-  const auth = getAuth()
+  
 
   const database = getDatabase(app);
   const adviserId = JSON.parse(localStorage.getItem('adviserid'));
