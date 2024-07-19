@@ -2,10 +2,12 @@ import React from 'react'
 import {ZegoExpressEngine} from 'zego-express-engine-webrtc'
 import { useParams } from 'react-router-dom'
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt'
+import { getAuth } from 'firebase/auth'
 
 function Room() {
 
     const { meetingid} = useParams()
+    const auth= getAuth()
 
    const myMeeting = async (element) =>{
       const appID = 1852784495;

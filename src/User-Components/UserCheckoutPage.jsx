@@ -15,9 +15,12 @@ import Swal from 'sweetalert2'
 import User from '../assets/User.png'
 import ScheduleModal from './ScheduleModal'
 import logo from '../assets/logo.png'
+import { getAuth } from 'firebase/auth'
 
 function UserCheckoutPage() {
   const database = getDatabase(app);
+  const auth= getAuth();
+
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -134,7 +137,7 @@ function UserCheckoutPage() {
           });
 
           await update(ref(database, 'users/' + userid), {
-            name: `${user.name ? user.name : formik.values.name}`,
+            username: `${user.name ? user.name : formik.values.name}`,
             email: formik.values.email
           });
 

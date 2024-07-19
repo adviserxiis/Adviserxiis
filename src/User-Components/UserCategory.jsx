@@ -9,12 +9,15 @@ import { app } from "../firebase";
 import { useNavigate } from 'react-router-dom'
 import User from '../assets/User.png'
 import VideocamIcon from '@mui/icons-material/Videocam';
+import { getAuth } from 'firebase/auth'
 
 const Categories = ["Career", "Business", "Health", "Technology", "Education", "Legal", "Marketing"]
 
 function UserCategory() {
   const database = getDatabase(app);
   const navigate = useNavigate()
+
+  const auth= getAuth()
 
   const [advisers, setAdvisers] = useState([])
   const [advisersWithService, setAdviserWithService] = useState([])

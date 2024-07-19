@@ -16,6 +16,9 @@ import profile_background from '../assets/profile_background.jpg'
 import { getAuth } from 'firebase/auth'
 
 function Profile() {
+ 
+  const  auth= getAuth()
+
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true)
   const [ isUpdated, setIsUpdated] = useState(false)
@@ -108,7 +111,17 @@ function Profile() {
   });
 
   const handleSubmit = async () => {
+    
     setLoading(true);
+
+    // const user = auth.currentUser;
+    // if (!user) {
+      
+    //     console.error('User is not authenticated.');
+    //     setLoading(false);
+    //     return;
+    // }
+
     const userid = JSON.parse(localStorage.getItem('adviserid'));
     const storage = getStorage();
     const { profile_photo, name, professional_bio, professional_title, experience, education ,industry, profile_background } = formik.values;

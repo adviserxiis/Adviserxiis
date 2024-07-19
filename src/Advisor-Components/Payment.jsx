@@ -1,7 +1,10 @@
+import { getAuth } from 'firebase/auth';
 import React, { useState } from 'react';
 
 function Payment() {
   const [response, setResponse] = useState(null);
+
+  const auth = getAuth();
 
   const createOrder = async () => {
     const username = 'rzp_live_fHsSBLQQOxeKlA';

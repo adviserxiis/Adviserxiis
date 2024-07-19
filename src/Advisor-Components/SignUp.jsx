@@ -12,6 +12,7 @@ import { v1 as uuidv1 } from 'uuid';
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import Swal from 'sweetalert2'
 import bcrypt from 'bcryptjs';
+import { getAuth } from 'firebase/auth'
 
 
 
@@ -61,6 +62,7 @@ const states = [
 
 function SignUp() {
   const database = getDatabase(app);
+  const auth= getAuth();
   const [showPassword, setShowPassword] = useState(false)
   const [ loading, setLoading] = useState(false)
 

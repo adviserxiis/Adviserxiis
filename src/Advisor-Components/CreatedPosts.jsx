@@ -12,9 +12,11 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import Swal from "sweetalert2";
 // import ShareDialog from "./ShareDialog";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { getAuth } from "firebase/auth";
 
 function CreatedPosts() {
   const database = getDatabase(app);
+  const auth= getAuth();
 
   const navigate = useNavigate()
   const location = useLocation()

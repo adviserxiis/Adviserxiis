@@ -8,10 +8,13 @@ import imgText1 from '../assets/imgText1.png'
 import imgText2 from '../assets/imgText2.png'
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
 
 function LandingPage() {
  const adviserid = JSON.parse(localStorage.getItem('adviserid'))
  const navigate = useNavigate()
+
+ const auth= getAuth();
 
   return (
     <div className="bg-cover bg-center min-h-screen " style={{ backgroundImage: `url(${background})` }}>

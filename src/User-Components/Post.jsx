@@ -4,12 +4,14 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { child, get, getDatabase, ref, set } from "firebase/database";
 import { app } from "../firebase";
 import { CircularProgress } from '@mui/material';
+import { getAuth } from 'firebase/auth';
 
 
 function Post() {
    
     const {postid } = useParams()
     const database = getDatabase(app);
+    const auth= getAuth();
 
     const [post, setPost] = useState(null)
     const [adviser,setAdviser] = useState(null)
