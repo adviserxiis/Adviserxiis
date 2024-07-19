@@ -107,57 +107,55 @@ function CreatePost() {
         const date = new Date().toString();
         
         
-
-         return 
-        // try {
-        //     let postFileURL = null;
-        //     let fileType = null;
+        try {
+            let postFileURL = null;
+            let fileType = null;
         
-        //     if (post_file) {
-        //       const fileRef = sRef(storage, `posts/${uuidv1()}`);
-        //       const uploadResult = await uploadBytes(fileRef, post_file);
-        //       postFileURL = await getDownloadURL(uploadResult.ref);
-        //       fileType = post_file.type.startsWith('video/') ? 'video' : 'image';
-        //     }
+            if (post_file) {
+              const fileRef = sRef(storage, `posts/${uuidv1()}`);
+              const uploadResult = await uploadBytes(fileRef, post_file);
+              postFileURL = await getDownloadURL(uploadResult.ref);
+              fileType = post_file.type.startsWith('video/') ? 'video' : 'image';
+            }
         
 
-        //     const postid = uuidv1();
+            const postid = uuidv1();
         
-        //         await set(ref(database, 'advisers_posts/' +postid), {
-        //             adviserid:adviserid,
-        //             post_file:postFileURL,
-        //             file_type: fileType,
-        //             dop:date,
-        //             views:0,
-        //             likes:[],
-        //           });
+                await set(ref(database, 'advisers_posts/' +postid), {
+                    adviserid:adviserid,
+                    post_file:postFileURL,
+                    file_type: fileType,
+                    dop:date,
+                    views:0,
+                    likes:[],
+                  });
 
-        //           const adviserData = await getUser(adviserid)
-        //           const currentPosts = adviserData.posts || []; // Retrieve existing IDs or initialize to an empty array
+                  const adviserData = await getUser(adviserid)
+                  const currentPosts = adviserData.posts || []; // Retrieve existing IDs or initialize to an empty array
                 
-        //           // Add the new ID to the array
-        //           const updatedPosts = [...currentPosts, postid];
+                  // Add the new ID to the array
+                  const updatedPosts = [...currentPosts, postid];
                 
-        //           // Update the array field in the database
-        //           await update(ref(database, 'advisers/' + adviserid), { posts: updatedPosts });
+                  // Update the array field in the database
+                  await update(ref(database, 'advisers/' + adviserid), { posts: updatedPosts });
 
       
         
-        //     await Swal.fire({
-        //       title: "Success",
-        //       text: "Post Created Successfully!!",
-        //       icon: "success",
-        //     });
-        //   } catch (error) {
-        //     console.log("Error", error)
-        //     await Swal.fire({
-        //       title: "Error",
-        //       text: "Something Went Wrong!!",
-        //       icon: "error",
-        //     });
-        //   } finally {
-        //     setLoading(false)
-        //   }
+            await Swal.fire({
+              title: "Success",
+              text: "Post Created Successfully!!",
+              icon: "success",
+            });
+          } catch (error) {
+            console.log("Error", error)
+            await Swal.fire({
+              title: "Error",
+              text: "Something Went Wrong!!",
+              icon: "error",
+            });
+          } finally {
+            setLoading(false)
+          }
      }
 
      const formik = useFormik({
