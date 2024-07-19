@@ -11,15 +11,18 @@ import { getDownloadURL, getStorage, uploadBytes } from 'firebase/storage'
 import Swal from 'sweetalert2'
 import { ref as sRef } from 'firebase/storage';
 import StateContext from '../Context/StateContext';
-import { getAuth } from 'firebase/auth';
+import EditIcon from '@mui/icons-material/Edit';
+import profile_background from '../assets/profile_background.jpg'
 
 function Profile() {
  
-  const  auth= getAuth()
+  
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true)
   const [ isUpdated, setIsUpdated] = useState(false)
+
+  
 
   const database = getDatabase(app);
   const adviserId = JSON.parse(localStorage.getItem('adviserid'));
@@ -53,10 +56,11 @@ function Profile() {
     name: '',
     professional_bio:'',
     professional_title: '',
-    experience: '',
+    experience:0,
     education: '',
     industry: '',
-    profile_photo:null
+    profile_photo:null,
+    profile_background:null
   }
 
 
@@ -74,11 +78,7 @@ function Profile() {
       .max(50, 'Professional title must be at most 50 characters'),
     experience: Yup.number()
       .required('Experience is required')
-      .typeError('Experience must be a number')
-      .positive('Experience must be a positive number')
-      .integer('Experience must be an integer')
-      .min(0, 'Experience must be at least 0 years')
-      .max(50, 'Experience must be at most 50 years'),
+      .min(0, 'Experience must be at least 0 years'),
     education: Yup.string()
       .required('Education is required'),
     industry: Yup.string()
@@ -92,7 +92,18 @@ function Profile() {
       })
       .test("fileSize", "File size is too large (max 5MB)", (value) => {
         if (!value) return true;
-        return value.size <= 5 * 1024 * 1024; // 10MB in bytes
+        return value.size <= 5 * 1024 * 1024; // 5MB in bytes
+      }),
+    profile_background: Yup
+      .mixed()  
+      .test("fileType", "Unsupported file type", (value) => {
+        if (!value) return true;
+        const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
+        return allowedTypes.includes(value.type);
+      })
+      .test("fileSize", "File size is too large (max 5MB)", (value) => {
+        if (!value) return true;
+        return value.size <= 5 * 1024 * 1024; // 5MB in bytes
       })
 
 
@@ -112,15 +123,22 @@ function Profile() {
 
     const userid = JSON.parse(localStorage.getItem('adviserid'));
     const storage = getStorage();
-    const { profile_photo, name, professional_bio, professional_title, experience, education ,industry } = formik.values;
+    const { profile_photo, name, professional_bio, professional_title, experience, education ,industry, profile_background } = formik.values;
   
     try {
       let profilePhotoURL = null;
+      let profileBackgroundURL = null
   
       if (profile_photo) {
         const imgRef = sRef(storage, `images/${uuidv1()}`);
         const uploadResult = await uploadBytes(imgRef, profile_photo);
         profilePhotoURL = await getDownloadURL(uploadResult.ref);
+      }
+
+      if (profile_background) {
+        const imgRef = sRef(storage, `images/${uuidv1()}`);
+        const uploadResult = await uploadBytes(imgRef, profile_background);
+        profileBackgroundURL = await getDownloadURL(uploadResult.ref);
       }
   
       // const updateData = {
@@ -128,12 +146,38 @@ function Profile() {
       //   professional_bio: professional_bio,
       // };
   
-      if (profilePhotoURL) {
+      if (profilePhotoURL && profileBackgroundURL) {
+
         await update(ref(getDatabase(), 'advisers/' + userid),{
           username: name,
           professional_bio: professional_bio,
           profile_photo:profilePhotoURL,
+          profile_background:profileBackgroundURL,
           professional_title:professional_title,
+          years_of_experience:experience,
+          education:education,
+          industry:industry,
+        });
+      }
+      else if( profilePhotoURL){
+
+        await update(ref(getDatabase(), 'advisers/' + userid),{
+          username: name,
+          professional_bio: professional_bio,
+          professional_title:professional_title,
+          profile_photo:profilePhotoURL,
+          years_of_experience:experience,
+          education:education,
+          industry:industry,
+        });
+      }
+      else if (profileBackgroundURL){
+
+        await update(ref(getDatabase(), 'advisers/' + userid),{
+          username: name,
+          professional_bio: professional_bio,
+          professional_title:professional_title,
+          profile_background:profileBackgroundURL,
           years_of_experience:experience,
           education:education,
           industry:industry,
@@ -201,12 +245,12 @@ function Profile() {
       getUser(adviserId).then((userData) => {
         setUser(userData);
         formik.setValues({
-          name: userData.username || '',
-          professional_bio: userData.professional_bio || '',
-          professional_title: userData.professional_title || '',
-          experience: userData.years_of_experience || '',
-          education: userData.education || '',
-          industry: userData.industry || ''
+          name: userData?.username || '',
+          professional_bio: userData?.professional_bio || '',
+          professional_title: userData?.professional_title || '',
+          experience: parseInt(userData?.years_of_experience, 10) || 0,
+          education: userData?.education || '',
+          industry: userData?.industry || ''
         });
 
         setLoading(false); // Update loading state after fetching the user data
@@ -221,20 +265,79 @@ function Profile() {
   }
 
   return (
-    <div className="flex flex-col pt-0 py-6 px-2 sm:p-6 space-y-6">
-    <p className='font-Poppins text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold s my-2'>Profile</p>
+    <div className="flex flex-col pt-0 py-6 px-2 sm:p-6 ">
+    {/* <p className='font-Poppins text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold s my-2'>Profile</p> */}
+    <div className='relative h-28 md:h-40 w-full bg-black'>
+      <img src={user && user.profile_background ? user.profile_background : profile_background}
+       alt="" 
+       className='h-full w-full object-cover'
+        />
+    <label htmlFor="profileBackgroundInput" className="absolute bottom-0 right-0 bg-black text-white p-1 rounded-full cursor-pointer mr-4">
+              <EditIcon />
+            </label>
+            <input
+              id="profileBackgroundInput"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              name="profile_background"
+              onChange={(event) => {
+                  formik.setFieldValue("profile_background", event.target.files[0]);
+              }}
+            />
+                  {formik.errors.profile_background && (
+                                        <p
+                                            style={{
+                                                fontSize: "13px",
+                                                color: "red",
+                                            }}
+                                            className='text-right'
+                                        >
+                                            {formik.errors.profile_background}
+                                        </p>
+                                    )}
+    </div>
 
-    <div className="flex  items-center space-x-4 w-full my-4 md:w-4/6 lg:w-3/6">
+    <div className="relative flex -mt-12 md:-mt-24 ml-2 md:ml-8 items-center space-x-4 w-full my-4 md:w-4/6 lg:w-3/6 ">
+       <div className='relative '>
         <img 
           src={user && user.profile_photo ? user.profile_photo : User} 
           alt="" 
           className="rounded-full w-32 h-32 lg:h-48 lg:w-48 object-cover"
         />
-        <div className=' flex flex-col justify-center items-center ' style={{marginLeft:"30px"}}>
+        
+                    <label htmlFor="profileImageInput" className="absolute bottom-0 right-0 bg-black text-white p-1 rounded-full cursor-pointer">
+              <EditIcon />
+            </label>
+            <input
+              id="profileImageInput"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              name="profile_photo"
+              onChange={(event) => {
+                  formik.setFieldValue("profile_photo", event.target.files[0]);
+              }}
+              // onChange={handleImageChange}
+            />
+        </div>
+        {/* <div className=' flex flex-col justify-center items-center ' style={{marginLeft:"30px"}}>
           <p className="text-lg md:text-xl lg:text-2xl font-bold font-Poppins">Followers</p>
           <p className='text-lg md:text-xl lg:text-2xl font-bold font-Poppins'>{user && user.followers ? user.followers.length : 0}</p>
-        </div>
+        </div> */}
       </div>
+      {formik.errors.profile_photo && (
+                                        <p
+                                            style={{
+                                                fontSize: "13px",
+                                                color: "red",
+                                            }}
+                                            className='ml-[25px] md:ml-[50px] lg:ml-[65px]'
+                                        >
+                                            {formik.errors.profile_photo}
+                                        </p>
+                                    )}
+
     <form className="bg-[#D9D9D942] p-6 rounded-xl shadow-md space-y-6 md:w-4/6 lg:w-3/6 pb-[200px]  ">
       <div>
         <label className="block text-sm font-bold text-gray-700 font-Poppins">Name</label>
@@ -315,7 +418,7 @@ function Profile() {
                 value={formik.values.experience}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                type="number"
+                type="text"
                 className="w-full mt-1 p-2 border border-gray-300 rounded-md font-Poppins"
                 placeholder="5"
               />
@@ -332,7 +435,7 @@ function Profile() {
                   </p>
                 )}
             </div>
-            <div className="mb-4">
+                       <div className="mb-4">
               <label className="block text-sm font-bold text-gray-700 font-Poppins">Education:</label>
               <select className="w-full mt-1 p-2 border border-gray-300 rounded-md font-Poppins" name="education"
                 value={formik.values.education}
@@ -388,7 +491,7 @@ function Profile() {
                   </p>
                 )}
             </div>
-      <div className="mb-4">
+      {/* <div className="mb-4">
                             <label className="block text-sm font-bold text-gray-700 font-Poppins">Change Profile Photo:</label>
 
                             <div className='my-4'>
@@ -414,7 +517,7 @@ function Profile() {
                                         </p>
                                     )}
                             </div>
-                        </div>
+                        </div> */}
  
       <div className="flex space-x-4">
         <button type="submit" className="bg-[#489CFF] text-white rounded-md py-2 px-4" onClick={formik.handleSubmit}>

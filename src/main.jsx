@@ -31,6 +31,7 @@ import BookedServices from './User-Components/BookedServices.jsx'
 import ChangePassword from './Advisor-Components/ChangePassword.jsx'
 import Post from './User-Components/Post.jsx'
 import CreatedPosts from './Advisor-Components/CreatedPosts.jsx'
+import AdvisorProfile from './User-Components/AdviserProfile.jsx'
 import Question from './User-Components/Question.jsx'
 
 
@@ -43,7 +44,8 @@ const router = createBrowserRouter(
             <Route path="/"  element={<UserLandingPage />} />
             <Route path="/createaccount" element={<UserLogin />} />
             <Route path="/category" element={<UserCategory />} />
-            <Route path="/category/:advisername" element={<UserAdviserProfile />} />
+            {/* <Route path="/category/:advisername" element={<UserAdviserProfile />} /> */}
+            <Route path="/category/:advisername" element={<AdvisorProfile />} />
             <Route path="/category/:advisername/checkout/:servicename" element={<UserCheckoutPage />} />
             <Route path="/bookedservices" element={<BookedServices />} />
             <Route path="/post/:postid" element={<Post />} />
