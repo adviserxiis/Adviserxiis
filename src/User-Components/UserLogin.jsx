@@ -236,16 +236,19 @@ export default function UserLogin() {
         
         if (!userExists) {
           const userid = uuidv1();
+          const date = new Date().toString();
           if(formik.values.name !== '')
           {
           set(ref(database, 'users/' + userid), {
             mobile_number: formik.values.mobile_number,
-            username:formik.values.name
+            username:formik.values.name,
+            created_at:date,
           });
         }
         else{
           set(ref(database, 'users/' + userid), {
             mobile_number: formik.values.mobile_number,
+            created_at:date,
           });
         }
           localStorage.setItem("userid", JSON.stringify(userid));
