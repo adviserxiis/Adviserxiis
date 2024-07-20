@@ -33,6 +33,8 @@ import Post from './User-Components/Post.jsx'
 import CreatedPosts from './Advisor-Components/CreatedPosts.jsx'
 import AdvisorProfile from './User-Components/AdviserProfile.jsx'
 import Question from './User-Components/Question.jsx'
+import Home from './Analytics/Home.jsx'
+import AnalyticsLayout from './AnalyticsLayout.jsx'
 
 
 
@@ -79,6 +81,11 @@ const router = createBrowserRouter(
      <Route path="/payment" element={<Payment />} />,
 
      {/* <Route path="/createquestion" element={<Question />} />, */}
+
+     <Route path="/analytics" element={<AnalyticsLayout />} >
+     <Route path="/analytics" element={<Home />} />
+     </Route>,
+     
 
     
 
