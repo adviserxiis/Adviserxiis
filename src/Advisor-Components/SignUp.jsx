@@ -174,6 +174,7 @@ function SignUp() {
       }
 
     const userid = uuidv1();
+    const date = new Date().toString();
 
    await set(ref(database, 'advisers/' + userid), {
       username: formik.values.name,
@@ -181,7 +182,8 @@ function SignUp() {
       mobile_number: formik.values.mobile_number,
       password: hashedPassword,
       // country: formik.values.country,
-      state: formik.values.state
+      state: formik.values.state,
+      created_at:date
     });
 
    
