@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { child, get, getDatabase, ref, remove, set, update } from "firebase/database";
 import { app } from "../firebase";
 import { getAuth } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 function CreatorAnalytics() {
 
    const database = getDatabase(app);
    const auth = getAuth();
+   const navigate = useNavigate();
 
    const [dayCreators, setDayCreators] = useState([])
    const [weekCreators, setWeekCreators] = useState([])
@@ -138,7 +140,13 @@ function CreatorAnalytics() {
     <div className='grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8  w-full justify-between'>
         <div>
            <p className='font-semibold text-lg md:text-xl text-center'>Creators in last 24 hrs</p>
-           <div className='flex justify-center items-center w-full bg-gray-200 h-[100px] md:h-[120px] my-2 rounded-xl'>
+           <div className='flex justify-center items-center w-full bg-gray-200 h-[100px] md:h-[120px] my-2 rounded-xl cursor-pointer' onClick={()=>{
+                navigate(`/category/${adviserName}`, {
+                  state: {
+                    creatorsdata:dayCreators
+                  }
+                })
+           }}>
                <p className='text-xl md:text-3xl font-semibold'>{dayCreators.length}</p>
            </div>
         </div>
@@ -159,7 +167,13 @@ function CreatorAnalytics() {
 
         <div>
            <p className='font-semibold text-lg md:text-xl text-center'>Overall Creators</p>
-           <div className='flex justify-center items-center w-full bg-gray-200 h-[100px] md:h-[120px] my-2 rounded-xl'>
+           <div className='flex justify-center items-center w-full bg-gray-200 h-[100px] md:h-[120px] my-2 rounded-xl cursor-pointer' onClick={()=>{
+                            navigate('/creatorsdata/', {
+                              state: {
+                                creatorsdata:allCreators
+                              }
+                            })
+           }}>
                <p className='text-xl md:text-3xl font-semibold'>{allCreators.length}</p>
            </div>
         </div>

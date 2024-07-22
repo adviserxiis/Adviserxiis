@@ -35,6 +35,7 @@ import AdvisorProfile from './User-Components/AdviserProfile.jsx'
 import Question from './User-Components/Question.jsx'
 import Home from './Analytics/Home.jsx'
 import AnalyticsLayout from './AnalyticsLayout.jsx'
+import CreatorsData from './Analytics/CreatorsData.jsx'
 
 
 
@@ -83,7 +84,8 @@ const router = createBrowserRouter(
      {/* <Route path="/createquestion" element={<Question />} />, */}
 
      <Route path="/analytics" element={<AnalyticsLayout />} >
-     <Route path="/analytics" element={<Home />} />
+       <Route path="/analytics" element={<Home />} />,
+       <Route path="/analytics/creatorsdata" element={<CreatorsData />} />
      </Route>,
      
 
