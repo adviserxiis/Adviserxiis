@@ -149,7 +149,6 @@ function ChangePassword() {
         icon: "error"
       });
       setLoading(false)
-      setOtp('')
     }
 
   }
