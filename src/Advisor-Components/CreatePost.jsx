@@ -61,11 +61,12 @@ function CreatePost() {
         // .required("file is required"),
 
         post_file: Yup.mixed()
+        .required('File is required')
         .test('fileType', 'Unsupported file type', (value) => {
-          if (!value) return true;
-          const allowedTypes = ['video/mp4', 'video/avi'];
-          return allowedTypes.includes(value.type);
+          if (!value) return false; // File is required, so no file should be an error
+          return value.type.startsWith('video/');
         })
+      
         // .test('fileSize', 'File size is too large (max 50MB)', (value) => {
         //   if (!value) return true;
         //   return value.size <= 50 * 1024 * 1024; // 50MB in bytes
@@ -146,7 +147,7 @@ function CreatePost() {
                   await update(ref(database, 'advisers/' + adviserid), { posts: updatedPosts });
 
       
-        
+                  setLoading(false)
             await Swal.fire({
               title: "Success",
               text: "Post Created Successfully!!",
