@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 function AnalyticsHeader({ setShowSideBar, showSideBar }) {
   return (
     <div
-      className={`fixed w-full h-16 flex justify-between items-center transition-all duration-[400ms] ${showSideBar ? "pl-56 bg-white" : "bg-white"
+      className={`fixed w-full h-16 flex justify-between items-center transition-all duration-[400ms] ${showSideBar ? "pl-64 bg-white" : "bg-white"
         }`}
     >
       <div className="pl-4 md:pl-16">

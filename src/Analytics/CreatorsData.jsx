@@ -25,10 +25,10 @@ const CreatorsData = () => {
 
 
   return (
-    <div className='min-h-screen py-[20px] px-[20px] bg-white pt-[100px] font-Poppins'>
+    <div className='min-h-screen   py-[20px] px-[20px] bg-white pt-[100px] font-Poppins '>
       <p className='text-xl md:text-2xl lg:text-3xl  font-bold mb-4'>Creators</p>
-      <div className="overflow-x-auto p-4">
-        <table className="min-w-full divide-y divide-gray-200">
+      <div className=" p-4">
+        <table className="min-w-full divide-y divide-gray-200 ">
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sr. No</th>

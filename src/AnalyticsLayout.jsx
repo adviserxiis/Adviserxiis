@@ -30,7 +30,7 @@ function AnalyticsLayout() {
   }, []);
 
   return (
-    <div className="flex flex-row  bg-neutral-100 overflow-hidden">
+    <div className="flex flex-row  bg-neutral-100 overflow-hidden overflow-x-auto ">
       <Transition
         as={Fragment}
         show={showSideBar}
@@ -49,7 +49,7 @@ function AnalyticsLayout() {
         <div
           className={` transition-all duration-[400ms] ${
             showSideBar && !isMobile ? "pl-64" : ""
-          }`}
+          } overflow-x-auto`}
         >
           <Outlet className="px-4 md:px-16" />
         </div>
