@@ -7,10 +7,10 @@ import CreatorAnalytics from './CreatorAnalytics';
 import PostAnalytics from './PostAnalytics';
 
 function Home() {
-    const database = getDatabase(app);
-    const auth = getAuth();
+  const database = getDatabase(app);
+  const auth = getAuth();
 
-    const adviserid = JSON.parse(localStorage.getItem('adviserid'));
+  const adviserid = JSON.parse(localStorage.getItem('adviserid'));
 
 
 
@@ -34,7 +34,7 @@ function Home() {
       </div>
 
 
-     
+
     </div>
   )
 }
