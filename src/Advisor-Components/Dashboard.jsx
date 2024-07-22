@@ -346,7 +346,7 @@ today.setHours(0, 0, 0, 0);
               <TableCell component="th" scope="row" align="center" style={{fontSize:"20px"}}>
               {convertDateFormat(data.purchased_date)}
               </TableCell>
-              <TableCell align="center" style={{fontSize:"20px"}}>{data.user.name}</TableCell>
+              <TableCell align="center" style={{fontSize:"20px"}}>{data.user.username}</TableCell>
               <TableCell align="center" style={{fontSize:"20px", fontFamily:""}} >{data.service.service_name}</TableCell>
               <TableCell align="center" style={{fontSize:"20px"}} >{convertDateFormat(data.scheduled_date)}</TableCell>
               <TableCell align="center" style={{fontSize:"20px"}}>{data.scheduled_time}</TableCell>

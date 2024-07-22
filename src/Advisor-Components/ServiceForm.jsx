@@ -198,10 +198,7 @@ const ServiceForm = () => {
   })
 
 
-
-
-
-  const deleteHandler = async (serviceId) =>{
+  const deleteService = async (serviceId) =>{
     try {
       const adviserId = JSON.parse(localStorage.getItem('adviserid'));
   
@@ -244,6 +241,25 @@ const ServiceForm = () => {
         icon: "error"
       });
     }
+  }
+
+
+
+  const deleteHandler = async (serviceId) =>{
+
+    Swal.fire({
+      title: "Do you want to delete the service?",
+      text: "",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Delete"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteService(serviceId)
+      }
+    });
   }
 
   const check = async () =>{
