@@ -14,6 +14,7 @@ import StateContext from '../Context/StateContext';
 import EditIcon from '@mui/icons-material/Edit';
 import profile_background from '../assets/profile_background.jpg'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
  
@@ -26,6 +27,7 @@ function Profile() {
   
 
   const database = getDatabase(app);
+  const navigate = useNavigate();
   const adviserId = JSON.parse(localStorage.getItem('adviserid'));
 
   const { updateHeader, setUpdateHeader  } = useContext(StateContext)
@@ -63,6 +65,25 @@ function Profile() {
     profile_photo:null,
     profile_background:null
   }
+
+  const handleLogOut = async () => {
+  
+    Swal.fire({
+      title: "Do you want to logout?",
+      text: "",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Logout"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.setItem("adviserid", JSON.stringify(null));
+        navigate('/adviser');
+      }
+    });
+
+  };
 
 
   const validationSchema = Yup.object().shape({
@@ -266,9 +287,9 @@ function Profile() {
   }
 
   return (
-    <div className="flex flex-col pt-0 py-6 px-2 sm:p-6 ">
+    <div className="flex flex-col pt-0 py-6 px-2 sm:p-6  mb-[80px]">
     {/* <p className='font-Poppins text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold s my-2'>Profile</p> */}
-    <div className='relative h-28 md:h-40 w-full bg-black'>
+    <div className='relative h-28 md:h-56 w-full bg-black'>
       <img src={user && user.profile_background ? user.profile_background : profile_background}
        alt="" 
        className='h-full w-full object-cover'
@@ -326,7 +347,10 @@ function Profile() {
           <p className="text-lg md:text-xl lg:text-2xl font-bold font-Poppins">Followers</p>
           <p className='text-lg md:text-xl lg:text-2xl font-bold font-Poppins'>{user && user.followers ? user.followers.length : 0}</p>
         </div> */}
+        
+
       </div>
+
       {formik.errors.profile_photo && (
                                         <p
                                             style={{
@@ -338,6 +362,10 @@ function Profile() {
                                             {formik.errors.profile_photo}
                                         </p>
                                     )}
+
+<div className='flex justify-end'>
+          <button className="bg-[#489CFF] text-white rounded-md py-2 md:mx-2 px-2 md:px-4 md:text-lg lg:text-xl m-4" onClick={handleLogOut}>Logout</button>
+          </div>
 
     <form className="bg-[#D9D9D942] p-6 rounded-xl shadow-md space-y-6 md:w-4/6 lg:w-3/6 pb-[200px]  ">
       <div>
@@ -530,7 +558,7 @@ function Profile() {
     <a
             href='https://api.whatsapp.com/send/?phone=%2B917703874893&text&type=phone_number&app_absent=0'
             target="_blank"
-            className="fixed bottom-[60px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
+            className="fixed bottom-[80px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
         >
             <WhatsAppIcon fontSize="large"/>
         </a>

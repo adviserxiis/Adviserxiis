@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { child, get, getDatabase, ref, set, update } from "firebase/database";
 import { app } from "../firebase";
 import { CircularProgress } from '@mui/material';
 import Swal from 'sweetalert2';
 import { getAuth } from 'firebase/auth';
+import StateContext from '../Context/StateContext';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+
 
 
 function Services() {
@@ -19,6 +21,7 @@ function Services() {
 
   const navigate= useNavigate()
   const adviserid = JSON.parse(localStorage.getItem('adviserid'))
+  const {handleDialogOpen } = useContext(StateContext)
 
 
   async function getUser(userId) {
@@ -108,11 +111,15 @@ function Services() {
     return <div className='h-screen flex justify-center items-center'><CircularProgress  /></div>; // Show a loading message or spinner while fetching data
   }
   return (
-    <div className="flex flex-col pt-0 py-6 px-2 sm:p-6 space-y-6">
+    <div className="flex flex-col pt-0 py-6 px-2 sm:p-6 space-y-6 mb-[80px]">
 
-    <div className="flex justify-between items-center">
+    <div className="flex flex-col  md:flex-row justify-between items-start md:items-center ">
     <p className='font-Poppins text-3xl md:text-4xl lg:text-5xl font-bold s my-2'>Services</p>
-      <button className="bg-[#489CFF] text-white rounded-md py-2 mx-2 px-2 md:px-4 md:text-lg lg:text-xl" onClick={()=> navigate('/adviser/createservice')}>Create New Service</button>
+    <div className='space-x-4'>
+    <button className="bg-[#489CFF] text-white rounded-md py-2 md:mx-2 px-2 md:px-4 md:text-lg lg:text-xl" onClick={handleDialogOpen}>Calender</button>
+      <button className="bg-[#489CFF] text-white rounded-md py-2 md:mx-2 px-2 md:px-4 md:text-lg lg:text-xl" onClick={()=> navigate('/adviser/createservice')}>Create New Service</button>
+      
+      </div>
     </div>
 
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
@@ -138,7 +145,7 @@ function Services() {
     <a
             href='https://api.whatsapp.com/send/?phone=%2B917703874893&text&type=phone_number&app_absent=0'
             target="_blank"
-            className="fixed bottom-[60px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
+            className="fixed bottom-[80px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
         >
             <WhatsAppIcon fontSize="large"/>
         </a>

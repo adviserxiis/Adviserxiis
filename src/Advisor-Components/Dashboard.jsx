@@ -209,12 +209,12 @@ today.setHours(0, 0, 0, 0);
     return <div className='h-screen flex justify-center items-center'><CircularProgress  /></div>; // Show a loading message or spinner while fetching data
   }
   return (
-    <div className='max-w-[1440px]'>
+    <div className='max-w-screen mb-[80px]'>
       <div className='overflow-hidden'>
           <div className='pt-0 py-6 px-2 sm:p-6 space-y-6'>
     <p className='font-Poppins text-3xl md:text-4xl lg:text-5xl ml-4 font-bold s my-2'>Dashboard</p>
     </div>
-    <div className="flex flex-col md:flex-row justify-center md:justify-between sm:p-6 space-y-6 max-w-[1440px]">
+    <div className="flex flex-col md:flex-row justify-center md:justify-between sm:p-6 space-y-6 max-w-full">
 
     <div className="flex flex-col justify-center  sm:justify-between  md:items-start w-full md:w-3/6  ">
       <div className="flex items-center space-x-4 w-full my-4 ml-4">
@@ -245,8 +245,9 @@ today.setHours(0, 0, 0, 0);
      
 
 
-    <div className="  py-6  w-[320px] sm:w-[350px] ml-4  md:w-3/6 my-4 ">
-        <h2 className="text-xl md:tetx-2xl lg:text-3xl font-bold font-Poppins">Upcoming Booking</h2>
+    <div className="  py-6  w-[320px] sm:w-[350px] ml-4  md:w-3/6 my-4 flex flex-col md:items-center">
+    <div >
+        <h2 className="text-xl md:text-2xl lg:text-3xl font-bold font-Poppins">Upcoming Booking</h2>
         <div className="mt-4 space-y-4">
           {
             upcommingAppoinment.length == 0 && <div className='text-xl font-Poppins pl-2'>
@@ -254,9 +255,9 @@ today.setHours(0, 0, 0, 0);
                </div>
           }
         {upcommingAppoinment.length > 0 && upcommingAppoinment[0] && 
-          <div className="bg-gray-100 p-4 rounded-md flex justify-between items-center md:text-lg lg:text-xl">
+          <div className="bg-gray-100 p-4 rounded-md flex justify-between items-center text-sm md:text-lg lg:text-xl">
                       <div>
-              <p className='font-Poppins font-bold'>User Name : {upcommingAppoinment[0].user.name}</p>
+              <p className='font-Poppins font-bold'>User Name : {upcommingAppoinment[0].user.username}</p>
               <p className='font-Poppins'>Service Name : {upcommingAppoinment[0].service.service_name}</p>
               <p className='font-Poppins'>Appointment Date : {convertDateFormat(upcommingAppoinment[0].scheduled_date)}</p>
             </div>
@@ -267,7 +268,7 @@ today.setHours(0, 0, 0, 0);
 {upcommingAppoinment.length > 0 && upcommingAppoinment[1] && 
           <div className="bg-gray-100 p-4 rounded-md flex justify-between items-center md:text-lg lg:text-xl">
                       <div>
-              <p className='font-Poppins font-bold'>User Name : {upcommingAppoinment[1].user.name}</p>
+              <p className='font-Poppins font-bold'>User Name : {upcommingAppoinment[1].user.username}</p>
               <p className='font-Poppins'>Service Name : {upcommingAppoinment[1].service.service_name}</p>
               <p className='font-Poppins'>Appointment Date : {convertDateFormat(upcommingAppoinment[1].scheduled_date)}</p>
             </div>
@@ -275,6 +276,7 @@ today.setHours(0, 0, 0, 0);
             <button className="bg-[#489CFF] text-white rounded-md py-2 px-4 font-Poppins md:w-24" onClick={()=> navigate(`/room/${upcommingAppoinment[0].meetingid}`)}>Join</button>
           </div>
 }
+        </div>
         </div>
       </div>
     
@@ -324,7 +326,7 @@ today.setHours(0, 0, 0, 0);
 
     </div> */}
 <div className='font-Poppins overflow-x-auto ml-4 my-[20px] py-6 md:p-6'>
-<h2 className="text-xl md:text-2xl lg:text-3xl md:p-6 font-bold font-Poppins">Last Appointments</h2>
+<h2 className="text-xl md:text-2xl lg:text-3xl  font-bold font-Poppins">Last Appointments</h2>
 <TableContainer component={Paper} className='mt-5 overflow-x-auto' >
       <Table sx={{ minWidth: 650, fontFamily: 'Poppins' }} aria-label="simple table">
         <TableHead style={{fontSize:"20px"}}>
@@ -371,7 +373,7 @@ today.setHours(0, 0, 0, 0);
             href='https://api.whatsapp.com/send/?phone=%2B917703874893&text&type=phone_number&app_absent=0'
             target="_blank"
             // rel="noopener noreferrer"
-            className="fixed bottom-[60px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
+            className="fixed bottom-[80px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
         >
             <WhatsAppIcon fontSize="large"/>
         </a>

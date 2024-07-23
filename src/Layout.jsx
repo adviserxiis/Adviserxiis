@@ -5,6 +5,8 @@ import { Transition } from "@headlessui/react";
 import SideBar from "./Advisor-Components/SideBar";
 import AvailabilitySchedule from "./Advisor-Components/AvailabilitySchedule";
 import StateContext from "./Context/StateContext";
+import UserFooter from "./User-Components/UserFooter";
+import AdviserFooter from "./Advisor-Components/AdviserFooter";
 
 function Layout() {
   const [showSideBar, setShowSideBar] = useState(true);
@@ -49,7 +51,7 @@ function Layout() {
   return (
     <StateContext.Provider value={{handleDialogOpen, updateHeader, setUpdateHeader}}>
     <div className="flex flex-row overflow-hidden overflow-x-auto">
-      <Transition
+      {/* <Transition
         as={Fragment}
         show={showSideBar}
         enter="transform transition duration-[400ms]"
@@ -60,7 +62,7 @@ function Layout() {
         leaveTo="-translate-x-full"
       >
         <SideBar showSideBar={showSideBar} handleOpen={handleDialogOpen} setShowSideBar={setShowSideBar}/>
-      </Transition>
+      </Transition> */}
 
       <div className="flex-1">
         <div className="">
@@ -68,12 +70,16 @@ function Layout() {
         </div>
         <div
           className={`pt-20 lg:pt-[50px]  p-4 transition-all duration-[400ms] ${
-            showSideBar && !isMobile ? "pl-[350px] p-4" : ""
+            showSideBar && !isMobile ? "pl-[50px] p-4" : ""
           } overflow-x-auto`}
         >
           <Outlet className="px-4 md:px-16" />
           <AvailabilitySchedule open={dialogOpen} handleClose={handleDialogClose} />
         </div>
+      </div>
+
+      <div>
+        <AdviserFooter />
       </div>
     </div>
     </StateContext.Provider>
