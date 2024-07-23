@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import User from '../assets/User.png'
@@ -14,25 +14,32 @@ import Swal from "sweetalert2";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getAuth } from "firebase/auth";
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
+import StateContext from '../Context/StateContext';
 
 function CreatedPosts() {
   const database = getDatabase(app);
-  const auth= getAuth();
+  const auth = getAuth();
 
   const navigate = useNavigate()
   const location = useLocation()
 
   const [posts, setPosts] = useState([])
+  const [adviserData, setAdviserData] = useState(null)
   const [postsWithAdviser, setPostsWithAdviser] = useState([])
   const [loading, setLoading] = useState(true)
   const [updated, setUpdated] = useState(false) // state for  re rendering after like changes
-  const [shareDialogOpen, setShareDialogOpen] = useState(false);
-  const [shareURL, setShareURL] = useState('')
+
+  const { handleShareDialogOpen, setShareURL } = useContext(StateContext)
 
   const { specificpostid } = location.state || {}
 
   const userid = JSON.parse(localStorage.getItem('userid'));
   const adviserid = JSON.parse(localStorage.getItem('adviserid'));
+
+  function convertSpacesToUnderscores(inputString) {
+    return inputString.replace(/\s+/g, '_');
+  }
 
   async function getAllPost() {
     const nodeRef = ref(database, 'advisers_posts');
@@ -76,7 +83,7 @@ function CreatedPosts() {
     try {
       const snapshot = await get(nodeRef);
       if (snapshot.exists()) {
-        return ({data:snapshot.val(),id:snapshot.key});
+        return ({ data: snapshot.val(), id: snapshot.key });
       } else {
         console.log('No data available');
         return null;
@@ -103,9 +110,9 @@ function CreatedPosts() {
     }
   }
 
-  const deletePost = async (postid) =>{
+  const deletePost = async (postid) => {
     remove(ref(database, 'advisers_posts/' + postid));
-           
+
     const adviserRef = ref(database, 'advisers/' + adviserid);
     const snapshot = await get(adviserRef);
     if (snapshot.exists()) {
@@ -117,20 +124,20 @@ function CreatedPosts() {
 
 
 
-      await update(adviserRef, { 
+      await update(adviserRef, {
         posts: updatedPosts,
-       });
-      }    
+      });
+    }
 
     setUpdated(prev => !prev)
   }
 
- 
 
 
 
-  const deleteHandler = async (postid) =>{
-         
+
+  const deleteHandler = async (postid) => {
+
 
     Swal.fire({
       title: "Do you want to delete this post?",
@@ -142,11 +149,11 @@ function CreatedPosts() {
       confirmButtonText: "Delete"
     }).then((result) => {
       if (result.isConfirmed) {
-           deletePost(postid)
+        deletePost(postid)
       }
     });
 
-  
+
   }
 
 
@@ -172,7 +179,7 @@ function CreatedPosts() {
         })
       );
 
-  
+
 
       // Enhanced sort function to handle date and time properly
       details.sort((a, b) => {
@@ -196,6 +203,13 @@ function CreatedPosts() {
   }, [posts]);
 
 
+  useEffect(() => {
+    getUser(adviserid).then((response) => {
+      setAdviserData(response)
+    })
+  }, [])
+
+
 
 
   if (loading) {
@@ -203,56 +217,67 @@ function CreatedPosts() {
   }
 
   return (
-  
+
     <div className="min-h-screen pt-[10px] sm:pt-[30px] mb-[80px] ">
-      <div className=" container mx-auto md:mx-7xl  font-Poppin">
-      <p className='font-Poppins text-3xl md:text-4xl lg:text-5xl font-bold pl-[10px] my-2'>Created Posts</p>
+      <div className=" md:mx-7xl  font-Poppin">
+        <p className='font-Poppins text-3xl md:text-4xl lg:text-5xl font-bold pl-[10px] my-2'>Created Posts</p>
         <div className=" grid grid-cols-1 md:grid-cols-3  gap-4 m-4">
-          {postsWithAdviser.map((post, idx) => ( (post.data && post.data.adviserid && (post.data.adviserid === adviserid) )&&
+          {postsWithAdviser.map((post, idx) => ((post.data && post.data.adviserid && (post.data.adviserid === adviserid)) &&
             <div className="max-w-[900px] my-4" key={idx}>
               <div className="flex items-center justify-end bg-[#489CFF] p-2 px-4 rounded-tr-xl rounded-tl-xl">
                 <div className="cursor-pointer text-2xl md:text-3xl lg:text-4xl">
 
-                  { post.data && post.data.adviserid && (post.data.adviserid === adviserid) ?   <DeleteIcon  fontSize="inherit"  onClick={()=>deleteHandler(post.id)
-                  } /> :'' }
-                  
+                  {post.data && post.data.adviserid && (post.data.adviserid === adviserid) ? <DeleteIcon fontSize="inherit" onClick={() => deleteHandler(post.id)
+                  } /> : ''}
+
 
                 </div>
               </div>
               <div>
 
-                          {post.data.post_file && (
-           post.data.file_type && post.data.file_type === 'video' ? (
-              <video controls className="w-[325px] h-[450px] sm:w-[500px] sm:h-[600px]  md:w-[600px] md:h-[700px] lg:w-[700px] lg:h-[800px]  object-cover">
-                <source src={post.data.post_file} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            ) : (
-                               <img
-                  src={post.data && post.data.post_file ? post.data.post_file : ''}
-                  alt="Post Image"
-                  className="w-96 h-96 sm:w-[500px] sm:h-[500px]   object-cover"
-                /> 
-            )
-          )}
+                {post.data.post_file && (
+                  post.data.file_type && post.data.file_type === 'video' ? (
+                    <video controls className="w-[325px] h-[450px] sm:w-[500px] sm:h-[600px]  md:w-[600px] md:h-[700px] lg:w-[700px] lg:h-[800px]  object-cover">
+                      <source src={post.data.post_file} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    <img
+                      src={post.data && post.data.post_file ? post.data.post_file : ''}
+                      alt="Post Image"
+                      className="w-96 h-96 sm:w-[500px] sm:h-[500px]   object-cover"
+                    />
+                  )
+                )}
               </div>
- 
-              
+
+
             </div>
           ))}
 
         </div>
 
       </div>
+      <button
+
+        className="fixed bottom-[160px] md:bottom-[180px] right-[30px] md:right-[70px]  p-4 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 hover:shadow-xl transition duration-300"
+        onClick={() => {
+          handleShareDialogOpen()
+          setShareURL(`https://www.adviserxiis.com/category/${convertSpacesToUnderscores(adviserData?.data?.username)}/${adviserid}`)
+        }}
+      >
+        <ShareOutlinedIcon fontSize="large" />
+
+      </button>
       <button>
-    <a
-            href='https://api.whatsapp.com/send/?phone=%2B917703874893&text&type=phone_number&app_absent=0'
-            target="_blank"
-            className="fixed bottom-[80px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
+        <a
+          href='https://api.whatsapp.com/send/?phone=%2B917703874893&text&type=phone_number&app_absent=0'
+          target="_blank"
+          className="fixed bottom-[80px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
         >
-            <WhatsAppIcon fontSize="large"/>
+          <WhatsAppIcon fontSize="large" />
         </a>
-        </button>
+      </button>
     </div>
   );
 }

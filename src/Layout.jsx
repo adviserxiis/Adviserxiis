@@ -7,12 +7,15 @@ import AvailabilitySchedule from "./Advisor-Components/AvailabilitySchedule";
 import StateContext from "./Context/StateContext";
 import UserFooter from "./User-Components/UserFooter";
 import AdviserFooter from "./Advisor-Components/AdviserFooter";
+import ProfileShareDialog from "./Advisor-Components/ProfileShareDialog";
 
 function Layout() {
   const [showSideBar, setShowSideBar] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [updateHeader, setUpdateHeader] = useState(false)
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [shareURL, setShareURL] = useState('')
 
   function handleResize() {
     if (innerWidth <= 640) {
@@ -34,6 +37,15 @@ function Layout() {
   };
 
 
+  const handleShareDialogClose = () => {
+    setShareDialogOpen(false);
+  };
+
+  const handleShareDialogOpen = () =>{
+    setShareDialogOpen(true);
+  }
+
+
   useEffect(() => {
     if (typeof window != undefined) {
       addEventListener("resize", handleResize);
@@ -49,7 +61,7 @@ function Layout() {
   },[])
 
   return (
-    <StateContext.Provider value={{handleDialogOpen, updateHeader, setUpdateHeader}}>
+    <StateContext.Provider value={{handleDialogOpen, updateHeader, setUpdateHeader, handleShareDialogOpen , setShareURL}}>
     <div className="flex flex-row overflow-hidden overflow-x-auto">
       {/* <Transition
         as={Fragment}
@@ -75,6 +87,11 @@ function Layout() {
         >
           <Outlet className="px-4 md:px-16" />
           <AvailabilitySchedule open={dialogOpen} handleClose={handleDialogClose} />
+          <ProfileShareDialog  
+                               open={shareDialogOpen}
+                               handleClose={handleShareDialogClose}
+                               url={shareURL}
+          />
         </div>
       </div>
 
