@@ -216,7 +216,7 @@ function Dashboard() {
     return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>; // Show a loading message or spinner while fetching data
   }
   return (
-    <div className='max-w-screen mb-[80px] '>
+    <div className='max-w-screen mb-[120px] md:mb-[80px] '>
       <div className='overflow-hidden'>
         <div className='pt-0 py-6 px-2 sm:p-6 space-y-6'>
           <p className='font-Poppins text-3xl md:text-4xl lg:text-5xl ml-2 font-bold s my-2'>Dashboard</p>
