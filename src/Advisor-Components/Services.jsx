@@ -117,7 +117,7 @@ function Services() {
     return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>; // Show a loading message or spinner while fetching data
   }
   return (
-    <div className="flex flex-col pt-0 py-6 px-2 sm:p-6 space-y-6 mb-[80px]">
+    <div className="flex flex-col pt-0 py-6  sm:p-6 space-y-6 mb-[80px] px-4 sm:px-2">
 
       <div className="flex flex-col  md:flex-row justify-between items-start md:items-center ">
         <p className='font-Poppins text-3xl md:text-4xl lg:text-5xl font-bold s my-2'>Services</p>

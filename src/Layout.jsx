@@ -62,7 +62,7 @@ function Layout() {
 
   return (
     <StateContext.Provider value={{handleDialogOpen, updateHeader, setUpdateHeader, handleShareDialogOpen , setShareURL}}>
-    <div className="flex flex-row overflow-hidden overflow-x-auto">
+    <div className="flex flex-row overflow-hidden ">
       {/* <Transition
         as={Fragment}
         show={showSideBar}
@@ -81,8 +81,8 @@ function Layout() {
         <Header  setShowSideBar={setShowSideBar} showSideBar={showSideBar} handleOpen={handleDialogOpen} />
         </div>
         <div
-          className={`pt-20 lg:pt-[50px]  p-4 transition-all duration-[400ms] ${
-            showSideBar && !isMobile ? "pl-[50px] p-4" : ""
+          className={`pt-20 lg:pt-[50px]  transition-all duration-[400ms] ${
+            showSideBar && !isMobile ? "pl-[50px] " : ""
           } overflow-x-auto`}
         >
           <Outlet className="px-4 md:px-16" />
