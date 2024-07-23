@@ -3,7 +3,7 @@ import profile from '../assets/profile.png'
 import User from '../assets/User.png'
 import { child, get, getDatabase, ref, set, update } from "firebase/database";
 import { app } from "../firebase";
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, useStepContext } from '@mui/material';
 import * as Yup from "yup";
 import { useFormik } from 'formik';
 import { v1 as uuidv1 } from 'uuid';
@@ -15,6 +15,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import profile_background from '../assets/profile_background.jpg'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import { useNavigate } from 'react-router-dom';
+import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 
 function Profile() {
  
@@ -23,6 +24,8 @@ function Profile() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true)
   const [ isUpdated, setIsUpdated] = useState(false)
+  const [adviserData, setAdviserData] = useState(null)
+
 
   
 
@@ -30,7 +33,8 @@ function Profile() {
   const navigate = useNavigate();
   const adviserId = JSON.parse(localStorage.getItem('adviserid'));
 
-  const { updateHeader, setUpdateHeader  } = useContext(StateContext)
+
+  const { updateHeader, setUpdateHeader , handleShareDialogOpen, setShareURL  } = useContext(StateContext)
 
   const industries = [
     "Information Technology (IT) and Software Development",
@@ -64,6 +68,9 @@ function Profile() {
     industry: '',
     profile_photo:null,
     profile_background:null
+  }
+  function convertSpacesToUnderscores(inputString) {
+    return inputString.replace(/\s+/g, '_');
   }
 
   const handleLogOut = async () => {
@@ -281,6 +288,12 @@ function Profile() {
       setLoading(false); // Update loading state even if there's no user ID in localStorage
     }
   }, [isUpdated]);
+
+  useEffect(()=>{
+        getUser(adviserId).then((response)=>{
+          setAdviserData(response)
+        })
+  },[])
 
   if (loading) {
     return <div className='h-screen flex justify-center items-center'><CircularProgress  /></div>; // Show a loading message or spinner while fetching data
@@ -554,6 +567,17 @@ function Profile() {
         </button>
       </div>
     </form>
+    <button
+
+className="fixed bottom-[160px] md:bottom-[180px] right-[30px] md:right-[70px]  p-4 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 hover:shadow-xl transition duration-300"
+onClick={() => {
+  handleShareDialogOpen()
+  setShareURL(`https://www.adviserxiis.com/category/${convertSpacesToUnderscores(adviserData?.username)}/${adviserId}`)
+}}
+>
+<ShareOutlinedIcon fontSize="large" />
+
+</button>
     <button>
     <a
             href='https://api.whatsapp.com/send/?phone=%2B917703874893&text&type=phone_number&app_absent=0'

@@ -4,13 +4,14 @@ import { useFormik } from 'formik';
 import { get, getDatabase, ref, remove, set, update } from "firebase/database";
 import { app } from "../firebase";
 import { v1 as uuidv1 } from 'uuid';
-import { Button, Checkbox, CircularProgress } from '@mui/material';
+import { Button, Checkbox, CircularProgress, useStepContext } from '@mui/material';
 import Swal from 'sweetalert2';
 import AvailabilitySchedule from './AvailabilitySchedule';
 import { useLocation, useNavigate } from 'react-router-dom';
 import StateContext from '../Context/StateContext';
 import { getAuth } from 'firebase/auth';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 
 const ServiceForm = () => {
 
@@ -18,12 +19,19 @@ const ServiceForm = () => {
   const auth = getAuth();
   const [loading, setLoading] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [adviserData, setAdviserData] = useState(null)
 
   const navigate = useNavigate()
   const location = useLocation()
   const {handleDialogOpen, updateHeader, setUpdateHeader  } = useContext(StateContext)
+  const { handleShareDialogOpen, setShareURL } = useContext(StateContext)
 
   const { serviceid } = location.state || {}
+
+
+  function convertSpacesToUnderscores(inputString) {
+    return inputString.replace(/\s+/g, '_');
+  }
 
 
   const durations = [
@@ -319,6 +327,14 @@ const ServiceForm = () => {
  },[])
 
 
+ useEffect(()=>{
+  const adviserid = JSON.parse(localStorage.getItem('adviserid'))
+  getUser(adviserid).then((response)=>{
+    setAdviserData(response)
+  })
+ })
+
+
 
   return (
     <div className="flex flex-col p-6 space-y-6 mb-[80px]">
@@ -558,6 +574,18 @@ const ServiceForm = () => {
         { serviceid != undefined && <button type="button" className="bg-[#FF5348] text-white rounded-md py-2 px-4 font-Poppins" onClick={()=>deleteHandler(serviceid)}>Delete</button>}
         </div>
       </form>
+      <button
+
+className="fixed bottom-[160px] md:bottom-[180px] right-[30px] md:right-[70px]  p-4 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 hover:shadow-xl transition duration-300"
+onClick={() => {
+  const adviserid = JSON.parse(localStorage.getItem('adviserid'))
+  handleShareDialogOpen()
+  setShareURL(`https://www.adviserxiis.com/category/${convertSpacesToUnderscores(adviserData?.username)}/${adviserid}`)
+}}
+>
+<ShareOutlinedIcon fontSize="large" />
+
+</button>
       <button>
     <a
             href='https://api.whatsapp.com/send/?phone=%2B917703874893&text&type=phone_number&app_absent=0'

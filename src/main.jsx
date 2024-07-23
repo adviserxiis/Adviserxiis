@@ -38,6 +38,7 @@ import AnalyticsLayout from './AnalyticsLayout.jsx'
 import CreatorsData from './Analytics/CreatorsData.jsx'
 import UsersData from './Analytics/UsersData.jsx'
 import PostsData from './Analytics/PostsData.jsx'
+import ShareAdvisorProfile from './User-Components/ShareAdviserProfile.jsx'
 
 
 
@@ -50,11 +51,15 @@ const router = createBrowserRouter(
             <Route path="/createaccount" element={<UserLogin />} />
             <Route path="/category" element={<UserCategory />} />
             {/* <Route path="/category/:advisername" element={<UserAdviserProfile />} /> */}
+            <Route path="/category/:advisername/:adviserid" element={<ShareAdvisorProfile />} />,
             <Route path="/category/:advisername" element={<AdvisorProfile />} />
             <Route path="/category/:advisername/checkout/:servicename" element={<UserCheckoutPage />} />
             <Route path="/bookedservices" element={<BookedServices />} />
             <Route path="/post/:postid" element={<Post />} />
+            
      </Route>
+
+    
 
 
     <Route path ="/adviser" element={<App />} />,
