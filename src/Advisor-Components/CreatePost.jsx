@@ -51,6 +51,7 @@ function CreatePost() {
 
   const initialValues = {
     post_file: null,
+    post_discription:''
 
   }
 
@@ -95,6 +96,8 @@ function CreatePost() {
       })
       .aspectRatio('9:16', 'Video must have an aspect ratio of 9:16')
       .required('Video is required'),
+      post_discription: Yup.string()
+      .max(250, 'Professional bio must be at most 250 characters'),
   });
 
   async function getUser(userId) {
@@ -123,6 +126,7 @@ function CreatePost() {
     const date = new Date().toString();
 
 
+
     try {
       let postFileURL = null;
       let fileType = null;
@@ -139,15 +143,33 @@ function CreatePost() {
 
 
       const postid = uuidv1();
+      const post_discription = formik.values.post_discription;
 
-      await set(ref(database, 'advisers_posts/' + postid), {
-        adviserid: adviserid,
-        post_file: postFileURL,
-        file_type: fileType,
-        dop: date,
-        views: 0,
-        likes: [],
-      });
+      if(post_discription && post_discription !== '')
+      {
+        await set(ref(database, 'advisers_posts/' + postid), {
+          adviserid: adviserid,
+          post_file: postFileURL,
+          file_type: fileType,
+          discription: post_discription,
+          dop: date,
+          views: 0,
+          likes: [],
+        });
+      }
+
+      else{
+        await set(ref(database, 'advisers_posts/' + postid), {
+          adviserid: adviserid,
+          post_file: postFileURL,
+          file_type: fileType,
+          dop: date,
+          views: 0,
+          likes: [],
+        });
+      }
+
+
 
       const adviserData = await getUser(adviserid)
       const currentPosts = adviserData.posts || []; // Retrieve existing IDs or initialize to an empty array
@@ -165,6 +187,7 @@ function CreatePost() {
         text: "Post Created Successfully!!",
         icon: "success",
       });
+      formik.resetForm()
     } catch (error) {
       console.log("Error", error)
       await Swal.fire({
@@ -228,6 +251,31 @@ function CreatePost() {
               )}
           </div>
         </div>
+
+        <div>
+        <label className="block text-sm font-bold text-gray-700 font-Poppins">Video Discription</label>
+        <textarea
+          name='post_discription'
+          value={formik.values.post_discription}
+          placeholder=''
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className="w-full mt-1 p-2 border border-gray-300 rounded-md font-Poppins h-16"
+          rows="3"
+        />
+                              {formik.touched.post_discription &&
+                formik.errors.post_discription && (
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      padding: "",
+                      color: "red",
+                    }}
+                  >
+                    {formik.errors.post_discription}
+                  </p>
+                )}
+      </div>
 
         <div className="flex space-x-4">
           <button type="submit" className="bg-[#489CFF] text-white rounded-md py-2 px-4" onClick={formik.handleSubmit} disabled={loading}>

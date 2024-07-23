@@ -606,9 +606,9 @@ function UserLandingPage() {
                 </div>
                 <div className="flex items-center justify-center  bg-white text-[#5A88FF] px-4 py-1  rounded-md">
                   <p className="pt-1 md:text-lg lg:text-xl">{post.firstService?.price || 'N/A'}/hr</p>
-                  <div className="ml-2 pb-1 text-3xl lg:text-4xl">
+                  {/* <div className="ml-2 pb-1 text-3xl lg:text-4xl">
                     <VideocamIcon fontSize="inherit" />
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div>
@@ -637,7 +637,13 @@ function UserLandingPage() {
             )
           )}
               </div>
-              <div className="flex justify-between  items-center bg-[#5A88FF] p-4 rounded-bl-xl rounded-br-xl">
+              {
+                post?.data?.discription && <div className="bg-[#5A88FF] text-xs sm:text-sm  md:text-md  text-white px-2 py-1 w-[325px] sm:w-[500px] md:w-[600px] lg:w-[700px]">
+
+                   <p>{post.data.discription}</p>
+                  </div>
+              }
+              <div className="flex justify-between  items-center bg-[#5A88FF] p-4 rounded-bl-xl rounded-br-xl border-none">
                 
 
                 <div className="flex">
