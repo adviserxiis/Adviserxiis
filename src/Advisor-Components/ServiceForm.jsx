@@ -321,7 +321,7 @@ const ServiceForm = () => {
 
 
   return (
-    <div className="flex flex-col p-6 space-y-6">
+    <div className="flex flex-col p-6 space-y-6 mb-[80px]">
       <p className='font-Poppins text-3xl font-bold s my-2'>Services</p>
       <form className="bg-[#D9D9D942] p-6 rounded-xl shadow-md space-y-6 md:w-3/6 ">
         <div>
@@ -562,7 +562,7 @@ const ServiceForm = () => {
     <a
             href='https://api.whatsapp.com/send/?phone=%2B917703874893&text&type=phone_number&app_absent=0'
             target="_blank"
-            className="fixed bottom-[60px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
+            className="fixed bottom-[80px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
         >
             <WhatsAppIcon fontSize="large"/>
         </a>

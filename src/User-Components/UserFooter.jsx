@@ -16,7 +16,7 @@ function UserFooter() {
           <div className='text-2xl md:text-3xl lg:text-4xl'>
             <HomeOutlinedIcon fontSize='inherit'/>
           </div>
-          <p className=' text-md sm:text-lg md:text-xl '>Home</p>
+          <p className=' text-xs sm:text-md md:text-lg '>Home</p>
         </div>
         </NavLink>
 
@@ -25,7 +25,7 @@ function UserFooter() {
             <div className='text-2xl md:text-3xl lg:text-4xl'>
                 <PeopleOutlineOutlinedIcon fontSize='inherit' />
             </div>
-            <p className='text-md sm:text-lg md:text-xl '>Adviser</p>
+            <p className='text-xs sm:text-md md:text-lg'>Adviser</p>
 
         </div>
         </NavLink>
@@ -35,7 +35,7 @@ function UserFooter() {
           <div className='text-2xl md:text-3xl lg:text-4xl'>
             <HeadsetMicOutlinedIcon fontSize='inherit'/>
           </div>
-          <p className='text-md sm:text-lg md:text-xl '>History</p>
+          <p className='text-xs sm:text-md md:text-lg '>History</p>
         </div>
         </NavLink>
     </div>

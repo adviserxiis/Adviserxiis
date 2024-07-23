@@ -77,12 +77,12 @@ function Header({ setShowSideBar, showSideBar, handleOpen }) {
         showSideBar ? "pl-[300px] bg-[#489CFF]" : "bg-[#489CFF]"
       }`}
     >
-      <div className="lg:hidden pl-4 md:pl-16">
+      {/* <div className="lg:hidden pl-4 md:pl-16">
         <Bars3CenterLeftIcon
           className="h-8 w-8  cursor-pointer text-white"
           onClick={() => setShowSideBar(!showSideBar)}
         />
-      </div>
+      </div> */}
       {
         adviser && adviser.isVerified !=true  &&              <div className="flex flex-col md:flex-row justify-center items-center  text-white font-Poppins text-md md:text-xl">
         <div className="hidden lg:block">

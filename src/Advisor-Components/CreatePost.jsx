@@ -10,6 +10,7 @@ import { ref as sRef } from 'firebase/storage';
 import { CircularProgress } from '@mui/material';
 import { getAuth } from 'firebase/auth';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import { useNavigate } from 'react-router-dom';
 
 
 Yup.addMethod(Yup.mixed, 'aspectRatio', function (ratio, message) {
@@ -35,6 +36,7 @@ function CreatePost() {
 
     const database = getDatabase(app);
     const auth= getAuth();
+    const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const adviserid = JSON.parse(localStorage.getItem('adviserid'))
     
@@ -175,10 +177,12 @@ function CreatePost() {
 
   return (
     <div className="flex flex-col pt-0 py-6 px-2 sm:p-6 ">
+      <div className='flex justify-between items-center'>
     <p className='font-Poppins text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold s my-2'>Create Post</p>
+    <button className="bg-[#489CFF] text-white rounded-md py-2 md:mx-2 px-2 md:px-4 md:text-lg lg:text-xl" onClick={()=> navigate('/adviser/createdpost')}>Created Posts</button>
+    </div>
 
-
-    <form className="bg-[#D9D9D942] p-6 rounded-xl shadow-md space-y-6 md:w-4/6 lg:3/6 pb-[200px] mt-[60px]">
+    <form className="bg-[#D9D9D942] p-6 rounded-xl shadow-md space-y-6 md:w-3/6  pb-[200px] mt-[60px]">
 
 
       <div className="mb-4">
@@ -219,7 +223,7 @@ function CreatePost() {
     <a
             href='https://api.whatsapp.com/send/?phone=%2B917703874893&text&type=phone_number&app_absent=0'
             target="_blank"
-            className="fixed bottom-[60px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
+            className="fixed bottom-[80px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
         >
             <WhatsAppIcon fontSize="large"/>
         </a>

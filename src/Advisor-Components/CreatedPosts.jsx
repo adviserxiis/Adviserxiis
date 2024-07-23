@@ -223,7 +223,7 @@ function CreatedPosts() {
 
                           {post.data.post_file && (
            post.data.file_type && post.data.file_type === 'video' ? (
-              <video controls className="w-96 h-96 sm:w-[500px] sm:h-[500px]  object-cover">
+              <video controls className="w-[325px] h-[450px] sm:w-[500px] sm:h-[600px]  md:w-[600px] md:h-[700px] lg:w-[700px] lg:h-[800px]  object-cover">
                 <source src={post.data.post_file} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
@@ -248,7 +248,7 @@ function CreatedPosts() {
     <a
             href='https://api.whatsapp.com/send/?phone=%2B917703874893&text&type=phone_number&app_absent=0'
             target="_blank"
-            className="fixed bottom-[60px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
+            className="fixed bottom-[80px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
         >
             <WhatsAppIcon fontSize="large"/>
         </a>
