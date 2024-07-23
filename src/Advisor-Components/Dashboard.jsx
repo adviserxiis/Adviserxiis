@@ -252,7 +252,7 @@ function Dashboard() {
 
 
 
-          <div className="  py-6  w-[320px] sm:w-[350px] ml-4  md:w-3/6 my-4 flex flex-col md:items-center">
+          <div className="  py-6   px-4  md:w-3/6 my-4 flex flex-col md:items-center">
             <div >
               <h2 className="text-xl md:text-2xl lg:text-3xl font-bold font-Poppins">Upcoming Booking</h2>
               <div className="mt-4 space-y-4">
@@ -332,7 +332,7 @@ function Dashboard() {
 
 
     </div> */}
-      <div className='hidden md:block font-Poppins overflow-x-auto ml-4 my-[20px] py-6 md:p-6'>
+      <div className='hidden md:block font-Poppins overflow-x-auto ml-4 my-[20px] py-6 md:p-6 '>
         <h2 className="text-xl md:text-2xl lg:text-3xl font-bold font-Poppins">Last Appointments</h2>
         <TableContainer component={Paper} className='mt-5 overflow-x-auto' >
           <Table sx={{ minWidth: 650, fontFamily: 'Poppins' }} aria-label="simple table">
@@ -375,7 +375,7 @@ function Dashboard() {
         </TableContainer>
       </div>
 
-      <div className='md:hidden font-Poppins overflow-x-auto ml-4 my-[20px] py-6 md:p-6 w-[320px] sm:w-[350px]'>
+      <div className='md:hidden font-Poppins overflow-x-auto px-4 my-[20px] py-6 md:p-6 w-screen '>
         <h2 className="text-xl md:text-2xl lg:text-3xl font-bold font-Poppins pb-2">Last Appointments</h2>
         {
                   lastAppointments.length == 0 && <div className='text-md font-Poppins pl-2 rounded-xl shadow-lg py-2 '>
