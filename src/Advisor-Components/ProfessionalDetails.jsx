@@ -45,6 +45,39 @@ function ProfessionalDetails() {
   "Transportation and Logistics"
 ];
 
+const categories = [
+  "Actor",
+  "Artist",
+  "Athlete",
+  "Author",
+  "Blogger",
+  "Chef",
+  "Coach",
+  "Comedian",
+  "Content Creator",
+  "Dancer",
+  "Designer",
+  "Digital Creator",
+  "Director",
+  "Educator",
+  "Entrepreneur",
+  "Fitness Trainer",
+  "Gamer",
+  "Graphic Designer",
+  "Influencer",
+  "Makeup Artist",
+  "Model",
+  "Musician/Band",
+  "Photographer",
+  "Public Figure",
+  "Speaker",
+  "Stylist",
+  "Tattoo Artist",
+  "Travel Blogger",
+  "Videographer",
+  "Writer"
+];
+
   const initialValues = {
     professional_title: '',
     experience: '',
@@ -68,7 +101,7 @@ function ProfessionalDetails() {
     education: Yup.string()
       .required('Education is required'),
     industry: Yup.string()
-      .required('Industry is required'),
+      .required('Category is required'),
     professional_bio: Yup.string()
       .required('Professional bio is required')
       .min(10, 'Professional bio must be at least 10 characters')
@@ -205,14 +238,14 @@ function ProfessionalDetails() {
 
             
             <div className="mb-4">
-              <label className="block text-gray-700 font-workSans">Industry:</label>
+              <label className="block text-gray-700 font-workSans">Category:</label>
               <select className="w-full mt-1 p-2 border border-gray-300 rounded-md font-workSans" name="industry"
                 value={formik.values.industry}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               >
-                <option>Select Industry</option>
-                 {industries.map((item, idx) => (
+                <option>Select Category</option>
+                 {categories.map((item, idx) => (
                   <option key={idx} value={item}>{item}</option>
                  ))}
                 {/* Add other options here */}
