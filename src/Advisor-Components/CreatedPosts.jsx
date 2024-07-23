@@ -237,7 +237,7 @@ function CreatedPosts() {
 
                 {post.data.post_file && (
                   post.data.file_type && post.data.file_type === 'video' ? (
-                    <video controls className="w-[325px] h-[450px] sm:w-[500px] sm:h-[600px]  md:w-[600px] md:h-[700px] lg:w-[700px] lg:h-[800px]  object-cover">
+                    <video controls className="w-full object-cover">
                       <source src={post.data.post_file} type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
@@ -250,6 +250,13 @@ function CreatedPosts() {
                   )
                 )}
               </div>
+
+              {
+                post?.data?.discription && <div className="bg-[#5A88FF] text-xs sm:text-sm  md:text-md  text-white px-2 py-1 p-4 rounded-bl-xl rounded-br-xl ">
+
+                   <p>{post.data.discription}</p>
+                  </div>
+              }
 
 
             </div>

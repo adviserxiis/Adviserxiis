@@ -123,11 +123,13 @@ function Post() {
             className="w-16 h-16 rounded-full mr-4"
           />
           <div>
-            <h2 className="text-xl md:text-2xl font-bold">{adviser && adviser.username ? adviser.username : ''}</h2>
-            <p className="text-lg md:text-xl text-gray-600">{adviser && adviser.professional_title ? adviser.professional_title : ''}</p>
+            <h2 className="text-md sm:text-lg md:text-2xl font-bold">{adviser && adviser.username ? adviser.username : ''}</h2>
+            <p className="text-md sm:text-lg md:text-xl text-gray-600">{adviser && adviser.professional_title ? adviser.professional_title : ''}</p>
           </div>
         </div>
-        <p className="text-gray-700 text-md ">{adviser && adviser.professional_bio ? adviser.professional_bio : ''}</p>
+        {
+          post?.discription && <p className='text-xs sm:text-sm md:text-md'>{post.discription}</p>
+        }
       </div>
     </main>
   </div>
