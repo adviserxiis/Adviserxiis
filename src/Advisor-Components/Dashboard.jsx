@@ -19,6 +19,7 @@ import { Typography } from '@mui/material';
 import { getAuth } from 'firebase/auth';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
+import AppointmentCard from './AppointmentCard';
 
 function Dashboard() {
   const database = getDatabase(app);
@@ -215,10 +216,10 @@ function Dashboard() {
     return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>; // Show a loading message or spinner while fetching data
   }
   return (
-    <div className='max-w-screen mb-[80px]'>
+    <div className='max-w-screen mb-[120px] md:mb-[80px] '>
       <div className='overflow-hidden'>
         <div className='pt-0 py-6 px-2 sm:p-6 space-y-6'>
-          <p className='font-Poppins text-3xl md:text-4xl lg:text-5xl ml-4 font-bold s my-2'>Dashboard</p>
+          <p className='font-Poppins text-3xl md:text-4xl lg:text-5xl ml-2 font-bold s my-2'>Dashboard</p>
         </div>
         <div className="flex flex-col md:flex-row justify-center md:justify-between sm:p-6 space-y-6 max-w-full">
 
@@ -228,7 +229,7 @@ function Dashboard() {
               <img
                 src={user && user.profile_photo ? user.profile_photo : User}
                 alt=""
-                className="rounded-full w-32 h-32 lg:h-48 lg:w-48 object-cover"
+                className="rounded-full w-24 h-24 sm:w-32 sm:h-32 lg:h-48 lg:w-48 object-cover"
               />
               <div>
                 <h1 className="text-lg md:text-xl lg:text-2xl font-Poppins mb-[10px]">Welcome !!</h1>
@@ -256,8 +257,8 @@ function Dashboard() {
               <h2 className="text-xl md:text-2xl lg:text-3xl font-bold font-Poppins">Upcoming Booking</h2>
               <div className="mt-4 space-y-4">
                 {
-                  upcommingAppoinment.length == 0 && <div className='text-xl font-Poppins pl-2'>
-                    <p>No data available</p>
+                  upcommingAppoinment.length == 0 && <div className='text-md font-Poppins pl-2 rounded-xl shadow-lg py-2 '>
+                    <p className='text-center '>No data available</p>
                   </div>
                 }
                 {upcommingAppoinment.length > 0 && upcommingAppoinment[0] &&
@@ -331,8 +332,8 @@ function Dashboard() {
 
 
     </div> */}
-      <div className='font-Poppins overflow-x-auto ml-4 my-[20px] py-6 md:p-6'>
-        <h2 className="text-xl md:text-2xl lg:text-3xl  font-bold font-Poppins">Last Appointments</h2>
+      <div className='hidden md:block font-Poppins overflow-x-auto ml-4 my-[20px] py-6 md:p-6'>
+        <h2 className="text-xl md:text-2xl lg:text-3xl font-bold font-Poppins">Last Appointments</h2>
         <TableContainer component={Paper} className='mt-5 overflow-x-auto' >
           <Table sx={{ minWidth: 650, fontFamily: 'Poppins' }} aria-label="simple table">
             <TableHead style={{ fontSize: "20px" }}>
@@ -340,7 +341,7 @@ function Dashboard() {
                 <TableCell align="center" style={{ fontSize: "20px", fontWeight: "bold" }}>Purchase Date</TableCell>
                 <TableCell align="center" style={{ fontSize: "20px", fontWeight: "bold" }}>Name</TableCell>
                 <TableCell align="center" style={{ fontSize: "20px", fontWeight: "bold" }}>Service</TableCell>
-                <TableCell align="center" style={{ fontSize: "20px", fontWeight: "bold" }}>Service date</TableCell>
+                <TableCell align="center" style={{ fontSize: "20px", fontWeight: "bold" }}>Booking date</TableCell>
                 <TableCell align="center" style={{ fontSize: "20px", fontWeight: "bold" }}>Time</TableCell>
                 <TableCell align="center" style={{ fontSize: "20px", fontWeight: "bold" }}>Price</TableCell>
               </TableRow>
@@ -373,6 +374,21 @@ function Dashboard() {
           </Table>
         </TableContainer>
       </div>
+
+      <div className='md:hidden font-Poppins overflow-x-auto ml-4 my-[20px] py-6 md:p-6 w-[320px] sm:w-[350px]'>
+        <h2 className="text-xl md:text-2xl lg:text-3xl font-bold font-Poppins pb-2">Last Appointments</h2>
+        {
+                  lastAppointments.length == 0 && <div className='text-md font-Poppins pl-2 rounded-xl shadow-lg py-2 '>
+                    <p className='text-center'>No data available</p>
+                  </div>
+                }
+      {
+       lastAppointments.length>0 && lastAppointments.map((data,idx)=>(
+          <AppointmentCard key={idx} data={data}/>
+        ))
+      }
+      </div>
+
       <button
 
         className="fixed bottom-[160px] md:bottom-[180px] right-[30px] md:right-[70px]  p-4 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 hover:shadow-xl transition duration-300"

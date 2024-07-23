@@ -192,7 +192,7 @@ function CreatePost() {
 
 
   return (
-    <div className="flex flex-col pt-0 py-6 px-2 sm:p-6 ">
+    <div className="flex flex-col pt-0 py-6 px-4  sm:px-2 sm:p-6 ">
       <div className='flex justify-between items-center'>
         <p className='font-Poppins text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold s my-2'>Create Post</p>
         <button className="bg-[#489CFF] text-white rounded-md py-2 md:mx-2 px-2 md:px-4 md:text-lg lg:text-xl" onClick={() => navigate('/adviser/createdpost')}>Created Posts</button>
