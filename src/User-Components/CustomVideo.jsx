@@ -109,7 +109,7 @@ const CustomVideo = ({data, addLike, removeLike}) => {
           <ShareIcon fontSize='inherit'/>
         </div>
       </div>
-      <div className="absolute bottom-28 sm:bottom-20 left-0 w-full p-4  text-white">
+      <div className="absolute bottom-32 sm:bottom-20 left-0 w-full p-4  text-white">
         <div className="flex items-center mb-2 cursor-pointer" onClick={()=>handleClickOnProfile(data?.adviser?.data?.username, data?.adviser?.id)}>
           <img src={data?.adviser?.data?.profile_photo || User} alt="Profile" className="w-10 h-10 rounded-full mr-2" />
           <span className="font-bold">{data?.adviser?.data?.username || ''}</span>
