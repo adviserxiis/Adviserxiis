@@ -17,6 +17,7 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import StateContext from '../Context/StateContext';
 import CustomVideo from "../User-Components/CustomVideo";
+import CustomVideoShare from "../User-Components/CustomeVideoShare";
 
 function CreatedPosts() {
   const database = getDatabase(app);
@@ -243,7 +244,7 @@ function CreatedPosts() {
                     //   Your browser does not support the video tag.
                     // </video>
 
-                    <CustomVideo src={post.data.post_file}  discription={post.data.discription}/>
+                    <CustomVideoShare src={post.data.post_file}  description={post.data.description}/>
                   ) : (
                     <img
                       src={post.data && post.data.post_file ? post.data.post_file : ''}
@@ -255,9 +256,9 @@ function CreatedPosts() {
               </div>
 
               {
-                post?.data?.discription && <div className="bg-[#5A88FF] text-xs sm:text-sm  md:text-md  text-white px-2 py-1 p-4 rounded-bl-xl rounded-br-xl ">
+                post?.data?.description && <div className="bg-[#5A88FF] text-xs sm:text-sm  md:text-md  text-white px-2 py-1 p-4 rounded-bl-xl rounded-br-xl ">
 
-                   <p>{post.data.discription}</p>
+                   <p>{post.data.description}</p>
                   </div>
               }
 

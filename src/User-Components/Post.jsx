@@ -105,7 +105,7 @@ function Post() {
             //   Your browser does not support the video tag.
             // </video>
               <div className='w-[325px] h-[450px] sm:w-[500px] sm:h-[600px] md:w-[600px] md:h-[700px]'>
-              <CustomVideo src={post.post_file} discription={post.discription} />
+              <CustomVideo src={post.post_file} description={post.description} />
 
               </div>
             
@@ -134,7 +134,7 @@ function Post() {
           </div>
         </div>
         {
-          post?.discription && <p className='text-xs sm:text-sm md:text-md lg:text-lg'>{post.discription}</p>
+          post?.description && <p className='text-xs sm:text-sm md:text-md lg:text-lg'>{post.description}</p>
         }
       </div>
     </main>

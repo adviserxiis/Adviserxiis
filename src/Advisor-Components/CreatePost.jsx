@@ -51,7 +51,7 @@ function CreatePost() {
 
   const initialValues = {
     post_file: null,
-    post_discription:''
+    post_description:''
 
   }
 
@@ -96,7 +96,7 @@ function CreatePost() {
       })
       .aspectRatio('9:16', 'Video must have an aspect ratio of 9:16')
       .required('Video is required'),
-      post_discription: Yup.string()
+      post_description: Yup.string()
       .max(250, 'Professional bio must be at most 250 characters'),
   });
 
@@ -143,15 +143,15 @@ function CreatePost() {
 
 
       const postid = uuidv1();
-      const post_discription = formik.values.post_discription;
+      const post_description = formik.values.post_description;
 
-      if(post_discription && post_discription !== '')
+      if(post_description && post_description !== '')
       {
         await set(ref(database, 'advisers_posts/' + postid), {
           adviserid: adviserid,
           post_file: postFileURL,
           file_type: fileType,
-          discription: post_discription,
+          description: post_description,
           dop: date,
           views: 0,
           likes: [],
@@ -253,18 +253,18 @@ function CreatePost() {
         </div>
 
         <div>
-        <label className="block text-sm font-bold text-gray-700 font-Poppins">Video Discription</label>
+        <label className="block text-sm font-bold text-gray-700 font-Poppins">Video description</label>
         <textarea
-          name='post_discription'
-          value={formik.values.post_discription}
+          name='post_description'
+          value={formik.values.post_description}
           placeholder=''
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           className="w-full mt-1 p-2 border border-gray-300 rounded-md font-Poppins h-16"
           rows="3"
         />
-                              {formik.touched.post_discription &&
-                formik.errors.post_discription && (
+                              {formik.touched.post_description &&
+                formik.errors.post_description && (
                   <p
                     style={{
                       fontSize: "13px",
@@ -272,7 +272,7 @@ function CreatePost() {
                       color: "red",
                     }}
                   >
-                    {formik.errors.post_discription}
+                    {formik.errors.post_description}
                   </p>
                 )}
       </div>

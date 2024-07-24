@@ -590,13 +590,13 @@ function UserLandingPage() {
     //     </div>
 
 
-    <div className="min-h-screen pt-[50px] mb-[120px] ">
+    <div className="min-h-screen sm:pt-[50px] mb-[120px] ">
 
-      <div className=" flex flex-col items-center container px-0 mx-auto md:mx-7xl font-Poppin">
-        <div className="mx-0 mt-4 py-4 sm:mx-4">
+      <div className=" flex flex-col items-center container px-0 mx-auto md:mx-7xl font-Poppin ">
+        <div className="mx-0 sm:mt-4 sm:py-4 sm:mx-4">
           {postsWithAdviser.map((post, idx) => (
-            <div className="max-w-[900px] my-2 " key={idx}>
-              <div className="flex items-center justify-between bg-[#5A88FF] px-2 pt-2 pb-1 sm:py-2  rounded-tr-xl rounded-tl-xl w-screen sm:w-full">
+            <div className="max-w-[900px] sm:my-2  " key={idx}>
+              {/* <div className="flex items-center justify-between bg-[#5A88FF] px-2 pt-2 pb-1 sm:py-2  rounded-tr-xl rounded-tl-xl w-screen sm:w-full ">
                 <div className="w-5/7 flex items-center cursor-pointer break-words" onClick={()=>handleClickOnProfile(post.adviser?.data?.username, post.adviser?.id)}>
                   <img
                     src={post.adviser?.data?.profile_photo || User}
@@ -607,17 +607,17 @@ function UserLandingPage() {
                 </div>
                 <div className="w-2/7 flex items-center justify-center  bg-white text-[#5A88FF] px-4 py-1  rounded-md">
                   <p className="pt-1 md:text-lg lg:text-xl">{post.firstService?.price || 'N/A'}/hr</p>
-                  {/* <div className="ml-2 pb-1 text-3xl lg:text-4xl">
+                  <div className="ml-2 pb-1 text-3xl lg:text-4xl">
                     <VideocamIcon fontSize="inherit" />
-                  </div> */}
-                </div>
-              </div>
-                            {
-                post?.data?.discription && <div className="bg-[#5A88FF] text-xs sm:text-sm  md:text-md  text-white px-2 py-1 w-screen sm:w-[500px] md:w-[600px] lg:w-[700px]">
-
-                   <p>{post.data.discription}</p>
                   </div>
-              }
+                </div>
+              </div> */}
+                            {/* {
+                post?.data?.description && <div className="bg-[#5A88FF] text-xs sm:text-sm  md:text-md  text-white px-2 py-1 w-screen sm:w-[500px] md:w-[600px] lg:w-[700px]">
+
+                   <p>{post.data.description}</p>
+                  </div>
+              } */}
               <div>
                 {/* <img
                   src={post.data && post.data.post_photo ? post.data.post_photo : ''}
@@ -636,8 +636,8 @@ function UserLandingPage() {
               //   Your browser does not support the video tag.
               // </video>
             
-              <div className="w-screen h-[450px] sm:w-[500px] sm:h-[600px] md:w-[600px] md:h-[700px] lg:w-[700px] lg:h-[800px]">
-              <CustomVideo  src={post.data.post_file}  discription={post?.data?.discription} />
+              <div className="w-screen h-screen sm:w-[500px] sm:h-[600px] md:w-[600px] md:h-[700px] lg:w-[700px] lg:h-[800px]">
+              <CustomVideo  data={post} addLike={addLikeOptimistically} removeLike={removeLikeOptimistically}/>
               </div>
             ) : (
                                <img
@@ -649,7 +649,7 @@ function UserLandingPage() {
           )}
               </div>
 
-              <div className="flex justify-between  items-center bg-[#5A88FF] p-4 rounded-bl-xl rounded-br-xl border-none">
+              {/* <div className="flex justify-between  items-center bg-[#5A88FF] p-4 rounded-bl-xl rounded-br-xl border-none">
                 
 
                 <div className="flex">
@@ -666,7 +666,9 @@ function UserLandingPage() {
 
 
                 <div className="mx-2 flex justify-center items-center pt-1 ">
-                  {/* <p className="text-3xl mr-1">0</p> */}
+
+                  <p className="text-3xl mr-1">0</p>
+
                   <div className="cursor-pointer text-2xl md:text-3xl lg:text-4xl">
                     <ShareIcon fontSize="inherit" onClick={() => handleShareClick(post.id)} />
                   </div>
@@ -686,7 +688,7 @@ function UserLandingPage() {
 
                 </div>
 
-              </div>
+              </div> */}
               
             </div>
           ))}
@@ -699,18 +701,18 @@ function UserLandingPage() {
 
 
 
-      <div className="flex flex-col items-center container mx-auto md:mx-7xl  font-Poppin m-4">
+      {/* <div className="flex flex-col items-center container mx-auto md:mx-7xl  font-Poppin m-4">
         {
           questions.map((item, idx)=>(
             <QuestionCard  key={idx} question={item}/>
           ))
         }
      
-      </div>
-      <button
-            className="fixed bottom-[90px]  md:bottom-[200px] right-[30px] md:right-[200px] lg:right-[250px] p-4 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 hover:shadow-xl transition duration-300"
+      </div> */}
+      {/* <button
+            className="fixed bottom-[130px] sm:bottom-[90px]  md:bottom-[200px] right-[30px] md:right-[200px] lg:right-[250px] p-4 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 hover:shadow-xl transition duration-300"
             onClick={() => {
-                // navigate('/createquestion')
+                
 
                 if( userid === null)
                 {
@@ -720,17 +722,17 @@ function UserLandingPage() {
                 setQuestionDialogOpen(true)
             }}
         >
-            {/* Add your icon or text here */}
+          
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
             </svg>
-        </button>
+        </button> */}
 
-        <QuestionModel
+        {/* <QuestionModel
                   open={questionDialogOpen}
                   handleClose={handleQuestionDialogOpen}
-                />
+                /> */}
     </div>
   );
 }

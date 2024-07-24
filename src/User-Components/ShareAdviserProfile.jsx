@@ -14,6 +14,8 @@ import User from '../assets/User.png'
 import { CircularProgress } from '@mui/material';
 import profile_background from '../assets/profile_background.jpg'
 import { getAuth } from 'firebase/auth'
+import CustomVideo from './CustomVideo';
+import CustomVideoShare from './CustomeVideoShare';
 
 // const tabs = ['Services', 'Posts', 'Videos'];
 const tabs = ['Services', 'Videos'];
@@ -342,7 +344,7 @@ const ShareAdvisorProfile = () => {
                   </video> */}
 
                   <div >
-                    <CustomVideo src={post.data.post_file} />
+                    <CustomVideoShare src={post.data.post_file} />
                   </div>
                 </div>
               ))
