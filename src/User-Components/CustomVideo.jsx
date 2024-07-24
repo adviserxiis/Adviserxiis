@@ -92,10 +92,10 @@ const CustomVideo = ({data, addLike, removeLike}) => {
           {!isPlaying ? <PlayArrowIcon /> : <PauseIcon />}
         </div>
       )}
-      <div className="absolute bottom-36 right-4 text-white text-3xl md:text-4xl  cursor-pointer z-30" onClick={handleMuteClick}>
+      <div className="absolute bottom-44 sm:bottom-36 right-4 text-white text-3xl md:text-4xl  cursor-pointer z-30" onClick={handleMuteClick}>
         {isMuted ? <VolumeOffIcon fontSize="inherit" /> : <VolumeUpIcon fontSize="inherit" />}
       </div>
-      <div className="absolute bottom-48 right-4 flex flex-col  items-center space-y-2  z-30">
+      <div className="absolute bottom-56 sm:bottom-48 right-4 flex flex-col  items-center space-y-2  z-30">
         <div  className=" flex flex-col items-center cursor-pointer">
           {/* {isLiked ? <FavoriteIcon className="text-red-500" fontSize='large' /> : <FavoriteBorderIcon className="text-white" fontSize='large' />} */}
           {data.data && data.data.likes && data.data.likes.includes(userid) ? <div className="cursor-pointer text-3xl md:text-3xl lg:text-4xl ">
@@ -109,7 +109,7 @@ const CustomVideo = ({data, addLike, removeLike}) => {
           <ShareIcon fontSize='inherit'/>
         </div>
       </div>
-      <div className="absolute bottom-20 left-0 w-full p-4  text-white">
+      <div className="absolute bottom-28 sm:bottom-20 left-0 w-full p-4  text-white">
         <div className="flex items-center mb-2 cursor-pointer" onClick={()=>handleClickOnProfile(data?.adviser?.data?.username, data?.adviser?.id)}>
           <img src={data?.adviser?.data?.profile_photo || User} alt="Profile" className="w-10 h-10 rounded-full mr-2" />
           <span className="font-bold">{data?.adviser?.data?.username || ''}</span>
