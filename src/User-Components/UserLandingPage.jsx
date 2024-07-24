@@ -636,7 +636,7 @@ function UserLandingPage() {
               //   Your browser does not support the video tag.
               // </video>
             
-              <div className="w-screen h-[450px] sm:w-[500px] sm:h-[600px] md:w-[600px] md:h-[700px] lg:w-[700px] lg:h-[800px]">
+              <div className="w-screen h-[500px] sm:w-[500px] sm:h-[600px] md:w-[600px] md:h-[700px] lg:w-[700px] lg:h-[800px]">
               <CustomVideo  src={post.data.post_file}  discription={post?.data?.discription} />
               </div>
             ) : (
