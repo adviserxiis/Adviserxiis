@@ -16,6 +16,7 @@ import { getAuth } from "firebase/auth";
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import StateContext from '../Context/StateContext';
+import CustomVideo from "../User-Components/CustomVideo";
 
 function CreatedPosts() {
   const database = getDatabase(app);
@@ -237,10 +238,12 @@ function CreatedPosts() {
 
                 {post.data.post_file && (
                   post.data.file_type && post.data.file_type === 'video' ? (
-                    <video controls className="w-full object-cover">
-                      <source src={post.data.post_file} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
+                    // <video controls className="w-full object-cover">
+                    //   <source src={post.data.post_file} type="video/mp4" />
+                    //   Your browser does not support the video tag.
+                    // </video>
+
+                    <CustomVideo src={post.data.post_file}  discription={post.data.discription}/>
                   ) : (
                     <img
                       src={post.data && post.data.post_file ? post.data.post_file : ''}

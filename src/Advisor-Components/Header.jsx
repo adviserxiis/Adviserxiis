@@ -73,7 +73,7 @@ function Header({ setShowSideBar, showSideBar, handleOpen }) {
 
   return (
     <div
-      className={`fixed w-full h-16 flex justify-between lg:justify-center items-center transition-all duration-[400ms] ${
+      className={`fixed z-50  w-full h-16 flex justify-between lg:justify-center items-center transition-all duration-[400ms] ${
         showSideBar ? "pl-[300px] bg-[#489CFF]" : "bg-[#489CFF]"
       }`}
     >
