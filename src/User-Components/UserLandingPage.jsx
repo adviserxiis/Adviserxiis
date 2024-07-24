@@ -27,6 +27,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import QuestionCard from "./QuestionCard";
 import QuestionModel from "./QuestionModel";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import CustomVideo from "./CustomVideo";
 
 function UserLandingPage() {
   const database = getDatabase(app);
@@ -619,15 +620,19 @@ function UserLandingPage() {
                 /> */}
                           {post.data.post_file && (
            post.data.file_type && post.data.file_type === 'video' ? (
-              <video 
-              controls 
-              autoPlay
-              loop
-              muted
-              className="w-[325px] h-[450px] sm:w-[500px] sm:h-[600px]  md:w-[600px] md:h-[700px] lg:w-[700px] lg:h-[800px] object-cover">
-                <source src={post.data.post_file} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+              // <video 
+              // controls 
+              // autoPlay
+              // loop
+              // muted
+              // className="w-[325px] h-[450px] sm:w-[500px] sm:h-[600px]  md:w-[600px] md:h-[700px] lg:w-[700px] lg:h-[800px] object-cover">
+              //   <source src={post.data.post_file} type="video/mp4" />
+              //   Your browser does not support the video tag.
+              // </video>
+            
+              <div className="w-[325px] h-[450px] sm:w-[500px] sm:h-[600px] md:w-[600px] md:h-[700px] lg:w-[700px] lg:h-[800px]">
+              <CustomVideo  src={post.data.post_file}  discription={post?.data?.discription} />
+              </div>
             ) : (
                                <img
                   src={post.data && post.data.post_file ? post.data.post_file : ''}

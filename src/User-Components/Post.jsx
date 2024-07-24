@@ -5,6 +5,7 @@ import { child, get, getDatabase, ref, set } from "firebase/database";
 import { app } from "../firebase";
 import { CircularProgress } from '@mui/material';
 import { getAuth } from 'firebase/auth';
+import CustomVideo from './CustomVideo';
 
 
 function Post() {
@@ -94,15 +95,20 @@ function Post() {
 
 {post.post_file && (
            post.file_type && post.file_type === 'video' ? (
-            <video 
-            controls 
-            autoPlay
-            loop
-            muted
-            className="w-[325px] h-[500px] sm:w-[500px] sm:h-[600px]  md:w-[550px] md:h-[675px]  object-cover">
-              <source src={post.post_file} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            // <video 
+            // controls 
+            // autoPlay
+            // loop
+            // muted
+            // className="w-[325px] h-[500px] sm:w-[500px] sm:h-[600px]  md:w-[550px] md:h-[675px]  object-cover">
+            //   <source src={post.post_file} type="video/mp4" />
+            //   Your browser does not support the video tag.
+            // </video>
+              <div className='w-[325px] h-[450px] sm:w-[500px] sm:h-[600px] md:w-[600px] md:h-[700px]'>
+              <CustomVideo src={post.post_file} discription={post.discription} />
+
+              </div>
+            
             ) : (
                                <img
                   src={post && post.post_file ? post.post_file : ''}
@@ -123,12 +129,12 @@ function Post() {
             className="w-16 h-16 rounded-full mr-4"
           />
           <div>
-            <h2 className="text-md sm:text-lg md:text-2xl font-bold">{adviser && adviser.username ? adviser.username : ''}</h2>
-            <p className="text-md sm:text-lg md:text-xl text-gray-600">{adviser && adviser.professional_title ? adviser.professional_title : ''}</p>
+            <h2 className="text-md sm:text-lg md:text-xl font-bold">{adviser && adviser.username ? adviser.username : ''}</h2>
+            <p className="text-md sm:text-lg md:text-lg text-gray-600">{adviser && adviser.professional_title ? adviser.professional_title : ''}</p>
           </div>
         </div>
         {
-          post?.discription && <p className='text-xs sm:text-sm md:text-md'>{post.discription}</p>
+          post?.discription && <p className='text-xs sm:text-sm md:text-md lg:text-lg'>{post.discription}</p>
         }
       </div>
     </main>

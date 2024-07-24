@@ -14,6 +14,7 @@ import User from '../assets/User.png'
 import { CircularProgress } from '@mui/material';
 import profile_background from '../assets/profile_background.jpg'
 import { getAuth } from 'firebase/auth'
+import CustomVideo from './CustomVideo';
 
 // const tabs = ['Services', 'Posts', 'Videos'];
 const tabs = ['Services', 'Videos'];
@@ -335,10 +336,13 @@ const AdvisorProfile = () => {
                                           alt=""
                                           className='h-auto w-full object-cover'
                                           /> */}
-                  <video controls className="w-32 h-56 sm:w-[500px] sm:h-[500px]  md:w-[450px] md:h-[600px] rounded-xl  object-cover">
+                  {/* <video controls className="w-32 h-56 sm:w-[500px] sm:h-[500px]  md:w-[450px] md:h-[600px] rounded-xl  object-cover">
                     <source src={post.data.post_file} type="video/mp4" />
                     Your browser does not support the video tag.
-                  </video>
+                  </video> */}
+                  <div >
+                    <CustomVideo src={post.data.post_file} />
+                  </div>
                 </div>
               ))
           ))}
