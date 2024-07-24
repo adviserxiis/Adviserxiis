@@ -592,26 +592,32 @@ function UserLandingPage() {
 
     <div className="min-h-screen pt-[50px] mb-[120px] ">
 
-      <div className=" flex flex-col items-center container mx-auto md:mx-7xl  font-Poppin">
-        <div className="mx-4 mt-4 pt-2">
+      <div className=" flex flex-col items-center container px-0 mx-auto md:mx-7xl font-Poppin">
+        <div className="mx-0 mt-4 py-4 sm:mx-4">
           {postsWithAdviser.map((post, idx) => (
-            <div className="max-w-[900px] my-4" key={idx}>
-              <div className="flex items-center justify-between bg-[#5A88FF] p-2 px-4 rounded-tr-xl rounded-tl-xl">
-                <div className="flex items-center cursor-pointer break-words" onClick={()=>handleClickOnProfile(post.adviser?.data?.username, post.adviser?.id)}>
+            <div className="max-w-[900px] my-2 " key={idx}>
+              <div className="flex items-center justify-between bg-[#5A88FF] px-2 pt-2 pb-1 sm:py-2  rounded-tr-xl rounded-tl-xl w-screen sm:w-full">
+                <div className="w-5/7 flex items-center cursor-pointer break-words" onClick={()=>handleClickOnProfile(post.adviser?.data?.username, post.adviser?.id)}>
                   <img
                     src={post.adviser?.data?.profile_photo || User}
                     alt=""
                     className="rounded-full h-12 w-12 object-cover my-[10px]"
                   />
-                  <p className="ml-2 text-white text-md sm:text-lg md:text-xl">{post.adviser?.data?.username || ''}</p>
+                  <p className="ml-2 text-white text-md sm:text-lg md:text-xl break-words">{post.adviser?.data?.username || ''}</p>
                 </div>
-                <div className="flex items-center justify-center  bg-white text-[#5A88FF] px-4 py-1  rounded-md">
+                <div className="w-2/7 flex items-center justify-center  bg-white text-[#5A88FF] px-4 py-1  rounded-md">
                   <p className="pt-1 md:text-lg lg:text-xl">{post.firstService?.price || 'N/A'}/hr</p>
                   {/* <div className="ml-2 pb-1 text-3xl lg:text-4xl">
                     <VideocamIcon fontSize="inherit" />
                   </div> */}
                 </div>
               </div>
+                            {
+                post?.data?.discription && <div className="bg-[#5A88FF] text-xs sm:text-sm  md:text-md  text-white px-2 py-1 w-screen sm:w-[500px] md:w-[600px] lg:w-[700px]">
+
+                   <p>{post.data.discription}</p>
+                  </div>
+              }
               <div>
                 {/* <img
                   src={post.data && post.data.post_photo ? post.data.post_photo : ''}
@@ -630,7 +636,7 @@ function UserLandingPage() {
               //   Your browser does not support the video tag.
               // </video>
             
-              <div className="w-[325px] h-[450px] sm:w-[500px] sm:h-[600px] md:w-[600px] md:h-[700px] lg:w-[700px] lg:h-[800px]">
+              <div className="w-screen h-[450px] sm:w-[500px] sm:h-[600px] md:w-[600px] md:h-[700px] lg:w-[700px] lg:h-[800px]">
               <CustomVideo  src={post.data.post_file}  discription={post?.data?.discription} />
               </div>
             ) : (
@@ -642,12 +648,7 @@ function UserLandingPage() {
             )
           )}
               </div>
-              {
-                post?.data?.discription && <div className="bg-[#5A88FF] text-xs sm:text-sm  md:text-md  text-white px-2 py-1 w-[325px] sm:w-[500px] md:w-[600px] lg:w-[700px]">
 
-                   <p>{post.data.discription}</p>
-                  </div>
-              }
               <div className="flex justify-between  items-center bg-[#5A88FF] p-4 rounded-bl-xl rounded-br-xl border-none">
                 
 
@@ -693,6 +694,11 @@ function UserLandingPage() {
         </div>
 
       </div>
+
+
+
+
+
       <div className="flex flex-col items-center container mx-auto md:mx-7xl  font-Poppin m-4">
         {
           questions.map((item, idx)=>(
