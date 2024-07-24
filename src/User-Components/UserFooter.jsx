@@ -2,13 +2,18 @@ import React from 'react'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
 import HeadsetMicOutlinedIcon from '@mui/icons-material/HeadsetMicOutlined';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
 
 function UserFooter() {
   const auth = getAuth();
+
+  const location = useLocation()
+
+
+  const transparentPaths = ['/', ];
   return (
-    <div className='fixed bottom-0 left-0 w-full bg-white'>
+    <div className={`fixed z-50 bottom-0 left-0 w-full ${transparentPaths.includes(location.pathname) ? 'bg-white bg-opacity-50 sm:bg-white' : 'bg-white'}`}>
     <div className='container mx-auto font-Poppins'>
     <div className='w-full flex justify-between p-4 px-[20px]  lg:px-[40px] '>
         <NavLink to="/" exact className={({ isActive }) => isActive ? 'text-[#407BFF]' : ''} >

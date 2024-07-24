@@ -1,10 +1,11 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, MagnifyingGlassCircleIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import logo from '../assets/logo.png'
 import Swal from 'sweetalert2'
 import User from '../assets/User.png'
+
 
 
 
@@ -16,6 +17,8 @@ export default function UserNavbar() {
   const userid = JSON.parse(localStorage.getItem('userid'))
 
   const navigate= useNavigate()
+
+  const location = useLocation()
 
   const handleLogOut = async () => {
   
@@ -46,9 +49,11 @@ export default function UserNavbar() {
       handleLogOut()
     }
   }
+
+  const transparentPaths = ['/', ];
   
   return (
-    <Disclosure as="nav" className="bg-white fixed z-50 h-[80px]  w-full">
+    <Disclosure as="nav" className={`fixed z-50 h-[80px] w-full ${transparentPaths.includes(location.pathname) ? 'bg-transparent sm:bg-white' : 'bg-white'}`}>
       {({ open }) => (
         <>
           <div className=" container mx-auto  px-2 sm:px-6 lg:px-8">
