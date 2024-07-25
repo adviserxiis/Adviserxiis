@@ -16,6 +16,7 @@ import profile_background from '../assets/profile_background.jpg'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import { useNavigate } from 'react-router-dom';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
+import ProfileSkeleton from '../Skeletons/ProfileSkeleton';
 
 function Profile() {
  
@@ -329,7 +330,11 @@ function Profile() {
   },[])
 
   if (loading) {
-    return <div className='h-screen flex justify-center items-center'><CircularProgress  /></div>; // Show a loading message or spinner while fetching data
+    // return <div className='h-screen flex justify-center items-center'><CircularProgress  /></div>; 
+    return <div>
+      <ProfileSkeleton />
+    </div>
+
   }
 
   return (

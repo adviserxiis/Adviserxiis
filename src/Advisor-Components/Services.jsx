@@ -8,6 +8,7 @@ import { getAuth } from 'firebase/auth';
 import StateContext from '../Context/StateContext';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
+import AdviserServiceSkeleton from '../Skeletons/AdviserServiceSkeleton';
 
 
 
@@ -114,7 +115,10 @@ function Services() {
   }, [isUpdated])
 
   if (loading) {
-    return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>; // Show a loading message or spinner while fetching data
+    // return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>
+    return <div>
+      <AdviserServiceSkeleton />
+    </div>
   }
   return (
     <div className="flex flex-col pt-0 py-6  sm:p-6 space-y-6 mb-[80px] px-4 sm:px-2">

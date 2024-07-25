@@ -16,6 +16,7 @@ import User from '../assets/User.png'
 import ScheduleModal from './ScheduleModal'
 import logo from '../assets/logo.png'
 import { getAuth } from 'firebase/auth'
+import CheckoutPageSkeleton from '../Skeletons/CheckoutPageSkeleton'
 
 function UserCheckoutPage() {
   const database = getDatabase(app);
@@ -362,7 +363,10 @@ function UserCheckoutPage() {
   }, [])
 
   if (loading) {
-    return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>; // Show a loading message or spinner while fetching data
+    // return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>
+    return <div>
+      <CheckoutPageSkeleton />
+    </div>
   }
 
   return (

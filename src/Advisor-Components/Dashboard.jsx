@@ -20,6 +20,7 @@ import { getAuth } from 'firebase/auth';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import AppointmentCard from './AppointmentCard';
+import AdviserDashboardSkeleton from '../Skeletons/AdviserDashboardSkeleton';
 
 function Dashboard() {
   const database = getDatabase(app);
@@ -213,7 +214,11 @@ function Dashboard() {
 
 
   if (loading) {
-    return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>; // Show a loading message or spinner while fetching data
+    // return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>;
+   return <div>
+     <AdviserDashboardSkeleton />
+   </div> 
+
   }
   return (
     <div className='max-w-screen mb-[120px] md:mb-[80px] '>
