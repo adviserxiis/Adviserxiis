@@ -12,6 +12,7 @@ import VideocamIcon from '@mui/icons-material/Videocam';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
 import { getAuth } from 'firebase/auth'
+import UserCategorySkeleton from '../Skeletons/UserCategorySkeleton'
 
 const Categories = ["Career", "Business", "Health", "Technology", "Education", "Legal", "Marketing"]
 
@@ -150,7 +151,10 @@ function BookedServices() {
 
 
   if (loading) {
-    return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>; // Show a loading message or spinner while fetching data
+    // return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>; // Show a loading message or spinner while fetching data
+    return <div>
+      <UserCategorySkeleton />
+    </div>
   }
 
 

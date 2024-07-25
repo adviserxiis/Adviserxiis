@@ -28,6 +28,7 @@ import QuestionCard from "./QuestionCard";
 import QuestionModel from "./QuestionModel";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import CustomVideo from "./CustomVideo";
+import UserLandingPageSkeleton from "../Skeletons/UserLandingPageSkeleton";
 
 function UserLandingPage() {
   const database = getDatabase(app);
@@ -376,7 +377,10 @@ function UserLandingPage() {
 
 
   if (loading) {
-    return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>; // Show a loading message or spinner while fetching data
+    // return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>; // Show a loading message or spinner while fetching data
+    return <div>
+      <UserLandingPageSkeleton />
+      </div>
   }
 
   return (

@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import User from '../assets/User.png'
 import VideocamIcon from '@mui/icons-material/Videocam';
 import { getAuth } from 'firebase/auth'
+import UserCategorySkeleton from '../Skeletons/UserCategorySkeleton'
 
 const Categories = ["Career", "Business", "Health", "Technology", "Education", "Legal", "Marketing"]
 
@@ -64,7 +65,6 @@ function UserCategory() {
   useEffect(() => {
     getAllAdvisers().then((advisersData) => {
       setAdvisers(advisersData)
-       // Update loading state after fetching the user data
     });
 
   }, []);
@@ -101,7 +101,10 @@ function UserCategory() {
 
 
   if (loading) {
-    return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>; // Show a loading message or spinner while fetching data
+    // return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>; // Show a loading message or spinner while fetching data
+   return <div>
+    <UserCategorySkeleton />
+   </div>
   }
 
 
@@ -134,7 +137,7 @@ function UserCategory() {
           {advisersWithService.map((adviser, idx) => (
   (adviser.data.published_services && adviser.data.published_services.length > 0 && (
     <div
-      className="bg-white rounded-xl  shadow px-4 py-2 sm:p-4 flex cursor-pointer"
+      className="bg-white rounded-xl  shadow px-4 py-2 sm:p-4 flex  cursor-pointer"
       key={idx}
       onClick={() => handleClick(adviser.id, adviser.data.username)}
     >

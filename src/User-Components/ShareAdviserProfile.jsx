@@ -16,6 +16,7 @@ import profile_background from '../assets/profile_background.jpg'
 import { getAuth } from 'firebase/auth'
 import CustomVideo from './CustomVideo';
 import CustomVideoShare from './CustomeVideoShare';
+import AdviserProfileSkeleton from '../Skeletons/AdviserProfileSkeleton';
 
 // const tabs = ['Services', 'Posts', 'Videos'];
 const tabs = ['Services', 'Videos'];
@@ -356,7 +357,10 @@ const ShareAdvisorProfile = () => {
   };
 
   if (loading) {
-    return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>; // Show a loading message or spinner while fetching data
+    // return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>; // Show a loading message or spinner while fetching data
+    return <div>
+      <AdviserProfileSkeleton />
+    </div>
   }
 
   return (
