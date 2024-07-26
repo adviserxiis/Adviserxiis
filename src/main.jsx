@@ -39,6 +39,8 @@ import CreatorsData from './Analytics/CreatorsData.jsx'
 import UsersData from './Analytics/UsersData.jsx'
 import PostsData from './Analytics/PostsData.jsx'
 import ShareAdvisorProfile from './User-Components/ShareAdviserProfile.jsx'
+import VideoUpload from './Advisor-Components/VideoUpload.jsx'
+import VideoPreview from './Advisor-Components/VideoPreview.jsx'
 
 
 
@@ -78,7 +80,8 @@ const router = createBrowserRouter(
       <Route path="/adviser/createservice" element={<ServiceForm />} />
       <Route path="/adviser/editservice" element={<ServiceForm />} />
       <Route path="/adviser/profile" element={<Profile />} />
-      <Route path="/adviser/createpost" element={<CreatePost />} />
+      <Route path="/adviser/createpost" element={<VideoUpload />} />
+      <Route path="/adviser/postpreview" element={<VideoPreview />} />
       <Route path="/adviser/createdpost" element={<CreatedPosts />} />
       <Route path="/adviser/logout" element={<Logout />} />
      </Route>,
