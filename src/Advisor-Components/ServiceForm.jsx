@@ -101,13 +101,13 @@ const ServiceForm = () => {
           
     setLoading(true)
 
-        const user = auth.currentUser;
-    if (!user) {
-        // Handle authentication error
-        console.error('User is not authenticated.');
-        setLoading(false);
-        return;
-    }
+    //     const user = auth.currentUser;
+    // if (!user) {
+  
+    //     console.error('User is not authenticated.');
+    //     setLoading(false);
+    //     return;
+    // }
     if(serviceid == undefined)
       {
 
