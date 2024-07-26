@@ -105,7 +105,7 @@ const VideoPreview = () => {
       .aspectRatio('9:16', 'Video must have an aspect ratio of 9:16')
       .required('Video is required'),
     post_description: Yup.string()
-      .max(250, 'Post descriotion must be at most 250 characters'),
+      .max(250, 'Post description must be at most 250 characters'),
   });
 
   async function getUser(userId) {
