@@ -95,6 +95,13 @@ function VideoUpload() {
     fetchAdviserPosts();
   }, [loading])
 
+  useEffect(()=>{
+     if(adviserid == null)
+     {
+      navigate('/adviser/login')
+     }
+  },[])
+
   if (loading) {
     // return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>;
     return <div>
