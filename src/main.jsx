@@ -41,6 +41,7 @@ import PostsData from './Analytics/PostsData.jsx'
 import ShareAdvisorProfile from './User-Components/ShareAdviserProfile.jsx'
 import VideoUpload from './Advisor-Components/VideoUpload.jsx'
 import VideoPreview from './Advisor-Components/VideoPreview.jsx'
+import PrivacyPolicy from './Privacy-Policy/PrivacyPolicy.jsx'
 
 
 
@@ -90,6 +91,8 @@ const router = createBrowserRouter(
      <Route path="/room/:meetingid" element={<Room />} />,
 
      <Route path="/payment" element={<Payment />} />,
+
+     <Route path="/privacypolicy" element={<PrivacyPolicy />} />,
 
      {/* <Route path="/createquestion" element={<Question />} />, */}
 
