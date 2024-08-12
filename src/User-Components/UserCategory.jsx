@@ -18,7 +18,7 @@ function UserCategory() {
   const database = getDatabase(app);
   const navigate = useNavigate()
 
-  const auth= getAuth()
+  const auth = getAuth()
 
   const [advisers, setAdvisers] = useState([])
   const [advisersWithService, setAdviserWithService] = useState([])
@@ -102,9 +102,9 @@ function UserCategory() {
 
   if (loading) {
     // return <div className='h-screen flex justify-center items-center'><CircularProgress /></div>; // Show a loading message or spinner while fetching data
-   return <div>
-    <UserCategorySkeleton />
-   </div>
+    return <div>
+      <UserCategorySkeleton />
+    </div>
   }
 
 
@@ -134,56 +134,57 @@ function UserCategory() {
         </div> */}
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4 '>
 
-          {advisersWithService.map((adviser, idx) => (
-  (adviser.data.published_services && adviser.data.published_services.length > 0 && (
-    <div
-      className="bg-white rounded-xl  shadow px-4 py-2 sm:p-4 flex  cursor-pointer"
-      key={idx}
-      onClick={() => handleClick(adviser.id, adviser.data.username)}
-    >
-      <div className='w-2/7 sm:w-1/5 flex flex-col pt-[15px]'>
-        <img
-          src={adviser && adviser.data.profile_photo ? adviser.data.profile_photo : User}
-          alt=""
-          className="rounded-full h-20 w-24 sm:h-28 sm:w-28 object-cover my-[10px]"
-        />
+            {advisersWithService.map((adviser, idx) => (
+              (adviser.data.published_services && adviser.data.published_services.length > 0 && (
+                <div
+                  className="bg-white rounded-xl  shadow px-4 py-2 sm:p-4 flex  cursor-pointer"
+                  key={idx}
+                  onClick={() => handleClick(adviser.id, adviser.data.username)}
+                >
+                  <div className='w-2/7 sm:w-1/5 flex flex-col pt-[15px]'>
+                    <img
+                      src={adviser && adviser.data.profile_photo ? adviser.data.profile_photo : User}
+                      alt=""
+                      className="rounded-full h-20 w-24 sm:h-28 sm:w-28 object-cover my-[10px]"
+                    />
 
-        <div>
-          {/* <Rating name="read-only" value={5} readOnly /> */}
-        </div>
-        {/* <p className='text-center text-sm'>English, Hindi</p> */}
-        {/* <p className='text-center text-sm'>₹ 5/min</p> */}
-      </div>
-      <div className="w-full sm:w-4/6 ml-4 mt-[10px]">
-        <div className='flex justify-between'>
-          <div className='w-4/6 md:w-4/5'>
-          <h2 className="text-md sm:text-xl md:text-2xl font-bold ">{adviser.data.username}</h2>
-          <p className="text-[13px] sm:text-md">{adviser.data.professional_title}</p>
-          </div>
-          <div className='w-2/6 md:w-1/5'>
-          <p className="text-xs sm:text-sm  md:text-md font-bold">
-  Exp: <span className="block sm:inline">{adviser.data.years_of_experience} years</span>
-</p>
-</div>
-        </div>
+                    <div>
+                      {/* <Rating name="read-only" value={5} readOnly /> */}
+                    </div>
+                    {/* <p className='text-center text-sm'>English, Hindi</p> */}
+                    {/* <p className='text-center text-sm'>₹ 5/min</p> */}
+                  </div>
+                  <div className="w-full sm:w-4/6 ml-4 mt-[10px]">
+                    <div className='flex justify-between'>
+                      <div className='w-4/6 md:w-4/5'>
+                        <h2 className="text-md sm:text-xl md:text-2xl font-bold ">{adviser.data.username}</h2>
+                        <p className="text-[13px] sm:text-md">{adviser.data.professional_title}</p>
+                      </div>
+                      <div className='w-2/6 md:w-1/5'>
+                        {adviser?.data?.years_of_experience ? <p className="text-xs sm:text-sm  md:text-md font-bold">
+                          Exp: <span className="block sm:inline">{adviser?.data?.years_of_experience} years</span>
+                        </p> : ''}
 
-        <div className='mt-2'>
-          
-          <p className='text-gray-500 text-xs sm:text-sm '>{adviser.data.professional_bio}</p>
-        </div>
+                      </div>
+                    </div>
 
-        <div className='my-4 w-3/5'>
-          <div className="flex items-center justify-center border border-[#5A88FF] text-[#5A88FF] px-2 py-1 sm:px-4 sm:py-2 rounded-full">
-            <p className='text-sm sm:text-lg font-bold'>{adviser?.firstService?.price || 'N/A'}/hr</p>
-            <div className="ml-2">
-              <VideocamIcon fontSize="small" sm={{ fontSize: "large" }} />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  ))
-))}
+                    <div className='mt-2'>
+
+                      <p className='text-gray-500 text-xs sm:text-sm '>{adviser.data.professional_bio}</p>
+                    </div>
+
+                    <div className='my-4 w-3/5'>
+                      <div className="flex items-center justify-center border border-[#5A88FF] text-[#5A88FF] px-2 py-1 sm:px-4 sm:py-2 rounded-full">
+                        <p className='text-sm sm:text-lg font-bold'>{adviser?.firstService?.price || 'N/A'}/hr</p>
+                        <div className="ml-2">
+                          <VideocamIcon fontSize="small" sm={{ fontSize: "large" }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ))}
 
 
 
