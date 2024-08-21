@@ -42,6 +42,8 @@ import ShareAdvisorProfile from './User-Components/ShareAdviserProfile.jsx'
 import VideoUpload from './Advisor-Components/VideoUpload.jsx'
 import VideoPreview from './Advisor-Components/VideoPreview.jsx'
 import PrivacyPolicy from './Privacy-Policy/PrivacyPolicy.jsx'
+import NewUserLogin from './User-Components/NewUserLogin.jsx'
+import NewVerifyOTP from './User-Components/NewVerifyOTP.jsx'
 
 
 
@@ -51,7 +53,8 @@ const router = createBrowserRouter(
 
 <Route path="/" element={<UserLayout />} >
             <Route path="/"  element={<UserLandingPage />} />
-            <Route path="/createaccount" element={<UserLogin />} />
+            <Route path="/createaccount" element={<NewUserLogin />} />
+            <Route path="/verifyotp" element={<NewVerifyOTP />} />
             <Route path="/category" element={<UserCategory />} />
             {/* <Route path="/category/:advisername" element={<UserAdviserProfile />} /> */}
             <Route path="/category/:advisername/:adviserid" element={<ShareAdvisorProfile />} />,
