@@ -153,7 +153,7 @@ function CreatePost() {
           file_type: fileType,
           description: post_description,
           dop: date,
-          views: 0,
+          views: [],
           likes: [],
         });
       }

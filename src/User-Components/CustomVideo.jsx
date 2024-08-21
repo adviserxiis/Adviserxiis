@@ -62,9 +62,27 @@ const CustomVideo = ({ data, addLike, removeLike }) => {
       const postDataSnapshot = await get(postRef);
       const postData = postDataSnapshot.val();
 
-      const currentViews = postData.views || 0;
-      const updatedViews = currentViews + 1;
+      // const currentViews = postData.views || 0;
+      // const updatedViews = currentViews + 1;
 
+      let currentViews = postData.views;
+
+      // Check if views is an integer
+      if (typeof currentViews === 'number') {
+        // Treat it as an empty array if it's an integer
+        currentViews = [];
+      }
+    
+      // If it's not an integer and not an array, initialize it as an empty array
+      if (!Array.isArray(currentViews)) {
+        currentViews = [];
+      }
+        
+      let updatedViews = currentViews
+      if (!currentViews.includes(userid)) {
+        updatedViews = [...currentViews, userid];
+      }
+  
       await update(postRef, { views: updatedViews });
       // console.log(`View count for post ${postId} updated to ${updatedViews}`);
     } catch (error) {
@@ -147,9 +165,17 @@ const CustomVideo = ({ data, addLike, removeLike }) => {
         </div>
       )}
 
-<div className="absolute flex flex-col justify-center items-center top-20 sm:top-16 right-4 text-white text-3xl md:text-4xl  cursor-pointer z-30" onClick={handleMuteClick}>
+      <div className="absolute flex flex-col justify-center items-center top-20 sm:top-16 right-4 text-white text-3xl md:text-4xl  cursor-pointer z-30" onClick={handleMuteClick}>
         <RemoveRedEyeOutlinedIcon fontSize='inherit' />
-        <p className='text-white text-lg md:text-xl font-semibold'>{data?.data && data?.data?.views ? data.data.views : 0}</p>
+        {/* <p className='text-white text-lg md:text-xl font-semibold'>{data?.data && data?.data?.views ? data.data.views : 0}</p> */}
+        <p className='text-white text-lg md:text-xl font-semibold'>
+          {Array.isArray(data?.data?.views)
+            ? data.data.views.length // If views is an array, show its length
+            : typeof data?.data?.views === 'number'
+              ? data.data.views // If views is a number, show its count
+              : 0 // If views is neither an array nor a number, show 0
+          }
+        </p>
       </div>
       <div className="absolute bottom-44 sm:bottom-36 right-4 text-white text-3xl md:text-4xl  cursor-pointer z-30" onClick={handleMuteClick}>
         {isMuted ? <VolumeOffIcon fontSize="inherit" /> : <VolumeUpIcon fontSize="inherit" />}
