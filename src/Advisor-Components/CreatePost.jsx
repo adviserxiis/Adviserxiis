@@ -164,7 +164,7 @@ function CreatePost() {
           post_file: postFileURL,
           file_type: fileType,
           dop: date,
-          views: 0,
+          views: [],
           likes: [],
         });
       }
