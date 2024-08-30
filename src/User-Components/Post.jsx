@@ -6,6 +6,7 @@ import { app } from "../firebase";
 import { CircularProgress } from '@mui/material';
 import { getAuth } from 'firebase/auth';
 import CustomVideo from './CustomVideo';
+import CustomVideoShare from './CustomeVideoShare';
 
 
 function Post() {
@@ -105,7 +106,7 @@ function Post() {
             //   Your browser does not support the video tag.
             // </video>
               <div className='w-[325px] h-[450px] sm:w-[500px] sm:h-[600px] md:w-[600px] md:h-[700px]'>
-              <CustomVideo src={post.post_file} description={post.description} />
+              <CustomVideoShare src={post.post_file} description={post.description} />
 
               </div>
             

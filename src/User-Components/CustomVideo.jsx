@@ -57,6 +57,11 @@ const CustomVideo = ({ data, addLike, removeLike }) => {
   }, [hasViewed, data.id]);
 
   const incrementViewCount = async (postId) => {
+
+     if(userid == null)
+     {
+      return;
+     }
     try {
       const postRef = ref(database, 'advisers_posts/' + postId);
       const postDataSnapshot = await get(postRef);
