@@ -44,6 +44,8 @@ import VideoPreview from './Advisor-Components/VideoPreview.jsx'
 import PrivacyPolicy from './Privacy-Policy/PrivacyPolicy.jsx'
 import NewUserLogin from './User-Components/NewUserLogin.jsx'
 import NewVerifyOTP from './User-Components/NewVerifyOTP.jsx'
+import NewUserSignUp from './User-Components/NewUserSignUp.jsx'
+import NewSaveDetails from './User-Components/NewSaveDetails.jsx'
 
 
 
@@ -54,6 +56,8 @@ const router = createBrowserRouter(
 <Route path="/" element={<UserLayout />} >
             <Route path="/"  element={<UserLandingPage />} />
             <Route path="/createaccount" element={<NewUserLogin />} />
+            <Route path="/signup" element={<NewUserSignUp />} />
+            <Route path="/savedetails" element={<NewSaveDetails />} />
             <Route path="/verifyotp" element={<NewVerifyOTP />} />
             <Route path="/category" element={<UserCategory />} />
             {/* <Route path="/category/:advisername" element={<UserAdviserProfile />} /> */}
