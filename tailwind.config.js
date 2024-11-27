@@ -12,6 +12,10 @@ export default {
         workSans:[ "Work Sans", "sans-serif"],
         inter:["Inter", "sans-serif"]
       },
+      wordBreak: {
+        'break-all': 'break-all', // Custom class for word-break-all
+        'break-word': 'break-word', // Custom class for break-word
+      }
     },
   },
   // plugins: [],

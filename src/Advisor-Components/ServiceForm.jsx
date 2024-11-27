@@ -23,7 +23,7 @@ const ServiceForm = () => {
 
   const navigate = useNavigate()
   const location = useLocation()
-  const {handleDialogOpen, updateHeader, setUpdateHeader  } = useContext(StateContext)
+  const { handleDialogOpen, updateHeader, setUpdateHeader } = useContext(StateContext)
   const { handleShareDialogOpen, setShareURL } = useContext(StateContext)
 
   const { serviceid } = location.state || {}
@@ -49,7 +49,7 @@ const ServiceForm = () => {
     // booking_days: '',
     // booking_time:''
     // availability:null
-    isPublished:false
+    isPublished: false
   }
 
   const validationSchema = Yup.object().shape({
@@ -69,7 +69,7 @@ const ServiceForm = () => {
       .positive('Price must be a positive number')
       .integer('Price must be an integer'),
     isPublished: Yup.boolean()
-,
+    ,
     // booking_days: Yup.string()
     //   .required('Booking days is required'),
     // booking_time: Yup.string()
@@ -95,88 +95,86 @@ const ServiceForm = () => {
       return null;
     }
   }
-  
+
 
   const handleSubmit = async () => {
-          
+
     setLoading(true)
 
     //     const user = auth.currentUser;
     // if (!user) {
-  
+
     //     console.error('User is not authenticated.');
     //     setLoading(false);
     //     return;
     // }
-    if(serviceid == undefined)
-      {
+    if (serviceid == undefined) {
 
-        const serviceid = uuidv1();
-        const userid = JSON.parse(localStorage.getItem('adviserid'))
-    
-       await set(ref(database, 'advisers_service/' + serviceid),{
-    
-          adviserid:userid,
-          service_name:formik.values.service_name,
-          about_service:formik.values.about_service,
-          duration:formik.values.duration,
-          price:formik.values.price,
-          isPublished:formik.values.isPublished
-          // booking_days:formik.values.booking_days,
-          // booking_time:formik.values.booking_time
-          // availability:formik.values.availability
-    
-        });
-    
-    
-        
-        const adviserData = await getUser(userid)
-        const currentServices = adviserData.services || []; // Retrieve existing IDs or initialize to an empty array
-      
-        // Add the new ID to the array
-        const updatedServices = [...currentServices, serviceid];
-      
-        // Update the array field in the database
-        await update(ref(database, 'advisers/' + userid), { services : updatedServices });
+      const serviceid = uuidv1();
+      const userid = JSON.parse(localStorage.getItem('adviserid'))
 
-        if(formik.values.isPublished == true)
-          {
-            const publishedServices = adviserData.published_services || [];
+      await set(ref(database, 'advisers_service/' + serviceid), {
 
-            const updatedpublishedServices = [...publishedServices, serviceid];
+        adviserid: userid,
+        service_name: formik.values.service_name,
+        about_service: formik.values.about_service,
+        duration: formik.values.duration,
+        price: formik.values.price,
+        isPublished: formik.values.isPublished
+        // booking_days:formik.values.booking_days,
+        // booking_time:formik.values.booking_time
+        // availability:formik.values.availability
 
-            await update(ref(database, 'advisers/' + userid), { published_services : updatedpublishedServices }); 
-          }
-      
-    
-         await Swal.fire({
-          title: "Success",
-          text: "Your Service Added Successfully!!",
-          icon: "success"
-        });
+      });
 
-        setUpdateHeader(!updateHeader)
-      }
-      else{
-        await update(ref(database, 'advisers_service/' + serviceid),{
-          service_name:formik.values.service_name,
-          about_service:formik.values.about_service,
-          duration:formik.values.duration,
-          price:formik.values.price,
-          isPublished:formik.values.isPublished
-          // booking_days:formik.values.booking_days,
-          // booking_time:formik.values.booking_time
-          // availability:formik.values.availability
-    
-        });
-        await Swal.fire({
-          title: "Success",
-          text: "Your Service Updated Successfully!!",
-          icon: "success"
-        });
+
+
+      const adviserData = await getUser(userid)
+      const currentServices = adviserData.services || []; // Retrieve existing IDs or initialize to an empty array
+
+      // Add the new ID to the array
+      const updatedServices = [...currentServices, serviceid];
+
+      // Update the array field in the database
+      await update(ref(database, 'advisers/' + userid), { services: updatedServices });
+
+      if (formik.values.isPublished == true) {
+        const publishedServices = adviserData.published_services || [];
+
+        const updatedpublishedServices = [...publishedServices, serviceid];
+
+        await update(ref(database, 'advisers/' + userid), { published_services: updatedpublishedServices });
       }
 
-       setLoading(false)
+
+      await Swal.fire({
+        title: "Success",
+        text: "Your Service Added Successfully!!",
+        icon: "success"
+      });
+
+      setUpdateHeader(!updateHeader)
+    }
+    else {
+      await update(ref(database, 'advisers_service/' + serviceid), {
+        service_name: formik.values.service_name,
+        about_service: formik.values.about_service,
+        duration: formik.values.duration,
+        price: formik.values.price,
+        isPublished: formik.values.isPublished
+        // booking_days:formik.values.booking_days,
+        // booking_time:formik.values.booking_time
+        // availability:formik.values.availability
+
+      });
+      await Swal.fire({
+        title: "Success",
+        text: "Your Service Updated Successfully!!",
+        icon: "success"
+      });
+    }
+
+    setLoading(false)
     formik.resetForm();
     navigate('/adviser/services')
 
@@ -206,10 +204,10 @@ const ServiceForm = () => {
   })
 
 
-  const deleteService = async (serviceId) =>{
+  const deleteService = async (serviceId) => {
     try {
       const adviserId = JSON.parse(localStorage.getItem('adviserid'));
-  
+
       await remove(ref(database, 'advisers_service/' + serviceId));
 
       const adviserRef = ref(database, 'advisers/' + adviserId);
@@ -218,19 +216,19 @@ const ServiceForm = () => {
         const adviserData = snapshot.val();
         const currentServices = adviserData.services || [];
         const publishedServices = adviserData.published_services || [];
-  
-  
+
+
         const updatedServices = currentServices.filter(id => id !== serviceId);
         const updatedpublishedServices = publishedServices.filter(id => id !== serviceId)
 
 
-  
-        await update(adviserRef, { 
+
+        await update(adviserRef, {
           services: updatedServices,
           published_services: updatedpublishedServices
-         });
-  
-  
+        });
+
+
         await Swal.fire({
           title: "Success",
           text: "Your Service Deleted Successfully!!",
@@ -253,7 +251,7 @@ const ServiceForm = () => {
 
 
 
-  const deleteHandler = async (serviceId) =>{
+  const deleteHandler = async (serviceId) => {
 
     Swal.fire({
       title: "Do you want to delete the service?",
@@ -270,69 +268,65 @@ const ServiceForm = () => {
     });
   }
 
-  const check = async () =>{
+  const check = async () => {
     const adviserid = JSON.parse(localStorage.getItem('adviserid'))
 
     const user = await getUser(adviserid)
-    if(user.availability == undefined)
-      {
+    if (user.availability == undefined) {
       await Swal.fire({
-          title: "Oops!!",
-          text: "You have to set your availability in calender before creating any service in service.",
-          icon: "error"
-        });
-        navigate('/adviser/services')
-        handleDialogOpen()
+        title: "Oops!!",
+        text: "You have to set your availability in calender before creating any service in service.",
+        icon: "error"
+      });
+      navigate('/adviser/services')
+      handleDialogOpen()
 
-      }
-      else if (user.profile_photo == undefined )
-        {
-         await Swal.fire({
-            title: "Oops!!",
-            text: "Please add your profile image first",
-            icon: "error"
-          });
-          navigate('/adviser/profile')
+    }
+    else if (user.profile_photo == undefined) {
+      await Swal.fire({
+        title: "Oops!!",
+        text: "Please add your profile image first",
+        icon: "error"
+      });
+      navigate('/adviser/profile')
 
-        }
-        else if (user.professional_bio == undefined )
-          {
-           await  Swal.fire({
-              title: "Oops!!",
-              text: "Please add your professional bio first",
-              icon: "error"
-            });
-            navigate('/adviser/profile')
+    }
+    else if (user.professional_bio == undefined) {
+      await Swal.fire({
+        title: "Oops!!",
+        text: "Please add your professional bio first",
+        icon: "error"
+      });
+      navigate('/adviser/profile')
 
-          }
+    }
 
   }
 
-  useEffect (() =>{
+  useEffect(() => {
 
     check()
-    if(serviceid != undefined)
-     {
-       getService(serviceid).then((serviceData)=>{
-         formik.setValues({
-           service_name: serviceData.service_name || '',
-           about_service: serviceData.about_service || '',
-           duration: serviceData.duration || '',
-           price: serviceData.price || '',
-           isPublished: serviceData.isPublished || false
-         });
-       })
-     }
+    if (serviceid != undefined) {
+      getService(serviceid).then((serviceData) => {
+        formik.setValues({
+          service_name: serviceData.service_name || '',
+          about_service: serviceData.about_service || '',
+          duration: serviceData.duration || '',
+          price: serviceData.price || '',
+          isPublished: serviceData.isPublished || false
+        });
+      })
+    }
 
- },[])
+  }, [])
 
 
- useEffect(()=>{
-  const adviserid = JSON.parse(localStorage.getItem('adviserid'))
-  getUser(adviserid).then((response)=>{
-    setAdviserData(response)
+  useEffect(() => {
+    const adviserid = JSON.parse(localStorage.getItem('adviserid'))
+    getUser(adviserid).then((response) => {
+      setAdviserData(response)
+    })
   })
- })
 
 
 
@@ -351,18 +345,18 @@ const ServiceForm = () => {
             placeholder='CV Review'
             className="mt-1 block w-full h-12 p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 font-Poppins"
           />
-                        {formik.touched.service_name &&
-                formik.errors.service_name && (
-                  <p
-                    style={{
-                      fontSize: "13px",
-                      padding: "",
-                      color: "red",
-                    }}
-                  >
-                    {formik.errors.service_name}
-                  </p>
-                )}
+          {formik.touched.service_name &&
+            formik.errors.service_name && (
+              <p
+                style={{
+                  fontSize: "13px",
+                  padding: "",
+                  color: "red",
+                }}
+              >
+                {formik.errors.service_name}
+              </p>
+            )}
         </div>
         <div>
           <label className="block text-sm font-bold text-gray-700 font-Poppins ">About Service</label>
@@ -375,18 +369,18 @@ const ServiceForm = () => {
             className="mt-1 block w-full h-12 p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 font-Poppins"
             rows="3"
           />
-                        {formik.touched.about_service &&
-                formik.errors.about_service && (
-                  <p
-                    style={{
-                      fontSize: "13px",
-                      padding: "",
-                      color: "red",
-                    }}
-                  >
-                    {formik.errors.about_service}
-                  </p>
-                )}
+          {formik.touched.about_service &&
+            formik.errors.about_service && (
+              <p
+                style={{
+                  fontSize: "13px",
+                  padding: "",
+                  color: "red",
+                }}
+              >
+                {formik.errors.about_service}
+              </p>
+            )}
         </div>
         {/* <div>
           <label className="block text-sm font-bold text-gray-700 font-Poppins">Duration</label>
@@ -413,41 +407,41 @@ const ServiceForm = () => {
                 )}
         </div> */}
 
-<div >
-              <label className="block text-sm font-bold text-gray-700 font-Poppins ">Duration:</label>
-              <select className="mt-1 block w-full h-12 p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 font-Poppins" name="duration"
-                value={formik.values.duration}
-                onChange={(e) => {
-                  formik.setFieldValue('duration', Number(e.target.value));
+        <div >
+          <label className="block text-sm font-bold text-gray-700 font-Poppins ">Duration:</label>
+          <select className="mt-1 block w-full h-12 p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 font-Poppins" name="duration"
+            value={formik.values.duration}
+            onChange={(e) => {
+              formik.setFieldValue('duration', Number(e.target.value));
+            }}
+            // onChange={(e) => {
+            //   formik.handleChange(e);
+            //   const selectedValue = durations.find(item => item.title === e.target.value)?.value;
+            //   formik.setFieldValue('duration', selectedValue);
+            // }}
+            onBlur={formik.handleBlur}
+          >
+            <option>Select Duration</option>
+            {
+              durations.map((item, idx) => (
+                <option key={idx} value={item.value}>{item.title}</option>
+              ))
+            }
+
+          </select>
+          {formik.touched.duration &&
+            formik.errors.duration && (
+              <p
+                style={{
+                  fontSize: "13px",
+                  padding: "",
+                  color: "red",
                 }}
-                // onChange={(e) => {
-                //   formik.handleChange(e);
-                //   const selectedValue = durations.find(item => item.title === e.target.value)?.value;
-                //   formik.setFieldValue('duration', selectedValue);
-                // }}
-                onBlur={formik.handleBlur}
               >
-                <option>Select Duration</option>
-                {
-                  durations.map((item,idx) => (
-                    <option key={idx} value={item.value}>{item.title}</option>
-                  ))
-                }
-      
-              </select>
-              {formik.touched.duration &&
-                formik.errors.duration && (
-                  <p
-                    style={{
-                      fontSize: "13px",
-                      padding: "",
-                      color: "red",
-                    }}
-                  >
-                    {formik.errors.duration}
-                  </p>
-                )}
-            </div>
+                {formik.errors.duration}
+              </p>
+            )}
+        </div>
         <div>
           <label className="block text-sm font-bold text-gray-700 font-Poppins">Price</label>
           <input
@@ -459,18 +453,18 @@ const ServiceForm = () => {
             placeholder='499'
             className="mt-1 block w-full h-12 p-2 rounded-md border-gray-300 font-Poppins shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
           />
-                        {formik.touched.price &&
-                formik.errors.price && (
-                  <p
-                    style={{
-                      fontSize: "13px",
-                      padding: "",
-                      color: "red",
-                    }}
-                  >
-                    {formik.errors.price}
-                  </p>
-                )}
+          {formik.touched.price &&
+            formik.errors.price && (
+              <p
+                style={{
+                  fontSize: "13px",
+                  padding: "",
+                  color: "red",
+                }}
+              >
+                {formik.errors.price}
+              </p>
+            )}
         </div>
         {/* <div>
           <label className="block text-sm font-bold text-gray-700 font-Poppins">Booking Days</label>
@@ -538,63 +532,63 @@ const ServiceForm = () => {
                 )}
         </div> */}
 
-{ serviceid == undefined && <div>
-              <div className='flex'>
-                <Checkbox
-                  name='isPublished'
-                  value={formik.values.isPublished}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.isPublished && Boolean(formik.errors.isPublished)}
-                  helperText={formik.touched.isPublished && formik.errors.isPublished} /> <p className='font-workSans text-md pt-2'>Do you want to publish it now?</p>
-              </div>
-              {formik.touched.isPublished &&
-                formik.errors.isPublished && (
-                  <p
-                    style={{
-                      fontSize: "13px",
-                      padding: "",
-                      color: "red",
-                    }}
-                  >
-                    {formik.errors.isPublished}
-                  </p>
-                )}
-            </div>}
+        {serviceid == undefined && <div>
+          <div className='flex'>
+            <Checkbox
+              name='isPublished'
+              value={formik.values.isPublished}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.isPublished && Boolean(formik.errors.isPublished)}
+              helperText={formik.touched.isPublished && formik.errors.isPublished} /> <p className='font-workSans text-md pt-2'>Do you want to publish it now?</p>
+          </div>
+          {formik.touched.isPublished &&
+            formik.errors.isPublished && (
+              <p
+                style={{
+                  fontSize: "13px",
+                  padding: "",
+                  color: "red",
+                }}
+              >
+                {formik.errors.isPublished}
+              </p>
+            )}
+        </div>}
 
         <div className="flex space-x-4">
-        { serviceid == undefined &&           <button className="bg-[#489CFF] text-white rounded-md py-2 px-4 font-Poppins" onClick={formik.handleSubmit} type="submit" disabled={loading}>
-          { !loading ? 'Create' : <CircularProgress  color="inherit"  />}
-          </button>}
-    
-         { serviceid != undefined && <button className="bg-[#489CFF] text-white rounded-md py-2 px-4 font-Poppins" onClick={formik.handleSubmit} type="submit" disabled={loading}>
-          { !loading ? 'Update' : <CircularProgress  color="inherit"  />}
+          {serviceid == undefined && <button className="bg-[#489CFF] text-white rounded-md py-2 px-4 font-Poppins" onClick={formik.handleSubmit} type="submit" disabled={loading}>
+            {!loading ? 'Create' : <CircularProgress color="inherit" />}
           </button>}
 
-        { serviceid != undefined && <button type="button" className="bg-[#FF5348] text-white rounded-md py-2 px-4 font-Poppins" onClick={()=>deleteHandler(serviceid)}>Delete</button>}
+          {serviceid != undefined && <button className="bg-[#489CFF] text-white rounded-md py-2 px-4 font-Poppins" onClick={formik.handleSubmit} type="submit" disabled={loading}>
+            {!loading ? 'Update' : <CircularProgress color="inherit" />}
+          </button>}
+
+          {serviceid != undefined && <button type="button" className="bg-[#FF5348] text-white rounded-md py-2 px-4 font-Poppins" onClick={() => deleteHandler(serviceid)}>Delete</button>}
         </div>
       </form>
       <button
 
-className="fixed bottom-[160px] md:bottom-[180px] right-[30px] md:right-[70px]  p-4 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 hover:shadow-xl transition duration-300"
-onClick={() => {
-  const adviserid = JSON.parse(localStorage.getItem('adviserid'))
-  handleShareDialogOpen()
-  setShareURL(`https://www.adviserxiis.com/category/${convertSpacesToUnderscores(adviserData?.username)}/${adviserid}`)
-}}
->
-<ShareOutlinedIcon fontSize="large" />
+        className="fixed bottom-[160px] md:bottom-[180px] right-[30px] md:right-[70px]  p-4 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 hover:shadow-xl transition duration-300"
+        onClick={() => {
+          const adviserid = JSON.parse(localStorage.getItem('adviserid'))
+          handleShareDialogOpen()
+          setShareURL(`https://www.adviserxiis.com/category/${convertSpacesToUnderscores(adviserData?.username)}/${adviserid}`)
+        }}
+      >
+        <ShareOutlinedIcon fontSize="large" />
 
-</button>
+      </button>
       <button>
-    <a
-            href='https://api.whatsapp.com/send/?phone=%2B917703874893&text&type=phone_number&app_absent=0'
-            target="_blank"
-            className="fixed bottom-[80px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
+        <a
+          href='https://api.whatsapp.com/send/?phone=%2B917703874893&text&type=phone_number&app_absent=0'
+          target="_blank"
+          className="fixed bottom-[80px] md:bottom-[100px] right-[30px] md:right-[70px]  p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 hover:shadow-xl transition duration-300"
         >
-            <WhatsAppIcon fontSize="large"/>
+          <WhatsAppIcon fontSize="large" />
         </a>
-        </button>
+      </button>
     </div>
   );
 };

@@ -42,6 +42,17 @@ import ShareAdvisorProfile from './User-Components/ShareAdviserProfile.jsx'
 import VideoUpload from './Advisor-Components/VideoUpload.jsx'
 import VideoPreview from './Advisor-Components/VideoPreview.jsx'
 import PrivacyPolicy from './Privacy-Policy/PrivacyPolicy.jsx'
+import NewUserLogin from './User-Components/NewUserLogin.jsx'
+import NewVerifyOTP from './User-Components/NewVerifyOTP.jsx'
+import NewUserSignUp from './User-Components/NewUserSignUp.jsx'
+import NewSaveDetails from './User-Components/NewSaveDetails.jsx'
+import NewUserHome from './User-Components/NewUserHome.jsx'
+import NewSearchpage from './User-Components/NewSearchpage.jsx'
+import NewUserProfile from './User-Components/NewUserProfile.jsx'
+import NewCreateServicePage from './User-Components/NewCreateServicePage.jsx'
+import NewEditServicePage from './User-Components/NewEditServicePage.jsx'
+import NewServiceDetailsPage from './User-Components/NewServiceDetailsPage.jsx'
+import NewUploadReelPage from './User-Components/NewUploadReelPage.jsx'
 
 
 
@@ -49,9 +60,23 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <>
 
+<Route path="/signin" element={<NewUserLogin />} />
+            <Route path="/signup" element={<NewUserSignUp />} />
+            <Route path="/savedetails" element={<NewSaveDetails />} />
+
 <Route path="/" element={<UserLayout />} >
-            <Route path="/"  element={<UserLandingPage />} />
-            <Route path="/createaccount" element={<UserLogin />} />
+            {/* <Route path="/"  element={<UserLandingPage />} /> */}
+            <Route path="/" element={<NewUserHome />} />
+            <Route path="/searchcreator" element={<NewSearchpage />} />
+            {/* <Route path="/createaccount" element={<NewUserLogin />} />
+            <Route path="/signup" element={<NewUserSignUp />} />
+            <Route path="/savedetails" element={<NewSaveDetails />} /> */}
+            <Route path="/verifyotp" element={<NewVerifyOTP />} />
+            <Route path="/profile" element={<NewUserProfile />} />
+            <Route path="/createservice" element={<NewCreateServicePage />} />
+            <Route path="/editservice" element={<NewEditServicePage />} />
+            <Route path="/servicedetails" element={<NewServiceDetailsPage />} />
+            <Route path="/uploadreel" element={<NewUploadReelPage />} />
             <Route path="/category" element={<UserCategory />} />
             {/* <Route path="/category/:advisername" element={<UserAdviserProfile />} /> */}
             <Route path="/category/:advisername/:adviserid" element={<ShareAdvisorProfile />} />,
