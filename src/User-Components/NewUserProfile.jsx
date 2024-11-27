@@ -399,17 +399,17 @@ const ProfileScreen = () => {
                 </div> */}
                 <div className="mt-4 flex items-center justify-start space-x-4">
                     {user?.social_links?.instagram && (
-                        <a href={user?.social_links.instagram} target="_blank" rel="noopener noreferrer">
+                        <a href={user?.social_links?.instagram} target="_blank" rel="noopener noreferrer">
                             <img src={instagram} alt="Instagram" className='h-8 md:h-12' />
                         </a>
                     )}
-                    {user?.social_links.linkedin && (
-                        <a href={user?.social_links.linkedin} target="_blank" rel="noopener noreferrer">
+                    {user?.social_links?.linkedin && (
+                        <a href={user?.social_links?.linkedin} target="_blank" rel="noopener noreferrer">
                             <img src={linkedin} alt="LinkedIn" className='h-8 md:h-12' />
                         </a>
                     )}
-                    {user?.social_links.facebook && (
-                        <a href={user?.social_links.facebook} target="_blank" rel="noopener noreferrer">
+                    {user?.social_links?.facebook && (
+                        <a href={user?.social_links?.facebook} target="_blank" rel="noopener noreferrer">
                             <img src={facebook} alt="Facebook" className='h-8 md:h-12' />
                         </a>
                     )}
