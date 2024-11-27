@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import { signInWithGoogle } from '../firebase';
 import { set } from 'firebase/database';
 import { CircularProgress } from '@mui/material';
+import new_logo from '../assets/new_logo.png'
 
 const NewUserLogin = () => {
 
@@ -140,7 +141,15 @@ const NewUserLogin = () => {
 
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#121212] px-4 font-Poppins">
+    <div className="flex  min-h-screen bg-[#121212] px-4 font-Poppins">
+      <div className='mt-[50px] ml-[30px] hidden lg:block'>
+        <img 
+           src={new_logo}
+           alt=""
+           className='w-32'
+           />
+      </div>
+      <div className='flex items-center justify-center w-full '>
       <div className="w-full max-w-sm p-6 bg-[#121212]">
         <h2 className="text-2xl font-bold text-center text-white">Welcome Back</h2>
         <p className="mt-2 text-sm text-center text-gray-400">
@@ -224,6 +233,7 @@ const NewUserLogin = () => {
             Don’t have an account? <span className="text-white hover:underline cursor-pointer" onClick={() => navigate('/signup')}>Register</span>
           </p>
         </div>
+      </div>
       </div>
     </div>
   );
