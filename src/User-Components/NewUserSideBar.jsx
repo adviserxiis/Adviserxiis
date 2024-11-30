@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import { useMediaQuery } from '@mui/material';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SearchIcon from '@mui/icons-material/Search';
+import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import { SearchOffOutlined } from "@mui/icons-material";
@@ -126,6 +127,27 @@ const NewUserSideBar = forwardRef(({ showSideBar,handleOpen, setShowSideBar }, r
 
             <div>
               <p className="font-Poppins font-2xl" style={{fontSize:"20px"}}><span className="mr-2"><SearchIcon fontSize="medium" /></span>Search</p>
+            </div>
+          </div>
+        </NavLink>
+
+        <NavLink
+          to="/reels"
+          className={({ isActive }) =>
+            ` ${
+              isActive
+                ? " text-white font-Poppins"
+                : "text-gray-300 hover:text-white font-Poppins"
+            } `
+          }
+          onClick={handleLinkClick}
+        >
+          <div
+            className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors`}
+          >
+
+            <div>
+              <p className="font-Poppins font-2xl" style={{fontSize:"20px"}}><span className="mr-2"><PlayArrowOutlinedIcon fontSize="medium" /></span>Reels</p>
             </div>
           </div>
         </NavLink>

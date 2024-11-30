@@ -3,6 +3,7 @@ import LargeCustomVideo from './LargeCustomVideo'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import User from '../assets/User.png'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -33,7 +34,7 @@ function CustomVideoCard({ post }) {
   const addLike = async (postid) => {
 
     if (userid == null) {
-      navigate('/createaccount');
+      navigate('/signin');
       return;
     }
 
@@ -90,7 +91,7 @@ function CustomVideoCard({ post }) {
 
   const followHandler = async (adviserid) => {
     if (userid == null) {
-      navigate('/createaccount');
+      navigate('/signin');
       return;
     }
 
@@ -114,7 +115,7 @@ function CustomVideoCard({ post }) {
 
   const unFollowHandler = async (adviserid) => {
     if (userid == null) {
-      navigate('/createaccount');
+      navigate('/signin');
       return;
     }
 
@@ -168,7 +169,8 @@ function CustomVideoCard({ post }) {
 
       </div>
       <div className="flex justify-between items-center max-w-[600px] py-4 text-white mx-auto">
-        <div className="flex">
+        <div className="flex justify-between  w-full">
+          <div className='flex'>
           <div className="flex flex-col items-center mr-4">
             {liked ? <div className="cursor-pointer ">
               <FavoriteIcon className='text-red-500' onClick={() => removeLike(post?.id)} />
@@ -178,9 +180,16 @@ function CustomVideoCard({ post }) {
             <p>{post?.data && post?.data?.likes ? post.data.likes.length : 0}</p>
           </div>
 
-          <div className="ml-4 cursor-pointer">
+          <div className="ml-4 flex flex-col items-center cursor-pointer">
+          <ChatBubbleOutlineIcon  />
+            <p>{post?.data && post?.data?.comments ? post.data.comments.length : 0}</p>
+          </div>
+          </div>
+
+          <div className=" cursor-pointer">
             <ShareIcon onClick={() => handleShareClick(post?.id)} />
           </div>
+
           <ShareDialog
             open={shareDialogOpen}
             handleClose={handleShareDialogClose}
