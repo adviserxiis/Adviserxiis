@@ -53,6 +53,7 @@ import NewCreateServicePage from './User-Components/NewCreateServicePage.jsx'
 import NewEditServicePage from './User-Components/NewEditServicePage.jsx'
 import NewServiceDetailsPage from './User-Components/NewServiceDetailsPage.jsx'
 import NewUploadReelPage from './User-Components/NewUploadReelPage.jsx'
+import NewReelPage from './User-Components/NewReelPage.jsx'
 
 
 
@@ -77,6 +78,7 @@ const router = createBrowserRouter(
             <Route path="/editservice" element={<NewEditServicePage />} />
             <Route path="/servicedetails" element={<NewServiceDetailsPage />} />
             <Route path="/uploadreel" element={<NewUploadReelPage />} />
+            <Route path="/reels" element={<NewReelPage />} />
             <Route path="/category" element={<UserCategory />} />
             {/* <Route path="/category/:advisername" element={<UserAdviserProfile />} /> */}
             <Route path="/category/:advisername/:adviserid" element={<ShareAdvisorProfile />} />,

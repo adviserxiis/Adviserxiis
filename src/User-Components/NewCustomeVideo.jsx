@@ -144,7 +144,7 @@ const NewCustomVideo = ({ data }) => {
 
   const addLike = async (postid) => {
     if (userid == null) {
-      navigate('/createaccount');
+      navigate('/signin');
       return;
     }
 
@@ -169,7 +169,7 @@ const NewCustomVideo = ({ data }) => {
 
   const removeLike = async (postid) => {
     if (userid == null) {
-      navigate('/createaccount');
+      navigate('/signin');
       return;
     }
 
