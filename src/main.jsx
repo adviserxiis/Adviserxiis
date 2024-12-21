@@ -54,6 +54,7 @@ import NewEditServicePage from './User-Components/NewEditServicePage.jsx'
 import NewServiceDetailsPage from './User-Components/NewServiceDetailsPage.jsx'
 import NewUploadReelPage from './User-Components/NewUploadReelPage.jsx'
 import NewReelPage from './User-Components/NewReelPage.jsx'
+import NewCreatePostPage from './User-Components/NewCreatePostPage.jsx'
 
 
 
@@ -79,6 +80,7 @@ const router = createBrowserRouter(
             <Route path="/servicedetails" element={<NewServiceDetailsPage />} />
             <Route path="/uploadreel" element={<NewUploadReelPage />} />
             <Route path="/reels" element={<NewReelPage />} />
+            <Route path="/createpost" element={<NewCreatePostPage />} />
             <Route path="/category" element={<UserCategory />} />
             {/* <Route path="/category/:advisername" element={<UserAdviserProfile />} /> */}
             <Route path="/category/:advisername/:adviserid" element={<ShareAdvisorProfile />} />,

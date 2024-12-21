@@ -5,6 +5,7 @@ import HeadsetMicOutlinedIcon from '@mui/icons-material/HeadsetMicOutlined';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import BookOutlinedIcon from '@mui/icons-material/BookOutlined';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
+import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import { NavLink } from 'react-router-dom';
@@ -25,15 +26,7 @@ function NewUserFooter() {
         </div>
         </NavLink>
 
-        <NavLink to="/uploadreel"  exact className={({ isActive }) => isActive ? 'text-[#407BFF]' : ''}>
-        <div className='flex flex-col items-center'>
-            <div className='text-2xl md:text-3xl lg:text-4xl'>
-                <AddIcon fontSize='inherit' />
-            </div>
-            {/* <p className='text-xs sm:text-md md:text-lg '>Create</p> */}
 
-        </div>
-        </NavLink>
 
         <NavLink to='/searchcreator'  exact className={({ isActive }) => isActive ? 'text-[#407BFF]' : ''}>
         <div className='flex flex-col items-center'>
@@ -41,6 +34,25 @@ function NewUserFooter() {
             <SearchIcon fontSize='inherit'/>
           </div>
           {/* <p className='text-xs sm:text-md md:text-lg '>Services</p> */}
+        </div>
+        </NavLink>
+
+        <NavLink to='/reels'  exact className={({ isActive }) => isActive ? 'text-[#407BFF]' : ''}>
+        <div className='flex flex-col items-center'>
+          <div className='text-2xl md:text-3xl lg:text-4xl'>
+            <PlayArrowOutlinedIcon fontSize='inherit'/>
+          </div>
+          {/* <p className='text-xs sm:text-md md:text-lg '>Reels</p> */}
+        </div>
+        </NavLink>
+
+        <NavLink to="/uploadreel"  exact className={({ isActive }) => isActive ? 'text-[#407BFF]' : ''}>
+        <div className='flex flex-col items-center'>
+            <div className='text-2xl md:text-3xl lg:text-4xl'>
+                <AddIcon fontSize='inherit' />
+            </div>
+            {/* <p className='text-xs sm:text-md md:text-lg '>Create</p> */}
+
         </div>
         </NavLink>
 
