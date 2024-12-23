@@ -21,6 +21,8 @@ const NewSearchpage = () => {
     }
   }, [searchTerm]);
 
+  
+
   return (
     <div className="bg-[#121212] min-h-screen p-4 font-Poppins">
       {/* Search Input */}

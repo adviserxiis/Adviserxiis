@@ -84,7 +84,7 @@ function NewUploadReelPage() {
       .min(3, 'Caption must be at least 3 characters long'),
 
     hashtags: Yup.string()
-      .required('Hashtags are required')
+      .required('Luitags are required')
       .matches(/^#(\w+)(\s#(\w+))*$/, 'Hashtags must be space-separated and start with #')
     }),    
 
@@ -158,6 +158,12 @@ function NewUploadReelPage() {
     formik.setFieldValue("video", file);
     setSelectedVideo(URL.createObjectURL(file));
   };
+
+      useEffect(()=>{
+        if(!userid){
+          navigate('/signin')
+        }
+      },[userid])
 
 
   return (

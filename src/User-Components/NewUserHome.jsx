@@ -32,6 +32,7 @@ function NewUserHome() {
   const [postsWithAdviser, setPostsWithAdviser] = useState([])
   const [loading, setLoading] = useState(false)
   const [posts, setPosts] = useState([])
+  const [user, setUser] = useState(null)
   const [updated, setUpdated] = useState(false) // state for  re rendering after like changes
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [questionDialogOpen, setQuestionDialogOpen] = useState(false)
@@ -43,7 +44,7 @@ function NewUserHome() {
   const userid = JSON.parse(localStorage.getItem('userid'));
   const adviserid = JSON.parse(localStorage.getItem('adviserid'));
 
- 
+
 
   const handleShareDialogClose = () => {
     setShareDialogOpen(false);
@@ -138,8 +139,8 @@ function NewUserHome() {
   //   },
   // ];
 
-  
-  
+
+
   const getPost = async () => {
     try {
       const response = await fetch(
@@ -160,9 +161,9 @@ function NewUserHome() {
     }
   };
 
-  useEffect(()=>{
-        getPost();
-  },[])
+  useEffect(() => {
+    getPost();
+  }, [])
 
 
 
@@ -180,6 +181,24 @@ function NewUserHome() {
 
     fetchPosts();
   }, []);
+
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const response = await axios.get(`https://adviserxiis-backend-three.vercel.app/creator/getuser/${userid}`);
+        const data = response.data;
+        setUser(data)
+        localStorage.setItem("user", JSON.stringify(data));
+      } catch (err) {
+        console.log("Error in fetching user details", err);
+      }
+    };
+
+    if (userid) {
+      fetchUserDetails(); // Trigger API call if userId is available
+    }
+  }, [userid]);
 
 
 
@@ -333,28 +352,28 @@ function NewUserHome() {
     //     ))}
     //   </div>
     // </div>
- 
+
 
     <div className="bg-[#121212] min-h-screen w-screen sm:w-full">
 
-    <div className="flex justify-between px-4 py-4 border-b  sm:hidden ">
-    <img 
-      src={new_logo}
-      alt=""
-      className="h-8"
-      />
+      <div className="flex justify-between px-4 py-4 border-b  sm:hidden ">
+        <img
+          src={new_logo}
+          alt=""
+          className="h-8"
+        />
 
 
-<Avatar src="/profile-pic.jpg" alt="Profile" />
-  </div>
-    <div className="flex flex-col items-center p-4 bg-[#121212]  pb-24 text-white  font-Poppins">
+        <Avatar src={user ? user.profile_photo : User} alt="Profile" />
+      </div>
+      <div className="flex flex-col items-center p-4 bg-[#121212]  pb-24 text-white  font-Poppins">
 
 
-    {posts.map((post) => (
-      <NewFeedPost key={post.id} post={post} />
-    ))}
-  </div>
-  </div>
+        {posts.map((post) => (
+          <NewFeedPost key={post.id} post={post} />
+        ))}
+      </div>
+    </div>
   );
 }
 

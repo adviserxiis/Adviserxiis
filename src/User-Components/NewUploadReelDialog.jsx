@@ -15,16 +15,16 @@ const NewUploadReelDialog = ({ open, handleClose }) => {
   Yup.addMethod(Yup.mixed, 'aspectRatio', function (ratio, message) {
     return this.test('aspect-ratio', message, async (value) => {
       if (!value) return true;
-  
+
       const video = document.createElement('video');
       video.src = URL.createObjectURL(value);
-  
+
       return new Promise((resolve) => {
         video.onloadedmetadata = () => {
           const videoAspectRatio = video.videoWidth / video.videoHeight;
           const [expectedWidth, expectedHeight] = ratio.split(':').map(Number);
           const expectedAspectRatio = expectedWidth / expectedHeight;
-  
+
           resolve(Math.abs(videoAspectRatio - expectedAspectRatio) < 0.01); // Tolerance for floating-point errors
         };
       });
@@ -52,33 +52,33 @@ const NewUploadReelDialog = ({ open, handleClose }) => {
     },
     validationSchema: Yup.object({
       video: Yup.mixed()
-      .required('File is required')
-      .test('fileType', 'Unsupported file type', (value) => {
-        if (!value) return false; // File is required, so no file should be an error
-        return value.type.startsWith('video/');
-      })
+        .required('File is required')
+        .test('fileType', 'Unsupported file type', (value) => {
+          if (!value) return false; // File is required, so no file should be an error
+          return value.type.startsWith('video/');
+        })
 
-      .test('fileDuration', 'Video must not be more than 60 seconds', async (value) => {
-        if (!value) return true;
-        const video = document.createElement('video');
-        video.src = URL.createObjectURL(value);
-        return new Promise((resolve) => {
-          video.onloadedmetadata = () => {
-            resolve(video.duration <= 60);
-          };
-        });
-      })
-      .aspectRatio('9:16', 'Video must have an aspect ratio of 9:16')
-      .required('Video is required'),
+        .test('fileDuration', 'Video must not be more than 60 seconds', async (value) => {
+          if (!value) return true;
+          const video = document.createElement('video');
+          video.src = URL.createObjectURL(value);
+          return new Promise((resolve) => {
+            video.onloadedmetadata = () => {
+              resolve(video.duration <= 60);
+            };
+          });
+        })
+        .aspectRatio('9:16', 'Video must have an aspect ratio of 9:16')
+        .required('Video is required'),
 
-    caption: Yup.string()
-      .required('Caption is required')
-      .min(3, 'Caption must be at least 3 characters long'),
+      caption: Yup.string()
+        .required('Caption is required')
+        .min(3, 'Caption must be at least 3 characters long'),
 
-    hashtags: Yup.string()
-      .required('Hashtags are required')
-      .matches(/^#(\w+)(\s#(\w+))*$/, 'Hashtags must be space-separated and start with #')
-    }),    
+      hashtags: Yup.string()
+        .required('Hashtags are required')
+        .matches(/^#(\w+)(\s#(\w+))*$/, 'Hashtags must be space-separated and start with #')
+    }),
 
     onSubmit: async (values) => {
       // console.log("values", values)
@@ -87,7 +87,7 @@ const NewUploadReelDialog = ({ open, handleClose }) => {
         const fileUri = selectedVideo; // Local URL for the selected video
         // const fileName = values.video.name;
         const currentTime = new Date();
-        const fileName = `video_${currentTime.getTime()}.mp4`; 
+        const fileName = `video_${currentTime.getTime()}.mp4`;
         const apiKey = 'de112415-60af-446e-b3f795dec87a-222e-4dfb'; // Bunny.net API key
         const storageZoneName = 'luink-ai'; // Bunny.net storage zone name
         const storageUrl = `https://storage.bunnycdn.com/${storageZoneName}/${fileName}`;
@@ -139,23 +139,23 @@ const NewUploadReelDialog = ({ open, handleClose }) => {
         }
       } catch (error) {
         console.error('Error in form submission:', error);
-      }finally{
+      } finally {
         setLoading(false)
       }
     },
-  });  
-    const handleVideoUpload = (event) => {
-      const file = event.currentTarget.files[0];
-      formik.setFieldValue("video", file);
-      setSelectedVideo(URL.createObjectURL(file));
-    };
+  });
+  const handleVideoUpload = (event) => {
+    const file = event.currentTarget.files[0];
+    formik.setFieldValue("video", file);
+    setSelectedVideo(URL.createObjectURL(file));
+  };
 
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm"    PaperProps={{
+    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm" PaperProps={{
       style: {
-        maxHeight: "90vh", // Limit the height of the Dialog
-        // overflow: "hidden", // Remove the scrollbar
+        // maxHeight: "90vh", // Limit the height of the Dialog
+        overflow: "hidden", // Remove the scrollbar
         backgroundColor: "#121212", // Match the background color
       },
     }}>
@@ -165,136 +165,136 @@ const NewUploadReelDialog = ({ open, handleClose }) => {
           <h2 className="text-2xl font-bold">Create Reel</h2>
           <div className='flex space-x-4 items-center'>
 
-          <button onClick={handleClose} className="text-white font-bold text-xl">X</button>
+            <button onClick={handleClose} className="text-white font-bold text-xl">X</button>
           </div>
         </div>
 
         <div className="min-h-screen bg-[#121212] text-white flex flex-col items-center pb-24 font-Poppins">
 
 
-<form onSubmit={formik.handleSubmit} className="w-11/12 max-w-md space-y-4 mt-4">
+          <form onSubmit={formik.handleSubmit} className="w-11/12 max-w-md space-y-4 mt-4">
 
-  <Button
-    variant="contained"
-    color="primary"
-    component="label"
-    className="w-full py-2"
-  >
-    Upload Video
-    <input
-      type="file"
-      accept="video/*"
-      hidden
-      onChange={handleVideoUpload}
-      onClick={(e) => e.stopPropagation()}
-    />
-  </Button>
-  {formik.errors.video && formik.touched.video && (
-    <div className="text-red-500 text-sm">{formik.errors.video}</div>
-  )}
+            <Button
+              variant="contained"
+              color="primary"
+              component="label"
+              className="w-full py-2"
+            >
+              Upload Video
+              <input
+                type="file"
+                accept="video/*"
+                hidden
+                onChange={handleVideoUpload}
+                onClick={(e) => e.stopPropagation()}
+              />
+            </Button>
+            {formik.errors.video && formik.touched.video && (
+              <div className="text-red-500 text-sm">{formik.errors.video}</div>
+            )}
 
-  {/* Display selected video */}
-  <div className="p-8">
-    {selectedVideo && ( <div>
-      <div className="flex justify-end cursor-pointer"  onClick={()=> setSelectedVideo(null)}> <DeleteOutlineOutlinedIcon  className="text-red-500"/></div>
-      <video
-        src={selectedVideo}
-        controls
-        className="w-full h-auto mt-4 p-4"
-      />
-      </div>
-    )}
-  </div>
-
-
-
-  <div className="mt-4">
-    <input
-      name="caption"
-      value={formik.values.caption}
-      onChange={formik.handleChange}
-      onBlur={formik.handleBlur}
-      type="text"
-      placeholder="Write Caption..."
-      className="w-full px-2 py-3 text-sm text-white placeholder-gray-400 bg-[#121212]  border-b border-b-gray-100 focus:outline-none "
-    />
-    {formik.touched.caption &&
-      formik.errors.caption && (
-        <p
-          style={{
-            fontSize: "13px",
-            padding: "",
-            color: "red",
-          }}
-        >
-          {formik.errors.caption}
-        </p>
-      )}
-  </div>
+            {/* Display selected video */}
+            <div className="p-8">
+              {selectedVideo && (<div>
+                <div className="flex justify-end cursor-pointer" onClick={() => setSelectedVideo(null)}> <DeleteOutlineOutlinedIcon className="text-red-500" /></div>
+                <video
+                  src={selectedVideo}
+                  controls
+                  className="w-[50%] h-auto mt-4 p-4 m-auto"
+                />
+              </div>
+              )}
+            </div>
 
 
 
-  <div className="mt-4">
-    <input
-      name="location"
-      value={formik.values.password}
-      onChange={formik.handleChange}
-      onBlur={formik.handleBlur}
-      type="text"
-      placeholder="Add location"
-      className="w-full px-2 py-3 text-sm text-white placeholder-gray-400 bg-[#121212]  border-b border-b-gray-100 focus:outline-none "
-    />
-    {formik.touched.location &&
-      formik.errors.location && (
-        <p
-          style={{
-            fontSize: "13px",
-            padding: "",
-            color: "red",
-          }}
-        >
-          {formik.errors.location}
-        </p>
-      )}
-  </div>
+            <div className="mt-4">
+              <input
+                name="caption"
+                value={formik.values.caption}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                type="text"
+                placeholder="Write Caption..."
+                className="w-full px-2 py-3 text-sm text-white placeholder-gray-400 bg-[#121212]  border-b border-b-gray-100 focus:outline-none "
+              />
+              {formik.touched.caption &&
+                formik.errors.caption && (
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      padding: "",
+                      color: "red",
+                    }}
+                  >
+                    {formik.errors.caption}
+                  </p>
+                )}
+            </div>
 
 
 
-  <div className="mt-4">
-    <input
-      name="hashtags"
-      value={formik.values.hashtags}
-      onChange={formik.handleChange}
-      onBlur={formik.handleBlur}
-      type="text"
-      placeholder="Add #luitags (#hashtags)"
-      className="w-full px-2 py-3 text-sm text-white placeholder-gray-400 bg-[#121212]  border-b border-b-gray-100 focus:outline-none "
-    />
-    {formik.touched.hashtags &&
-      formik.errors.hashtags && (
-        <p
-          style={{
-            fontSize: "13px",
-            padding: "",
-            color: "red",
-          }}
-        >
-          {formik.errors.hashtags}
-        </p>
-      )}
-  </div>
+            <div className="mt-4">
+              <input
+                name="location"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                type="text"
+                placeholder="Add location"
+                className="w-full px-2 py-3 text-sm text-white placeholder-gray-400 bg-[#121212]  border-b border-b-gray-100 focus:outline-none "
+              />
+              {formik.touched.location &&
+                formik.errors.location && (
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      padding: "",
+                      color: "red",
+                    }}
+                  >
+                    {formik.errors.location}
+                  </p>
+                )}
+            </div>
 
-  <Button
-    type="submit"
-    variant="contained"
-    color="primary"
-    className="w-full py-4"
-  >
-                        { !loading ? 'Upload Reel' : <CircularProgress  color="inherit"  fontSize="small" />}
-  </Button>
-</form>
 
-</div>
+
+            <div className="mt-4">
+              <input
+                name="hashtags"
+                value={formik.values.hashtags}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                type="text"
+                placeholder="Add #luitags (#hashtags)"
+                className="w-full px-2 py-3 text-sm text-white placeholder-gray-400 bg-[#121212]  border-b border-b-gray-100 focus:outline-none "
+              />
+              {formik.touched.hashtags &&
+                formik.errors.hashtags && (
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      padding: "",
+                      color: "red",
+                    }}
+                  >
+                    {formik.errors.hashtags}
+                  </p>
+                )}
+            </div>
+
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className="w-full py-4"
+            >
+              {!loading ? 'Upload Reel' : <CircularProgress color="inherit" fontSize="small" />}
+            </Button>
+          </form>
+
+        </div>
 
       </div>
     </Dialog>

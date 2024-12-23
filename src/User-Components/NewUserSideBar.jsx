@@ -13,11 +13,13 @@ import AddIcon from '@mui/icons-material/Add';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import { SearchOffOutlined } from "@mui/icons-material";
 import NewUploadReelDialog from "./NewUploadReelDialog";
+import NewCreatePostDialog from "./NewCreatePostDialog";
 
 const NewUserSideBar = forwardRef(({ showSideBar,handleOpen, setShowSideBar }, ref) => {
   const navigate = useNavigate()
   // const [dialogOpen, setDialogOpen] = useState(false);
   const [createReelOpen, setCreateReelOpen] = useState(false)
+  const [createPostOpen, setCreatePostOpen] = useState(false)
 
   const matches = useMediaQuery('(max-width:1024px)'); 
   const userid = JSON.parse(localStorage.getItem('userid'));
@@ -68,9 +70,25 @@ const NewUserSideBar = forwardRef(({ showSideBar,handleOpen, setShowSideBar }, r
     setCreateReelOpen(false);
 };
 
-  const handleClickOnProfile = () =>{
+const handleCloseCreatePostDialog = () => {
+  setCreatePostOpen(false);
+};
 
+const handleClickOnUploadReel = () => {
+  if (window.innerWidth < 768) {
+      navigate('/uploadreel');
+  } else {
+      setCreateReelOpen(true);
   }
+};
+
+const handleClickOnCreatePost = () => {
+  if (window.innerWidth < 768) {
+      navigate('/createpost');
+  } else {
+      setCreatePostOpen(true);
+  }
+};
 
 
 
@@ -152,7 +170,7 @@ const NewUserSideBar = forwardRef(({ showSideBar,handleOpen, setShowSideBar }, r
           </div>
         </NavLink>
 
-        <NavLink
+        {/* <NavLink
            to="/uploadreel"
           className={({ isActive }) =>
             ` ${
@@ -171,11 +189,63 @@ const NewUserSideBar = forwardRef(({ showSideBar,handleOpen, setShowSideBar }, r
               <p className="font-Poppins font-2xl" style={{fontSize:"20px"}}><span className="mr-2"><AddIcon fontSize="medium" /></span>Create</p>
             </div>
           </div>
+        </NavLink> */}
+          <Menu as="div" className="relative pl-6 py-3 mx-5 mb-3">
+            <Menu.Button className="w-full flex items-center justify-between text-left rounded cursor-pointer transition-colors text-gray-300 hover:text-white">
+              <p className="font-Poppins font-2xl text-[20px] flex items-center">
+                <span className="mr-2">
+                  <AddIcon fontSize="medium" />
+                </span>
+                Create
+              </p>
+            </Menu.Button>
+            <Menu.Items className="absolute left-0 mt-2 w-[200px] bg-gray-800 rounded shadow-lg">
+              <Menu.Item>
+                {({ active }) => (
+                  <div
+                    className={`px-4 py-2 cursor-pointer ${
+                      active ? "bg-gray-700 text-white" : "text-gray-300"
+                    }`}
+                    // onClick={() => navigate("/uploadreel")}
+                    onClick={handleClickOnUploadReel}
+                  >
+                    Upload Reel
+                  </div>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <div
+                    className={`px-4 py-2 cursor-pointer ${
+                      active ? "bg-gray-700 text-white" : "text-gray-300"
+                    }`}
+                    // onClick={() => navigate("/createpost")}
+                    onClick={handleClickOnCreatePost}
+                  >
+                    Create Post
+                  </div>
+                )}
+              </Menu.Item>
+              {/* <Menu.Item>
+                {({ active }) => (
+                  <div
+                    className={`px-4 py-2 cursor-pointer ${
+                      active ? "bg-gray-700 text-white" : "text-gray-300"
+                    }`}
+                    onClick={() => handleNavigate("/createevent")}
+                  >
+                    Create Event
+                  </div>
+                )}
+              </Menu.Item> */}
+            </Menu.Items>
+          </Menu>
 
-      
-        </NavLink>
+        <NewUploadReelDialog open={createReelOpen} handleClose={handleCloseCreateReelDialog} />
 
-        {/* <NewUploadReelDialog open={createReelOpen} handleClose={handleCloseCreateReelDialog} /> */}
+        <NewCreatePostDialog open={createPostOpen} handleClose={handleCloseCreatePostDialog} />
+
+  
 
 
 
