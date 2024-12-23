@@ -159,6 +159,12 @@ function NewUploadReelPage() {
     setSelectedVideo(URL.createObjectURL(file));
   };
 
+      useEffect(()=>{
+        if(!userid){
+          navigate('/signin')
+        }
+      },[userid])
+
 
   return (
     <div className="bg-[#121212] text-white">

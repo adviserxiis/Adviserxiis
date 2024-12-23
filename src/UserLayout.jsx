@@ -89,7 +89,7 @@ function UserLayout() {
             showSideBar && !isMobile ? "pl-[300px]  " : ""
           } overflow-x-auto`}
         >
-          <Outlet className="px-4 md:px-16" />
+          <Outlet className="px-4 md:px-16 " />
           {/* <AvailabilitySchedule open={dialogOpen} handleClose={handleDialogClose} /> */}
           <ProfileShareDialog  
                                open={shareDialogOpen}

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
+import User from '../assets/User.png'
 import * as Yup from "yup";
 import Profile from '../user-assets/Profile.png'
 import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined';
@@ -14,6 +15,7 @@ const NewCreatePostPage = () => {
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [loading, setLoading]= useState(false)
     const userid = JSON.parse(localStorage.getItem('userid'));
+    const user = JSON.parse(localStorage.getItem('user'));
 
 
     const uploadVideoToBunny = async (video) => {
@@ -151,6 +153,13 @@ const NewCreatePostPage = () => {
         },
     });
 
+
+    useEffect(()=>{
+      if(!userid){
+        navigate('/signin')
+      }
+    },[userid])
+
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
         setSelectedFiles(files);
@@ -158,7 +167,7 @@ const NewCreatePostPage = () => {
     };
 
     return (
-        <div className="bg-[#121212] text-white min-h-screen flex flex-col items-center font-Poppins">
+        <div className="bg-[#121212] text-white min-h-screen flex flex-col items-center font-Poppins ">
             {/* Header */}
             <div className="flex items-center w-full p-4  max-w-md">
                 {/* <button className="text-lg font-semibold text-white mr-4">←</button> */}
@@ -169,11 +178,11 @@ const NewCreatePostPage = () => {
             <div className="flex items-center justify-between w-full px-4 py-2 gap-4 max-w-md">
                 <div className="flex items-center space-x-2">
                     <img
-                        src={Profile} // Replace with your profile image
+                        src={ user ? user.profile_photo : User} // Replace with your profile image
                         alt="Profile"
                         className="w-12 h-12 rounded-full object-cover"
                     />
-                    <span className="text-lg font-medium">Ajikya Sharma</span>
+                    <span className="text-lg font-medium">{user ? user.username :'Username'}</span>
                 </div>
                 <div>
                     <select
@@ -236,7 +245,7 @@ const NewCreatePostPage = () => {
             </div>
 
             {/* Bottom Section */}
-            <div className="p-4 w-full flex  flex-col justify-between gap-4 max-w-md fixed bottom-0 ">
+            <div className="p-4 w-full flex  flex-col justify-between gap-4 max-w-md fixed bottom-16 ">
                 {/* File Input */}
                 <input
                     name="hashtags"
